@@ -12,7 +12,8 @@
   },
   "keywords": [
     "SU",
-    "SmartUnity"
+    "SmartUnity",
+    "node-red"
   ],
   "author": "Anton Shefov <a.shefov@gmail.com>",
   "license": "MIT",
