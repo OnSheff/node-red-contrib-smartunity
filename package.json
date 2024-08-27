@@ -1,6 +1,6 @@
 {
   "name": "@on_sheff/node-red-contrib-smartunity",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Node package for connecting to SmartUnity",
   "main": "index.js",
   "scripts": {
