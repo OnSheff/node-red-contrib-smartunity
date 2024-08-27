@@ -1,4 +1,4 @@
-# node-red-su-subflow
+# node-red-su-package
 
 Package of nodes for connecting SmartUnity with Node-RED.
 
