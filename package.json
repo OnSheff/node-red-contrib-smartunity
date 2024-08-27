@@ -1,6 +1,6 @@
 {
   "name": "node-red-su-package",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Node package for connecting to SmartUnity",
   "main": "index.js",
   "scripts": {
@@ -23,16 +23,10 @@
       "From_SmartUnity": "from_su.js",
       "PLC_status": "plc_status.js",
       "Get_state": "get_state.js"
-    },
-    "dependencies": [
-      "node-red-contrib-binary"
-    ]
+    }
   },
   "bugs": {
     "url": "https://github.com/OnSheff/node-red-su-package/issues"
   },
-  "homepage": "https://github.com/OnSheff/node-red-su-package#readme",
-  "dependencies": {
-    "node-red-contrib-binary": "0.1.3"
-  }
+  "homepage": "https://github.com/OnSheff/node-red-su-package#readme"
 }
