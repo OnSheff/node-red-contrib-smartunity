@@ -1,0 +1,30 @@
+{
+  "name": "red-su-subflow",
+  "version": "1.1.4",
+  "description": "Node package for connecting to SmartUnity",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "SmartUnity",
+    "SU"
+  ],
+  "author": "@on_sheff Anton Shefov <a.shefov@gmail.com>",
+  "license": "ISC",
+  "node-red": {
+		"nodes": {
+			"PLC_connection" : "plc_connection.js",
+			"To_SmartUnity": "to_su.js",
+			"From_SmartUnity": "from_su.js",
+			"PLC_status": "plc_status.js",
+			"Get_state" : "get_state.js"
+		},
+	    "dependencies": [
+			"node-red-contrib-binary"
+	    ]
+	},
+	"dependencies": {
+	    "node-red-contrib-binary": "0.1.3"
+	}
+}
