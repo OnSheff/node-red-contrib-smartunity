@@ -1,0 +1,288 @@
+
+    {
+        "id": "58088537aa9656fd",
+        "type": "subflow",
+        "name": "PLC_connection",
+        "info": "Establishes a connection with the SmartUnity PLC.\r\n\r\nAccepts and sends packets over the SmartUnity protocol.\r\n\r\n### Inputs\r\n\r\n: payload (string) : Packets to PLC\r\n\r\n\r\n`Note!` To convert data to SmartUnity protocol, use node **To_SmartUnity**.\r\n\r\n\r\n### Outputs\r\n\r\n: payload (string) : Packets from PLC\r\n\r\n`Note!` To convert data from SmartUnity protocol, use node **From_SmartUnity**.\r\n\r\n### Configuration\r\n\r\nIP-address of PLC with SmartUnity core.\r\n\r\n`format:` **xxx.xxx.xxx.xxx**",
+        "category": "SmartUnity",
+        "in": [
+            {
+                "x": 340,
+                "y": 60,
+                "wires": [
+                    {
+                        "id": "38ae13a46a0113ce"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 1170,
+                "y": 140,
+                "wires": [
+                    {
+                        "id": "73426ad6a04cfd40",
+                        "port": 0
+                    },
+                    {
+                        "id": "72bf9b7855968742",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [
+            {
+                "name": "HOST",
+                "type": "str",
+                "value": "",
+                "ui": {
+                    "icon": "font-awesome/fa-link",
+                    "label": {
+                        "ru": "PLC IP-address"
+                    },
+                    "type": "input",
+                    "opts": {
+                        "types": [
+                            "str"
+                        ]
+                    }
+                }
+            }
+        ],
+        "meta": {
+            "type": "PLC connection",
+            "version": "1.1.1",
+            "author": "@on_sheff Anton Shefov <a.shefov@gmail.com>",
+            "desc": "Connection to PLC",
+			"license": "MIT",
+            "keywords": "SmartUnity, SU"
+        },
+        "color": "#3BB08F",
+        "icon": "node-red/bridge-dash.svg",
+		"inputLabels": [
+            "to_SU"
+        ],
+        "outputLabels": [
+            "from_SU"
+        ],
+        "status": {
+            "x": 720,
+            "y": 300,
+            "wires": [
+                {
+                    "id": "5e4eaca67bbb096b",
+                    "port": 0
+                }
+            ]
+        },
+		"flow": [
+			{
+        "id": "31aa3f5081482f5e",
+        "type": "inject",
+        "z": "58088537aa9656fd",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "30",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "1",
+        "topic": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "x": 75,
+        "y": 140,
+        "wires": [
+            [
+                "993767259063d6a9"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "993767259063d6a9",
+        "type": "function",
+        "z": "58088537aa9656fd",
+        "name": "",
+        "func": "var tmp = {};\ntmp.start = 52428;\ntmp.obj=200;\ntmp.to=0;\ntmp.cmd=33;\ntmp.len=0;\nmsg.payload = tmp;\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 175,
+        "y": 140,
+        "wires": [
+            [
+                "bbd6112b267d8128"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "bbd6112b267d8128",
+        "type": "binary",
+        "z": "58088537aa9656fd",
+        "name": "",
+        "property": "payload",
+        "pattern": "l16=>start,l16 => obj, l16 => cmd, x16, x16,l16=>len",
+        "x": 310,
+        "y": 140,
+        "wires": [
+            [
+                "38ae13a46a0113ce"
+            ]
+        ]
+    },
+    {
+        "id": "1fa78c3d9b7b6de1",
+        "type": "tcp request",
+        "z": "58088537aa9656fd",
+        "name": "PLC",
+        "server": "",
+        "port": "",
+        "out": "sit",
+        "ret": "buffer",
+        "splitc": " ",
+        "newline": "",
+        "trim": false,
+        "tls": "",
+        "x": 590,
+        "y": 140,
+        "wires": [
+            [
+                "21b36036d4f32290"
+            ]
+        ]
+    },
+    {
+        "id": "5e4eaca67bbb096b",
+        "type": "status",
+        "z": "58088537aa9656fd",
+        "name": "",
+        "scope": [
+            "1fa78c3d9b7b6de1"
+        ],
+        "x": 580,
+        "y": 300,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "38ae13a46a0113ce",
+        "type": "change",
+        "z": "58088537aa9656fd",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "host",
+                "pt": "msg",
+                "to": "HOST",
+                "tot": "env",
+                "dc": true
+            },
+            {
+                "t": "set",
+                "p": "port",
+                "pt": "msg",
+                "to": "400",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 455,
+        "y": 140,
+        "wires": [
+            [
+                "1fa78c3d9b7b6de1"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "72bf9b7855968742",
+        "type": "binary",
+        "z": "58088537aa9656fd",
+        "name": "",
+        "property": "payload",
+        "pattern": "l16 => obj, l16 => cmd, l16=>to, x16,l16=>len,l16=>value,x16,l16=>setpoint",
+        "x": 970,
+        "y": 180,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f61ba08c9df5133f",
+        "type": "function",
+        "z": "58088537aa9656fd",
+        "name": "MSG length",
+        "func": "var len = String(msg.payload).length;\nif (len <= 12){\n    return [msg, null];\n} else {\n    return [null, msg];\n}",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 815,
+        "y": 140,
+        "wires": [
+            [
+                "73426ad6a04cfd40"
+            ],
+            [
+                "72bf9b7855968742"
+            ]
+        ],
+        "outputLabels": [
+            "2",
+            "more"
+        ],
+        "l": false
+    },
+    {
+        "id": "73426ad6a04cfd40",
+        "type": "binary",
+        "z": "58088537aa9656fd",
+        "name": "",
+        "property": "payload",
+        "pattern": "l16 => obj, l16 => cmd, l16=>to, x16,l16=>len,l16=>value",
+        "x": 970,
+        "y": 100,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "21b36036d4f32290",
+        "type": "split",
+        "z": "58088537aa9656fd",
+        "name": "",
+        "splt": "[204,204]",
+        "spltType": "bin",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "",
+        "x": 715,
+        "y": 140,
+        "wires": [
+            [
+                "f61ba08c9df5133f"
+            ]
+        ],
+        "l": false
+    }
+		]
+    }

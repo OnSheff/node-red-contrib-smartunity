@@ -1,0 +1,585 @@
+
+    {
+        "id": "474b9ae28a4bc2ac",
+        "type": "subflow",
+        "name": "PLC_status",
+        "info": "The node processes the reboot signal and the сonnection with the PLC.\r\n\r\n\r\n### Inputs \r\n\r\n: payload (boolean) :  The signal status received from the PLC\r\n: *topic* (string) :  \"restart\" or \"live_word\"\r\n\r\n### Outputs\r\n\r\n#### 1. Restart\r\n: payload (boolean) : PLC restart signal\r\n: *topic* (string) :  \"restart\"\r\n\r\n#### 2. Live word\r\n: payload (boolean) : Signal of сonnection with the PLC (live word)\r\n: *topic* (string) :  \"live_word\"\r\n\r\n#### 3. Delayed raise\r\n: payload (boolean) : Signal of сonnection with the PLC (live word) with delay of high signal\r\n: *topic* (string) :  \"live_word\"\r\n\r\n#### 4. Disconnect counter\r\n: payload (number) : PLC communication loss counter\r\n: *topic* (string) :  \"disconnect_counter\"\r\n\r\n### Configuration\r\n\r\n#### **Raise delay**\r\n\r\nDelay before sending a high signal after reconnection with PLC (in seconds).\r\n\r\n`Available range:` **31 - 600 sec**\r\n\r\n`Default delay:` **150 sec**\r\n\r\n---",
+        "category": "SmartUnity",
+        "in": [
+            {
+                "x": 90,
+                "y": 180,
+                "wires": [
+                    {
+                        "id": "751f3f143ebddfe9"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 780,
+                "y": 80,
+                "wires": [
+                    {
+                        "id": "0c05ebb7cdb28d64",
+                        "port": 0
+                    }
+                ]
+            },
+            {
+                "x": 780,
+                "y": 400,
+                "wires": [
+                    {
+                        "id": "fa36dcc26140c56a",
+                        "port": 0
+                    }
+                ]
+            },
+            {
+                "x": 800,
+                "y": 240,
+                "wires": [
+                    {
+                        "id": "37160262c5f65240",
+                        "port": 0
+                    }
+                ]
+            },
+            {
+                "x": 810,
+                "y": 160,
+                "wires": [
+                    {
+                        "id": "d268d01356504fb8",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [
+            {
+                "name": "DELAY",
+                "type": "num",
+                "value": "150",
+                "ui": {
+                    "icon": "font-awesome/fa-clock-o",
+                    "label": {
+                        "ru": "Raise delay (sec.)"
+                    },
+                    "type": "spinner",
+                    "opts": {
+                        "min": 31,
+                        "max": 600
+                    }
+                }
+            }
+        ],
+        "meta": {
+            "type": "PLC status",
+            "version": "1.1.3",
+            "author": "@on_sheff Anton Shefov <a.shefov@gmail.com>",
+            "desc": "Connection status with PLC",
+            "license": "MIT",
+            "keywords": "SmartUnity, SU"
+        },
+        "color": "#3BB08F",
+		"icon": "font-awesome/fa-chain-broken",
+		"inputLabels": [
+            "from_SU"
+        ],
+        "outputLabels": [
+            "Restart",
+            "Live word",
+            "Delayed raise",
+            "Disconnect counter"
+        ],
+        "status": {
+            "x": 740,
+            "y": 560,
+            "wires": [
+                {
+                    "id": "82aaae13520d6384",
+                    "port": 0
+                },
+                {
+                    "id": "1a6fb31ec442c16d",
+                    "port": 0
+                }
+            ]
+        },
+		"flow": [
+			{
+        "id": "751f3f143ebddfe9",
+        "type": "switch",
+        "z": "474b9ae28a4bc2ac",
+        "name": "",
+        "property": "topic",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "restart",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "live_word",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "false",
+        "repair": false,
+        "outputs": 3,
+        "x": 185,
+        "y": 180,
+        "wires": [
+            [
+                "5bc9ec49785942a1"
+            ],
+            [
+                "c4384567872e0f42"
+            ],
+            [
+                "1a6fb31ec442c16d"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "5bc9ec49785942a1",
+        "type": "switch",
+        "z": "474b9ae28a4bc2ac",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "true"
+            }
+        ],
+        "checkall": "false",
+        "repair": false,
+        "outputs": 1,
+        "x": 295,
+        "y": 80,
+        "wires": [
+            [
+                "0c05ebb7cdb28d64"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "c4384567872e0f42",
+        "type": "trigger",
+        "z": "474b9ae28a4bc2ac",
+        "name": "",
+        "op1": "true",
+        "op2": "false",
+        "op1type": "bool",
+        "op2type": "bool",
+        "duration": "31",
+        "extend": true,
+        "overrideDelay": false,
+        "units": "s",
+        "reset": "",
+        "bytopic": "all",
+        "topic": "topic",
+        "outputs": 1,
+        "x": 295,
+        "y": 260,
+        "wires": [
+            [
+                "2a5e4c79bf3c2a30",
+                "fa36dcc26140c56a"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "40e67bf86a1bc9b3",
+        "type": "change",
+        "z": "474b9ae28a4bc2ac",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "plc_disconnect_counter",
+                "pt": "flow",
+                "to": "$number($flowContext(\"plc_disconnect_counter\")) + 1\t",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 495,
+        "y": 200,
+        "wires": [
+            [
+                "ef934cd64fc1ca6a"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "1b26e54926c98e38",
+        "type": "change",
+        "z": "474b9ae28a4bc2ac",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "plc_disconnect_counter",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg",
+                "dc": true
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 495,
+        "y": 140,
+        "wires": [
+            [
+                "ef934cd64fc1ca6a"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "9312e2a37e4f9200",
+        "type": "inject",
+        "z": "474b9ae28a4bc2ac",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "0",
+        "payloadType": "num",
+        "x": 395,
+        "y": 140,
+        "wires": [
+            [
+                "1b26e54926c98e38"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "2a5e4c79bf3c2a30",
+        "type": "switch",
+        "z": "474b9ae28a4bc2ac",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "false"
+            },
+            {
+                "t": "true"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 395,
+        "y": 260,
+        "wires": [
+            [
+                "5d62dbe5274d7bb3",
+                "40e67bf86a1bc9b3",
+                "37160262c5f65240"
+            ],
+            [
+                "bc1fc77afb4c63d1"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "c724c2ddc12c8cc3",
+        "type": "trigger",
+        "z": "474b9ae28a4bc2ac",
+        "name": "",
+        "op1": "",
+        "op2": "",
+        "op1type": "nul",
+        "op2type": "payl",
+        "duration": "60",
+        "extend": false,
+        "overrideDelay": true,
+        "units": "s",
+        "reset": "",
+        "bytopic": "all",
+        "topic": "topic",
+        "outputs": 1,
+        "x": 595,
+        "y": 300,
+        "wires": [
+            [
+                "37160262c5f65240"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "5d62dbe5274d7bb3",
+        "type": "change",
+        "z": "474b9ae28a4bc2ac",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "reset",
+                "pt": "msg",
+                "to": "true",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 495,
+        "y": 300,
+        "wires": [
+            [
+                "c724c2ddc12c8cc3"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "d3752c828ce6abde",
+        "type": "template",
+        "z": "474b9ae28a4bc2ac",
+        "name": "",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "json",
+        "syntax": "mustache",
+        "template": "{\"fill\": \"green\", \"shape\": \"dot\", \"text\": \"{{payload}} (faults: {{flow.plc_disconnect_counter}})\"}",
+        "output": "json",
+        "x": 595,
+        "y": 460,
+        "wires": [
+            [
+                "82aaae13520d6384"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "d268d01356504fb8",
+        "type": "change",
+        "z": "474b9ae28a4bc2ac",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "plc_disconnect_counter",
+                "tot": "flow"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 655,
+        "y": 160,
+        "wires": [
+            []
+        ],
+        "l": false
+    },
+    {
+        "id": "3dec028a2b1500fb",
+        "type": "switch",
+        "z": "474b9ae28a4bc2ac",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "true"
+            },
+            {
+                "t": "false"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 495,
+        "y": 480,
+        "wires": [
+            [
+                "d3752c828ce6abde"
+            ],
+            [
+                "0ec9250f0dd4ab5a"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "0ec9250f0dd4ab5a",
+        "type": "template",
+        "z": "474b9ae28a4bc2ac",
+        "name": "",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "json",
+        "syntax": "mustache",
+        "template": "{\"fill\": \"red\", \"shape\": \"dot\", \"text\": \"{{payload}} (faults: {{flow.plc_disconnect_counter}})\"}",
+        "output": "json",
+        "x": 595,
+        "y": 500,
+        "wires": [
+            [
+                "82aaae13520d6384"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "bc1fc77afb4c63d1",
+        "type": "change",
+        "z": "474b9ae28a4bc2ac",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "delay",
+                "pt": "msg",
+                "to": "$number($env('DELAY')) * 1000\t",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 495,
+        "y": 360,
+        "wires": [
+            [
+                "c724c2ddc12c8cc3"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "0c05ebb7cdb28d64",
+        "type": "delay",
+        "z": "474b9ae28a4bc2ac",
+        "name": "",
+        "pauseType": "random",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "0",
+        "randomLast": "15",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 655,
+        "y": 80,
+        "wires": [
+            []
+        ],
+        "l": false
+    },
+    {
+        "id": "1a6fb31ec442c16d",
+        "type": "template",
+        "z": "474b9ae28a4bc2ac",
+        "name": "",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "json",
+        "syntax": "mustache",
+        "template": "{\"fill\": \"red\", \"shape\": \"dot\", \"text\": \"Unknown topic\"}",
+        "output": "json",
+        "x": 295,
+        "y": 560,
+        "wires": [
+            []
+        ],
+        "l": false
+    },
+    {
+        "id": "ef934cd64fc1ca6a",
+        "type": "junction",
+        "z": "474b9ae28a4bc2ac",
+        "x": 580,
+        "y": 160,
+        "wires": [
+            [
+                "d268d01356504fb8"
+            ]
+        ]
+    },
+    {
+        "id": "fa36dcc26140c56a",
+        "type": "junction",
+        "z": "474b9ae28a4bc2ac",
+        "x": 380,
+        "y": 400,
+        "wires": [
+            [
+                "3dec028a2b1500fb"
+            ]
+        ]
+    },
+    {
+        "id": "82aaae13520d6384",
+        "type": "junction",
+        "z": "474b9ae28a4bc2ac",
+        "x": 680,
+        "y": 480,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "37160262c5f65240",
+        "type": "junction",
+        "z": "474b9ae28a4bc2ac",
+        "x": 660,
+        "y": 240,
+        "wires": [
+            []
+        ]
+    }
+		]
+    }
+    
