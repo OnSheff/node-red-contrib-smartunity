@@ -1,6 +1,6 @@
 {
   "name": "node-red-su-package",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Node package for connecting to SmartUnity",
   "main": "index.js",
   "scripts": {
