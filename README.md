@@ -1,4 +1,4 @@
-# node-red-su-package
+# node-red-contrib-smartunity
 
 Package of nodes for connecting SmartUnity with Node-RED.
 
