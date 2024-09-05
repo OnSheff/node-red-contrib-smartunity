@@ -23,7 +23,8 @@
       "To_SmartUnity": "to_su.js",
       "From_SmartUnity": "from_su.js",
       "PLC_status": "plc_status.js",
-      "Get_state": "get_state.js"
+      "Get_state": "get_state.js",
+	  "Workload": "workload.js"
     }
   },
   "bugs": {
