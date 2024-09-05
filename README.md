@@ -18,3 +18,6 @@ Requesting the current status of SmartUnity objects.
 
 ### PLC_status
 Processes the reboot signal and the сonnection with the PLC.
+
+### Workload
+Measures the flow of messages.
