@@ -1,34 +1,38 @@
 {
-  "name": "@on_sheff/node-red-contrib-smartunity",
-  "version": "1.0.10",
-  "description": "Node package for connecting to SmartUnity",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/OnSheff/node-red-contrib-smartunity.git"
-  },
-  "keywords": [
-    "SU",
-    "SmartUnity",
-    "node-red"
-  ],
-  "author": "Anton Shefov <a.shefov@gmail.com>",
-  "license": "MIT",
-  "node-red": {
-    "nodes": {
-      "PLC_connection": "plc_connection.js",
-      "To_SmartUnity": "to_su.js",
-      "From_SmartUnity": "from_su.js",
-      "PLC_status": "plc_status.js",
-      "Get_state": "get_state.js",
-	  "Workload": "workload.js"
-    }
-  },
-  "bugs": {
-    "url": "https://github.com/OnSheff/node-red-contrib-smartunity/issues"
-  },
-  "homepage": "https://github.com/OnSheff/node-red-contrib-smartunity#readme"
+	"name": "@on_sheff/node-red-contrib-smartunity",
+	"version": "1.0.11",
+	"description": "Node package for connecting to SmartUnity",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/OnSheff/node-red-contrib-smartunity.git"
+	},
+	"keywords": [
+		"SU",
+		"SmartUnity",
+		"node-red"
+	],
+	"author": "Anton Shefov <a.shefov@gmail.com>",
+	"license": "MIT",
+	"node-red": {
+		"version": ">=3.1.0",
+		"nodes": {
+			"PLC_connection": "plc_connection.js",
+			"To_SmartUnity": "to_su.js",
+			"From_SmartUnity": "from_su.js",
+			"PLC_status": "plc_status.js",
+			"Get_state": "get_state.js",
+			"Workload": "workload.js"
+		}
+	},
+	"engines": {
+		"node": ">=14.0.0"
+	},
+	"bugs": {
+		"url": "https://github.com/OnSheff/node-red-contrib-smartunity/issues"
+	},
+	"homepage": "https://github.com/OnSheff/node-red-contrib-smartunity#readme"
 }
