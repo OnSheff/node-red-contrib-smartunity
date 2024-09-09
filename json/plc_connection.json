@@ -17,7 +17,7 @@
     ],
     "out": [
         {
-            "x": 1220,
+            "x": 1280,
             "y": 160,
             "wires": [
                 {
@@ -51,7 +51,7 @@
     ],
     "meta": {
         "type": "PLC connection",
-        "version": "1.2.2",
+        "version": "1.2.3",
         "author": "Anton Shefov <a.shefov@gmail.com>",
         "desc": "Connection to PLC",
         "license": "MIT",
@@ -66,7 +66,7 @@
         "from_SU"
     ],
     "status": {
-        "x": 720,
+        "x": 780,
         "y": 300,
         "wires": [
             {
@@ -89,7 +89,7 @@
             "repeat": "30",
             "crontab": "",
             "once": true,
-            "onceDelay": "1",
+            "onceDelay": "0.1",
             "topic": "",
             "payload": "true",
             "payloadType": "bool",
@@ -107,7 +107,7 @@
             "type": "function",
             "z": "5d465e34932148cf",
             "name": "",
-            "func": "var tmp = {};\ntmp.start = 52428;\ntmp.obj=200;\ntmp.to=0;\ntmp.cmd=33;\ntmp.len=0;\nmsg.payload = tmp;\nreturn msg;",
+            "func": "var tmp = {};\ntmp.start = 52428;\ntmp.obj=200;\ntmp.to=0;\ntmp.cmd=33;\ntmp.len=0;\ntmp.val=0;\nmsg.payload = tmp;\nreturn msg;",
             "outputs": 1,
             "timeout": "",
             "noerr": 0,
@@ -118,7 +118,7 @@
             "y": 220,
             "wires": [
                 [
-                    "bbd6112b267d8128"
+                    "4149af24579f0dc5"
                 ]
             ]
         },
@@ -194,33 +194,6 @@
             "l": false
         },
         {
-            "id": "f61ba08c9df5133f",
-            "type": "function",
-            "z": "5d465e34932148cf",
-            "name": "MSG length",
-            "func": "var len = String(msg.payload).length;\nif (len <= 12){\n    return [msg, null];\n} else {\n    return [null, msg];\n}",
-            "outputs": 2,
-            "noerr": 0,
-            "initialize": "",
-            "finalize": "",
-            "libs": [],
-            "x": 895,
-            "y": 160,
-            "wires": [
-                [
-                    "73426ad6a04cfd40"
-                ],
-                [
-                    "72bf9b7855968742"
-                ]
-            ],
-            "outputLabels": [
-                "2",
-                "more"
-            ],
-            "l": false
-        },
-        {
             "id": "21b36036d4f32290",
             "type": "split",
             "z": "5d465e34932148cf",
@@ -235,25 +208,10 @@
             "y": 160,
             "wires": [
                 [
-                    "f61ba08c9df5133f"
+                    "8f431a015dba44f0"
                 ]
             ],
             "l": false
-        },
-        {
-            "id": "bbd6112b267d8128",
-            "type": "binary",
-            "z": "5d465e34932148cf",
-            "name": "",
-            "property": "payload",
-            "pattern": "l16=>start,l16 => obj, l16 => cmd, x16, x16,l16=>len",
-            "x": 410,
-            "y": 220,
-            "wires": [
-                [
-                    "38ae13a46a0113ce"
-                ]
-            ]
         },
         {
             "id": "72bf9b7855968742",
@@ -262,7 +220,7 @@
             "name": "",
             "property": "payload",
             "pattern": "l16 => obj, l16 => cmd, l16=>to, x16,l16=>len,l16=>value,x16,l16=>setpoint",
-            "x": 1030,
+            "x": 1090,
             "y": 200,
             "wires": [
                 []
@@ -275,7 +233,7 @@
             "name": "",
             "property": "payload",
             "pattern": "l16 => obj, l16 => cmd, l16=>to, x16,l16=>len,l16=>value",
-            "x": 1030,
+            "x": 1090,
             "y": 120,
             "wires": [
                 []
@@ -315,6 +273,60 @@
                     "4149af24579f0dc5"
                 ]
             ]
+        },
+        {
+            "id": "8f431a015dba44f0",
+            "type": "switch",
+            "z": "5d465e34932148cf",
+            "name": "",
+            "property": "payload",
+            "propertyType": "msg",
+            "rules": [
+                {
+                    "t": "istype",
+                    "v": "buffer",
+                    "vt": "buffer"
+                }
+            ],
+            "checkall": "true",
+            "repair": false,
+            "outputs": 1,
+            "x": 875,
+            "y": 160,
+            "wires": [
+                [
+                    "9f64f0b5d727189b"
+                ]
+            ],
+            "l": false
+        },
+        {
+            "id": "9f64f0b5d727189b",
+            "type": "function",
+            "z": "5d465e34932148cf",
+            "name": "MSG length",
+            "func": "var len = String(msg.payload).length;\nif (len == 0) {\n    return [null, null];\n} else if (len <= 12){\n    return [{\"payload\" : msg.payload}, null];\n} else {\n    return [null, { \"payload\": msg.payload }];\n}",
+            "outputs": 2,
+            "timeout": "",
+            "noerr": 0,
+            "initialize": "",
+            "finalize": "",
+            "libs": [],
+            "x": 955,
+            "y": 160,
+            "wires": [
+                [
+                    "73426ad6a04cfd40"
+                ],
+                [
+                    "72bf9b7855968742"
+                ]
+            ],
+            "outputLabels": [
+                "2",
+                "more"
+            ],
+            "l": false
         }
     ]
 }
