@@ -1,6 +1,6 @@
 {
 	"name": "@on_sheff/node-red-contrib-smartunity",
-	"version": "1.0.13",
+	"version": "1.0.14",
 	"description": "Node package for connecting to SmartUnity",
 	"main": "index.js",
 	"scripts": {
@@ -18,7 +18,7 @@
 	"author": "Anton Shefov <a.shefov@gmail.com>",
 	"license": "MIT",
 	"node-red": {
-		"version": ">=3.1.0",
+		"version": ">=3.0.0",
 		"nodes": {
 			"PLC_connection": "plc_connection.js",
 			"To_SmartUnity": "to_su.js",
@@ -29,7 +29,7 @@
 		}
 	},
 	"engines": {
-		"node": ">=14.0.0"
+		"node": ">=12.0.0"
 	},
 	"bugs": {
 		"url": "https://github.com/OnSheff/node-red-contrib-smartunity/issues"
