@@ -1,5 +1,5 @@
 {
-    "id": "58088537aa9656fd",
+    "id": "5d465e34932148cf",
     "type": "subflow",
     "name": "PLC_connection",
     "info": "Establishes a connection with the SmartUnity PLC.\r\n\r\nAccepts and sends packets over the SmartUnity protocol.\r\n\r\n### Inputs\r\n\r\n: payload (string) : Packets to PLC\r\n\r\n\r\n`Note!` To convert data to SmartUnity protocol, use node **To_SmartUnity**.\r\n\r\n\r\n### Outputs\r\n\r\n: payload (string) : Packets from PLC\r\n\r\n`Note!` To convert data from SmartUnity protocol, use node **From_SmartUnity**.\r\n\r\n### Configuration\r\n\r\nIP-address of PLC with SmartUnity core.\r\n\r\n`format:` **xxx.xxx.xxx.xxx**",
