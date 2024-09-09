@@ -62,7 +62,7 @@
     ],
     "meta": {
         "type": "Workload",
-        "version": "1.1.1",
+        "version": "1.1.3",
         "author": "Anton Shefov <a.shefov@gmail.com>",
         "desc": "Measures the flow of messages",
         "keywords": "SmartUnity, SU",
@@ -136,7 +136,7 @@
             "type": "function",
             "z": "f05f802bc66d0b79",
             "name": "Count_messages_per_minute",
-            "func": "var timer = flow.get(\"timer\");\nvar objects_dict = flow.get(\"objects_dict\");\nvar all_packets_counter = flow.get(\"all_packets_counter\");\nvar all_packets = Object.values(objects_dict).reduce((partialSum, a) => partialSum + a, 0);\nvar minute_packets = all_packets - all_packets_counter;\n\nflow.set(\"timer\", timer + 1);\n\nif (timer === 60) {\n    flow.set(\"objects_dict\", {});\n    flow.set(\"all_packets_counter\", 0);\n    flow.set(\"timer\", 0);\n    return [\n        { \"payload\": objects_dict, \"topic\" : \"objects_dict\"},\n        { \"payload\": Math.round(all_packets / 60), \"topic\" : \"load_hour\"},\n        { \"payload\": minute_packets, \"topic\" : \"load_min\"}\n        ]\n}\nflow.set(\"all_packets_counter\", all_packets);\nreturn [null, null, { \"payload\": minute_packets }];",
+            "func": "var timer = flow.get(\"timer\");\nvar objects_dict = flow.get(\"objects_dict\");\nvar all_packets_counter = flow.get(\"all_packets_counter\");\nvar all_packets = Object.values(objects_dict).reduce((partialSum, a) => partialSum + a, 0);\nvar minute_packets = all_packets - all_packets_counter;\n\nflow.set(\"timer\", timer + 1);\n\nif (timer === 60) {\n    flow.set(\"objects_dict\", {});\n    flow.set(\"all_packets_counter\", 0);\n    flow.set(\"timer\", 0);\n    return [\n        { \"payload\": objects_dict, \"topic\" : \"objects_dict\"},\n        { \"payload\": Math.round(all_packets / 60), \"topic\" : \"load_hour\"},\n        { \"payload\": minute_packets, \"topic\" : \"load_min\"}\n        ]\n}\nflow.set(\"all_packets_counter\", all_packets);\nreturn [null, null, { \"payload\": minute_packets, \"topic\": \"load_min\"}];",
             "outputs": 3,
             "timeout": "0",
             "noerr": 0,
