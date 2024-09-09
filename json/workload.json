@@ -1,262 +1,337 @@
-
-    {
-        "id": "f05f802bc66d0b79",
-        "type": "subflow",
-        "name": "Workload",
-        "info": "Measures the flow of messages.\r\n\r\n### Outputs\r\n1. Objects_dict\r\n: topic (string) : **objects_dict**\r\n: payload (dict) : Dictionary with the number of messages per ID\r\n\r\n2. Load_min\r\n: topic (string) : **load_min**\r\n: payload (number) : Number of messages per minute.\r\n\r\n3. Load_hour\r\n: topic (string) : **load_hour**\r\n: payload (number) : Average number of messages per minute per hour.\r\n",
-        "category": "SmartUnity",
-        "in": [
-            {
-                "x": 80,
-                "y": 140,
-                "wires": [
-                    {
-                        "id": "595d7185fd85a4af"
-                    }
-                ]
-            }
-        ],
-        "out": [
-            {
-                "x": 620,
-                "y": 140,
-                "wires": [
-                    {
-                        "id": "d5a1f654a6246d12",
-                        "port": 0
-                    },
-                    {
-                        "id": "aef4962d510c6662",
-                        "port": 0
-                    },
-                    {
-                        "id": "0e36506ced54bed0",
-                        "port": 0
-                    }
-                ]
-            }
-        ],
-        "env": [
-            {
-                "name": "OBJ",
-                "type": "num",
-                "value": "",
-                "ui": {
-                    "label": {
-                        "ru": "msg.payload.obj"
-                    },
-                    "type": "input",
-                    "opts": {
-                        "types": [
-                            "num"
-                        ]
-                    }
-                }
-            }
-        ],
-        "meta": {
-            "type": "Workload",
-            "version": "1.0.2",
-            "author": "Anton Shefov <a.shefov@gmail.com>",
-            "desc": "Measures the flow of messages",
-            "keywords": "SmartUnity, SU",
-            "license": "MIT"
-        },
-        "color": "#3BB08F",
-        "inputLabels": [
-            "from_SU"
-        ],
-        "icon": "font-awesome/fa-bar-chart",
-        "status": {
-            "x": 620,
-            "y": 260,
+{
+    "id": "f05f802bc66d0b79",
+    "type": "subflow",
+    "name": "Workload",
+    "info": "Measures the flow of messages.\r\n\r\n### Outputs\r\n1. Objects_dict\r\n: topic (string) : **objects_dict**\r\n: payload (dict) : Dictionary with the number of messages per ID\r\n\r\n2. Load_min\r\n: topic (string) : **load_min**\r\n: payload (number) : Number of messages per minute.\r\n\r\n3. Load_hour\r\n: topic (string) : **load_hour**\r\n: payload (number) : Average number of messages per minute per hour.\r\n",
+    "category": "SmartUnity",
+    "in": [
+        {
+            "x": 80,
+            "y": 80,
             "wires": [
                 {
-                    "id": "cc8e3f8c5c770c35",
+                    "id": "2e07786ab5f013f8"
+                },
+                {
+                    "id": "c9d01ddda9e3a071"
+                }
+            ]
+        }
+    ],
+    "out": [
+        {
+            "x": 700,
+            "y": 80,
+            "wires": [
+                {
+                    "id": "6253bcbb0e8b59cc",
                     "port": 0
                 },
                 {
-                    "id": "82a48b34a088f151",
+                    "id": "bbccf2778a2b9d2c",
                     "port": 0
+                },
+                {
+                    "id": "bbccf2778a2b9d2c",
+                    "port": 1
+                },
+                {
+                    "id": "bbccf2778a2b9d2c",
+                    "port": 2
                 }
             ]
-        },
-		"flow" : [
-		{
-        "id": "595d7185fd85a4af",
-        "type": "function",
-        "z": "f05f802bc66d0b79",
-        "name": "Counter",
-        "func": "var objects_dict = context.get(\"objects_dict\");\nvar timer = context.get(\"timer\");\nvar all_packets = 0;\nvar all_packets_counter = context.get(\"all_packets_counter\");\nvar minute_packets = 0;\n\nif (msg.payload.obj == env.get('OBJ')){\n    if (objects_dict[msg.payload.to] != null){\n        objects_dict[msg.payload.to] = objects_dict[msg.payload.to] + 1;\n    } else {\n        objects_dict[msg.payload.to] = 1;\n    }\n    context.set(\"objects_dict\", objects_dict);\n} else if (msg.topic == \"seconds\"){\n    context.set(\"timer\", timer + 1);\n    if ((timer % 60) == 0) {\n        all_packets = Object.values(objects_dict).reduce((partialSum, a) => partialSum + a, 0);\n        minute_packets = all_packets - all_packets_counter;\n        if ((timer % 3600) == 0) {\n            context.set(\"objects_dict\", {});\n            context.set(\"all_packets_counter\", 0);\n            return [{ \"payload\": objects_dict }, { \"payload\": Math.round(all_packets / 60) }, { \"payload\": minute_packets }]\n        }\n        context.set(\"all_packets_counter\", all_packets);\n        return [null, null, { \"payload\": minute_packets }]      \n    }\n} else if (msg.topic == \"dict\"){\n    return [{ \"payload\": objects_dict }, null, null]\n}",
-        "outputs": 3,
-        "timeout": "",
-        "noerr": 0,
-        "initialize": "// Добавленный здесь код будет исполняться\n// однократно при развертывании узла.\ncontext.set(\"objects_dict\", {});\ncontext.set(\"timer\", 1);\ncontext.set(\"all_packets_counter\", 0);",
-        "finalize": "",
-        "libs": [],
-        "x": 300,
-        "y": 140,
-        "wires": [
-            [
-                "d5a1f654a6246d12"
-            ],
-            [
-                "0e36506ced54bed0"
-            ],
-            [
-                "aef4962d510c6662",
-                "cc8e3f8c5c770c35"
-            ]
-        ]
+        }
+    ],
+    "env": [
+        {
+            "name": "OBJ",
+            "type": "num",
+            "value": "",
+            "ui": {
+                "label": {
+                    "ru": "msg.payload.obj"
+                },
+                "type": "input",
+                "opts": {
+                    "types": [
+                        "num"
+                    ]
+                }
+            }
+        }
+    ],
+    "meta": {
+        "type": "Workload",
+        "version": "1.1.1",
+        "author": "Anton Shefov <a.shefov@gmail.com>",
+        "desc": "Measures the flow of messages",
+        "keywords": "SmartUnity, SU",
+        "license": "MIT"
     },
-    {
-        "id": "b33d801b744e9c31",
-        "type": "inject",
-        "z": "f05f802bc66d0b79",
-        "name": "",
-        "props": [
+    "color": "#3BB08F",
+    "inputLabels": [
+        "from_SU"
+    ],
+    "icon": "font-awesome/fa-bar-chart",
+    "status": {
+        "x": 700,
+        "y": 220,
+        "wires": [
             {
-                "p": "topic",
-                "vt": "str"
+                "id": "cc8e3f8c5c770c35",
+                "port": 0
             },
             {
-                "p": "payload"
+                "id": "b507aea0f75b2cb6",
+                "port": 0
             }
-        ],
-        "repeat": "1",
-        "crontab": "",
-        "once": true,
-        "onceDelay": "1",
-        "topic": "seconds",
-        "payload": "true",
-        "payloadType": "bool",
-        "x": 165,
-        "y": 200,
-        "wires": [
-            [
-                "595d7185fd85a4af"
-            ]
-        ],
-        "l": false
-    },
-    {
-        "id": "cc8e3f8c5c770c35",
-        "type": "template",
-        "z": "f05f802bc66d0b79",
-        "name": "",
-        "field": "payload",
-        "fieldType": "msg",
-        "format": "json",
-        "syntax": "mustache",
-        "template": "{\n    \"fill\": \"green\",\n    \"shape\":\"dot\",\n    \"text\": \"{{payload}} mes/min\"\n}",
-        "output": "json",
-        "x": 480,
-        "y": 260,
-        "wires": [
-            []
         ]
     },
-    {
-        "id": "82a48b34a088f151",
-        "type": "inject",
-        "z": "f05f802bc66d0b79",
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": true,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "{\"fill\":\"grey\",\"shape\":\"ring\",\"text\":\"waiting\"}",
-        "payloadType": "json",
-        "x": 525,
-        "y": 320,
-        "wires": [
-            []
-        ],
-        "l": false
-    },
-    {
-        "id": "d5a1f654a6246d12",
-        "type": "change",
-        "z": "f05f802bc66d0b79",
-        "name": "",
-        "rules": [
-            {
-                "t": "set",
-                "p": "topic",
-                "pt": "msg",
-                "to": "objects_dict",
-                "tot": "str"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 475,
-        "y": 80,
-        "wires": [
-            []
-        ],
-        "l": false
-    },
-    {
-        "id": "aef4962d510c6662",
-        "type": "change",
-        "z": "f05f802bc66d0b79",
-        "name": "",
-        "rules": [
-            {
-                "t": "set",
-                "p": "topic",
-                "pt": "msg",
-                "to": "load_min",
-                "tot": "str"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 475,
-        "y": 200,
-        "wires": [
-            []
-        ],
-        "l": false
-    },
-    {
-        "id": "0e36506ced54bed0",
-        "type": "change",
-        "z": "f05f802bc66d0b79",
-        "name": "",
-        "rules": [
-            {
-                "t": "set",
-                "p": "topic",
-                "pt": "msg",
-                "to": "load_hour",
-                "tot": "str"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 475,
-        "y": 140,
-        "wires": [
-            []
-        ],
-        "l": false
-    }
-		]
-    }
+    "flow": [
+        {
+            "id": "cc8e3f8c5c770c35",
+            "type": "template",
+            "z": "f05f802bc66d0b79",
+            "name": "",
+            "field": "payload",
+            "fieldType": "msg",
+            "format": "json",
+            "syntax": "mustache",
+            "template": "{\n    \"fill\": \"green\",\n    \"shape\":\"dot\",\n    \"text\": \"{{payload}} mes/min\"\n}",
+            "output": "json",
+            "x": 560,
+            "y": 220,
+            "wires": [
+                []
+            ]
+        },
+        {
+            "id": "82a48b34a088f151",
+            "type": "inject",
+            "z": "f05f802bc66d0b79",
+            "name": "",
+            "props": [
+                {
+                    "p": "payload"
+                }
+            ],
+            "repeat": "",
+            "crontab": "",
+            "once": true,
+            "onceDelay": 0.1,
+            "topic": "",
+            "payload": "{\"fill\":\"grey\",\"shape\":\"ring\",\"text\":\"waiting\"}",
+            "payloadType": "json",
+            "x": 515,
+            "y": 280,
+            "wires": [
+                [
+                    "b507aea0f75b2cb6"
+                ]
+            ],
+            "l": false
+        },
+        {
+            "id": "bbccf2778a2b9d2c",
+            "type": "function",
+            "z": "f05f802bc66d0b79",
+            "name": "Count_messages_per_minute",
+            "func": "var timer = flow.get(\"timer\");\nvar objects_dict = flow.get(\"objects_dict\");\nvar all_packets_counter = flow.get(\"all_packets_counter\");\nvar all_packets = Object.values(objects_dict).reduce((partialSum, a) => partialSum + a, 0);\nvar minute_packets = all_packets - all_packets_counter;\n\nflow.set(\"timer\", timer + 1);\n\nif (timer === 60) {\n    flow.set(\"objects_dict\", {});\n    flow.set(\"all_packets_counter\", 0);\n    flow.set(\"timer\", 0);\n    return [\n        { \"payload\": objects_dict, \"topic\" : objects_dict},\n        { \"payload\": Math.round(all_packets / 60), \"topic\" : load_hour},\n        { \"payload\": minute_packets, \"topic\" : load_min}\n        ]\n}\nflow.set(\"all_packets_counter\", all_packets);\nreturn [null, null, { \"payload\": minute_packets }];",
+            "outputs": 3,
+            "timeout": "0",
+            "noerr": 0,
+            "initialize": "",
+            "finalize": "",
+            "libs": [],
+            "x": 290,
+            "y": 220,
+            "wires": [
+                [],
+                [],
+                [
+                    "cc8e3f8c5c770c35"
+                ]
+            ],
+            "outputLabels": [
+                "objects_dict",
+                "mean_minute_packets",
+                "minute_packets"
+            ]
+        },
+        {
+            "id": "d500e8feb0e970bd",
+            "type": "inject",
+            "z": "f05f802bc66d0b79",
+            "name": "",
+            "props": [
+                {
+                    "p": "payload"
+                }
+            ],
+            "repeat": "60",
+            "crontab": "",
+            "once": true,
+            "onceDelay": "60",
+            "topic": "",
+            "payload": "true",
+            "payloadType": "bool",
+            "x": 85,
+            "y": 220,
+            "wires": [
+                [
+                    "bbccf2778a2b9d2c"
+                ]
+            ],
+            "l": false
+        },
+        {
+            "id": "3fd0a790c31bb78a",
+            "type": "function",
+            "z": "f05f802bc66d0b79",
+            "name": "write_to_dict",
+            "func": "var objects_dict = flow.get(\"objects_dict\");\n\n\nif (objects_dict[msg.payload.to] != null){\n    objects_dict[msg.payload.to] = objects_dict[msg.payload.to] + 1;\n} else {\n    objects_dict[msg.payload.to] = 1;\n}\nflow.set(\"objects_dict\", objects_dict);",
+            "outputs": 0,
+            "timeout": "0",
+            "noerr": 0,
+            "initialize": "",
+            "finalize": "",
+            "libs": [],
+            "x": 330,
+            "y": 140,
+            "wires": []
+        },
+        {
+            "id": "c9d01ddda9e3a071",
+            "type": "switch",
+            "z": "f05f802bc66d0b79",
+            "name": "",
+            "property": "payload.obj",
+            "propertyType": "msg",
+            "rules": [
+                {
+                    "t": "eq",
+                    "v": "OBJ",
+                    "vt": "env"
+                }
+            ],
+            "checkall": "false",
+            "repair": false,
+            "outputs": 1,
+            "x": 175,
+            "y": 140,
+            "wires": [
+                [
+                    "3fd0a790c31bb78a"
+                ]
+            ],
+            "l": false
+        },
+        {
+            "id": "b507aea0f75b2cb6",
+            "type": "change",
+            "z": "f05f802bc66d0b79",
+            "name": "",
+            "rules": [
+                {
+                    "t": "set",
+                    "p": "payload",
+                    "pt": "msg",
+                    "to": "{\"fill\":\"grey\",\"shape\":\"ring\",\"text\":\"waiting\"}",
+                    "tot": "json"
+                },
+                {
+                    "t": "set",
+                    "p": "objects_dict",
+                    "pt": "flow",
+                    "to": "{}",
+                    "tot": "json"
+                },
+                {
+                    "t": "set",
+                    "p": "all_packets_counter",
+                    "pt": "flow",
+                    "to": "0",
+                    "tot": "num"
+                },
+                {
+                    "t": "set",
+                    "p": "timer",
+                    "pt": "flow",
+                    "to": "0",
+                    "tot": "num"
+                }
+            ],
+            "action": "",
+            "property": "",
+            "from": "",
+            "to": "",
+            "reg": false,
+            "x": 605,
+            "y": 280,
+            "wires": [
+                []
+            ],
+            "l": false
+        },
+        {
+            "id": "2e07786ab5f013f8",
+            "type": "switch",
+            "z": "f05f802bc66d0b79",
+            "name": "",
+            "property": "topic",
+            "propertyType": "msg",
+            "rules": [
+                {
+                    "t": "eq",
+                    "v": "dict",
+                    "vt": "str"
+                }
+            ],
+            "checkall": "true",
+            "repair": false,
+            "outputs": 1,
+            "x": 175,
+            "y": 80,
+            "wires": [
+                [
+                    "6253bcbb0e8b59cc"
+                ]
+            ],
+            "l": false
+        },
+        {
+            "id": "6253bcbb0e8b59cc",
+            "type": "change",
+            "z": "f05f802bc66d0b79",
+            "name": "",
+            "rules": [
+                {
+                    "t": "set",
+                    "p": "payload",
+                    "pt": "msg",
+                    "to": "objects_dict",
+                    "tot": "flow",
+                    "dc": true
+                },
+                {
+                    "t": "set",
+                    "p": "topic",
+                    "pt": "msg",
+                    "to": "objects_dict",
+                    "tot": "str"
+                }
+            ],
+            "action": "",
+            "property": "",
+            "from": "",
+            "to": "",
+            "reg": false,
+            "x": 275,
+            "y": 80,
+            "wires": [
+                []
+            ],
+            "l": false
+        }
+    ]
+}

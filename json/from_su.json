@@ -1,423 +1,422 @@
-
+{
+  "id": "e0c1caa793877c9f",
+  "type": "subflow",
+  "name": "From_SmartUnity",
+  "info": "Convert packets from SmartUnity to Node-Red\r\n\r\n\r\n### Inputs \r\n\r\n: payload (string) :  All packets from TCP-connection to SU PLC.\r\n\r\n\r\n### Outputs\r\n\r\n\r\n: payload (string | number | boolean) : Value received from SmartUnity.\r\n: *topic* (number) :  Object ID in SmartUnity.\r\n\r\n\r\n### Configuration\r\n\r\n#### **Address list**\r\n\r\nThe json file maps the Project Builder object ID and the msg.topic.\r\n\r\n- The **key** must contain the Project Builder object ID.\r\n- The **value** must contain a KNX group address or address in another system.\r\n\r\n**Examples:**\r\n\r\n - **KNX**:\r\n`{\r\n    \"1024\": \"0/1/1\",\r\n    \"1025\": \"0/1/2\"\r\n}`\r\n - **Other systems**:\r\n`{\r\n    \"1024\": \"topic_1\",\r\n    \"1025\": \"topic_2\"\r\n}`\r\n\r\n\r\n---\r\n\r\n\r\n#### **Types list**\r\n\r\nThe json file maps the Project Builder object ID and the object type.\r\n\r\n**Example:**\r\n\r\n`{\r\n    \"1024\": \"T_SWITCH_BUTTON\",\r\n    \"1025\": \"T_SWITCH_BUTTON\"\r\n}`\r\n\r\n\r\n---\r\n\r\n\r\n#### **System type**\r\n\r\nAdapts the payload and parameters for the selected system type.\r\n\r\n`Default type:` **KNX**\r\n\r\n---\r\n\r\n\r\n#### **Divider**\r\n\r\nAll analog values are divided by the divider.\r\n\r\n**output value = recieved value / divider**\r\n\r\nApplies to all analog object types.\r\n\r\n`Available range:` **0 - 10000**\r\n\r\n`Default divider:` **10**\r\n \r\n\r\n---\r\n\r\n\r\n#### **Shift (HELP_OBJECT)**\r\n\r\nThe shift is subtracted from the received value.\r\n\r\n**output value = recieved value - shift**\r\n\r\nApplies only to objects of the **HELP_OBJECT** type.\r\n\r\n`Available range:` **-100 - 100**\r\n\r\n`Default shift:` **0**\r\n\r\n",
+  "category": "SmartUnity",
+  "in": [
     {
-        "id": "e0c1caa793877c9f",
-        "type": "subflow",
-        "name": "From_SmartUnity",
-        "info": "Convert packets from SmartUnity to Node-Red\r\n\r\n\r\n### Inputs \r\n\r\n: payload (string) :  All packets from TCP-connection to SU PLC.\r\n\r\n\r\n### Outputs\r\n\r\n\r\n: payload (string | number | boolean) : Value received from SmartUnity.\r\n: *topic* (number) :  Object ID in SmartUnity.\r\n\r\n\r\n### Configuration\r\n\r\n#### **Address list**\r\n\r\nThe json file maps the Project Builder object ID and the msg.topic.\r\n\r\n- The **key** must contain the Project Builder object ID.\r\n- The **value** must contain a KNX group address or address in another system.\r\n\r\n**Examples:**\r\n\r\n - **KNX**:\r\n`{\r\n    \"1024\": \"0/1/1\",\r\n    \"1025\": \"0/1/2\"\r\n}`\r\n - **Other systems**:\r\n`{\r\n    \"1024\": \"topic_1\",\r\n    \"1025\": \"topic_2\"\r\n}`\r\n\r\n\r\n---\r\n\r\n\r\n#### **Types list**\r\n\r\nThe json file maps the Project Builder object ID and the object type.\r\n\r\n**Example:**\r\n\r\n`{\r\n    \"1024\": \"T_SWITCH_BUTTON\",\r\n    \"1025\": \"T_SWITCH_BUTTON\"\r\n}`\r\n\r\n\r\n---\r\n\r\n\r\n#### **System type**\r\n\r\nAdapts the payload and parameters for the selected system type.\r\n\r\n`Default type:` **KNX**\r\n\r\n---\r\n\r\n\r\n#### **Divider**\r\n\r\nAll analog values are divided by the divider.\r\n\r\n**output value = recieved value / divider**\r\n\r\nApplies to all analog object types.\r\n\r\n`Available range:` **0 - 10000**\r\n\r\n`Default divider:` **10**\r\n \r\n\r\n---\r\n\r\n\r\n#### **Shift (HELP_OBJECT)**\r\n\r\nThe shift is subtracted from the received value.\r\n\r\n**output value = recieved value - shift**\r\n\r\nApplies only to objects of the **HELP_OBJECT** type.\r\n\r\n`Available range:` **-100 - 100**\r\n\r\n`Default shift:` **0**\r\n\r\n",
-        "category": "SmartUnity",
-        "in": [
-            {
-                "x": 60,
-                "y": 160,
-                "wires": [
-                    {
-                        "id": "1e35e204838e4767"
-                    }
-                ]
-            }
-        ],
-        "out": [
-            {
-                "x": 780,
-                "y": 160,
-                "wires": [
-                    {
-                        "id": "1a64b68c304f5f9d",
-                        "port": 0
-                    },
-                    {
-                        "id": "5887dc0d939d4b9d",
-                        "port": 0
-                    },
-                    {
-                        "id": "107046a35c83b159",
-                        "port": 0
-                    },
-                    {
-                        "id": "4465afa441eab6f6",
-                        "port": 2
-                    }
-                ]
-            }
-        ],
-        "env": [
-            {
-                "name": "ADDRESSES",
-                "type": "json",
-                "value": "{}",
-                "ui": {
-                    "icon": "font-awesome/fa-list",
-                    "label": {
-                        "ru": "Address list"
-                    },
-					"type": "input",
-                    "opts": {
-                        "types": [
-                            "json"
-                        ]
-                    }
-                }
-            },
-            {
-                "name": "TYPES",
-                "type": "json",
-                "value": "{}",
-                "ui": {
-                    "icon": "font-awesome/fa-file-code-o",
-                    "label": {
-                        "ru": "Type list"
-                    },
-					"type": "input",
-                    "opts": {
-                        "types": [
-                            "json"
-                        ]
-                    }
-                }
-            },
-            {
-                "name": "SYSTEM",
-                "type": "str",
-                "value": "knx",
-                "ui": {
-					"icon": "font-awesome/fa-cog",
-                    "label": {
-                        "ru": "System type"
-                    },
-                    "type": "select",
-                    "opts": {
-                        "opts": [
-                            {
-                                "l": {
-                                    "ru": "KNX"
-                                },
-                                "v": "knx"
-                            },
-                            {
-                                "l": {
-                                    "ru": "Wirenboard"
-                                },
-                                "v": "wb"
-                            },
-                            {
-                                "l": {
-                                    "ru": "Other"
-                                },
-                                "v": "other"
-                            }
-                        ]
-                    }
-                }
-            },
-            {
-                "name": "DIVIDER",
-                "type": "num",
-                "value": "10",
-                "ui": {
-					"icon": "font-awesome/fa-minus",
-                    "label": {
-                        "ru": "Divider"
-                    },
-                    "type": "spinner",
-                    "opts": {
-                        "min": 0,
-                        "max": 10000
-                    }
-                }
-            },
-            {
-                "name": "HELP_OBJECT_SHIFT",
-                "type": "num",
-                "value": "0",
-                "ui": {
-					"icon": "font-awesome/fa-arrows-v",
-                    "label": {
-                        "ru": "Shift (HELP_OBJECT)"
-                    },
-                    "type": "spinner",
-                    "opts": {
-                        "min": -100,
-                        "max": 100
-                    }
-                }
-            }
-        ],
-        "meta": {
-            "type": "Converter from SU",
-            "version": "1.3.2",
-            "author": "Anton Shefov <a.shefov@gmail.com>",
-            "desc": "Converter from SmartUnity any object types",
-			"license": "MIT",
-            "keywords": "SmartUnity, SU"
+      "x": 60,
+      "y": 160,
+      "wires": [
+        {
+          "id": "1e35e204838e4767"
+        }
+      ]
+    }
+  ],
+  "out": [
+    {
+      "x": 780,
+      "y": 160,
+      "wires": [
+        {
+          "id": "1a64b68c304f5f9d",
+          "port": 0
         },
-        "color": "#3BB08F",
-		"icon": "font-awesome/fa-sign-out",
-		"inputLabels": [
-            "from_SU"
-        ],
-        "outputLabels": [
-            "to_nodes"
-        ],
-        "status": {
-            "x": 480,
-            "y": 240,
-            "wires": [
-                {
-                    "id": "ce1e41fc6c3340ec",
-                    "port": 0
-                },
-                {
-                    "id": "63365c2d017f8e91",
-                    "port": 1
-                }
-            ]
+        {
+          "id": "5887dc0d939d4b9d",
+          "port": 0
         },
-		"flow": [
-			{
+        {
+          "id": "107046a35c83b159",
+          "port": 0
+        },
+        {
+          "id": "4465afa441eab6f6",
+          "port": 2
+        }
+      ]
+    }
+  ],
+  "env": [
+    {
+      "name": "ADDRESSES",
+      "type": "json",
+      "value": "{}",
+      "ui": {
+        "icon": "font-awesome/fa-list",
+        "label": {
+          "ru": "Address list"
+        },
+        "type": "input",
+        "opts": {
+          "types": [
+            "json"
+          ]
+        }
+      }
+    },
+    {
+      "name": "TYPES",
+      "type": "json",
+      "value": "{}",
+      "ui": {
+        "icon": "font-awesome/fa-file-code-o",
+        "label": {
+          "ru": "Type list"
+        },
+        "type": "input",
+        "opts": {
+          "types": [
+            "json"
+          ]
+        }
+      }
+    },
+    {
+      "name": "SYSTEM",
+      "type": "str",
+      "value": "knx",
+      "ui": {
+        "icon": "font-awesome/fa-cog",
+        "label": {
+          "ru": "System type"
+        },
+        "type": "select",
+        "opts": {
+          "opts": [
+            {
+              "l": {
+                "ru": "KNX"
+              },
+              "v": "knx"
+            },
+            {
+              "l": {
+                "ru": "Wirenboard"
+              },
+              "v": "wb"
+            },
+            {
+              "l": {
+                "ru": "Other"
+              },
+              "v": "other"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "DIVIDER",
+      "type": "num",
+      "value": "10",
+      "ui": {
+        "icon": "font-awesome/fa-minus",
+        "label": {
+          "ru": "Divider"
+        },
+        "type": "spinner",
+        "opts": {
+          "min": 0,
+          "max": 10000
+        }
+      }
+    },
+    {
+      "name": "HELP_OBJECT_SHIFT",
+      "type": "num",
+      "value": "0",
+      "ui": {
+        "icon": "font-awesome/fa-arrows-v",
+        "label": {
+          "ru": "Shift (HELP_OBJECT)"
+        },
+        "type": "spinner",
+        "opts": {
+          "min": -100,
+          "max": 100
+        }
+      }
+    }
+  ],
+  "meta": {
+    "type": "Converter from SU",
+    "version": "1.3.3",
+    "author": "Anton Shefov <a.shefov@gmail.com>",
+    "desc": "Converter from SmartUnity any object types",
+    "license": "MIT",
+    "keywords": "SmartUnity, SU"
+  },
+  "color": "#3BB08F",
+  "icon": "font-awesome/fa-sign-out",
+  "inputLabels": [
+    "from_SU"
+  ],
+  "outputLabels": [
+    "to_nodes"
+  ],
+  "status": {
+    "x": 480,
+    "y": 240,
+    "wires": [
+      {
         "id": "ce1e41fc6c3340ec",
-        "type": "template",
-        "z": "e0c1caa793877c9f",
-        "name": "",
-        "field": "payload",
-        "fieldType": "msg",
-        "format": "json",
-        "syntax": "plain",
-        "template": "{ \"fill\": \"grey\", \"shape\": \"ring\", \"text\": \"waiting\" }",
-        "output": "json",
-        "x": 340,
-        "y": 240,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "35e771ba8289fe66",
-        "type": "inject",
-        "z": "e0c1caa793877c9f",
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": true,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "true",
-        "payloadType": "bool",
-        "x": 170,
-        "y": 240,
-        "wires": [
-            [
-                "ce1e41fc6c3340ec"
-            ]
-        ]
-    },
-    {
-        "id": "1e35e204838e4767",
-        "type": "switch",
-        "z": "e0c1caa793877c9f",
-        "name": "",
-        "property": "ADDRESSES",
-        "propertyType": "env",
-        "rules": [
-            {
-                "t": "hask",
-                "v": "payload.to",
-                "vt": "msg"
-            }
-        ],
-        "checkall": "true",
-        "repair": false,
-        "outputs": 1,
-        "x": 155,
-        "y": 160,
-        "wires": [
-            [
-                "63365c2d017f8e91"
-            ]
-        ],
-        "l": false
-    },
-    {
-        "id": "ddb7426ddd920cda",
-        "type": "switch",
-        "z": "e0c1caa793877c9f",
-        "name": "",
-        "property": "SYSTEM",
-        "propertyType": "env",
-        "rules": [
-            {
-                "t": "eq",
-                "v": "knx",
-                "vt": "str"
-            },
-            {
-                "t": "eq",
-                "v": "wb",
-                "vt": "str"
-            },
-            {
-                "t": "eq",
-                "v": "other",
-                "vt": "str"
-            }
-        ],
-        "checkall": "false",
-        "repair": false,
-        "outputs": 3,
-        "x": 475,
-        "y": 160,
-        "wires": [
-            [
-                "4465afa441eab6f6"
-            ],
-            [
-                "1a64b68c304f5f9d"
-            ],
-            [
-                "5887dc0d939d4b9d"
-            ]
-        ],
-        "l": false
-    },
-    {
-        "id": "1a64b68c304f5f9d",
-        "type": "change",
-        "z": "e0c1caa793877c9f",
-        "name": "",
-        "rules": [
-            {
-                "t": "delete",
-                "p": "dpt",
-                "pt": "msg"
-            },
-            {
-                "t": "delete",
-                "p": "destination",
-                "pt": "msg"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 575,
-        "y": 160,
-        "wires": [
-            []
-        ],
-        "l": false
-    },
-    {
-        "id": "5887dc0d939d4b9d",
-        "type": "change",
-        "z": "e0c1caa793877c9f",
-        "name": "",
-        "rules": [
-            {
-                "t": "delete",
-                "p": "dpt",
-                "pt": "msg"
-            },
-            {
-                "t": "delete",
-                "p": "destination",
-                "pt": "msg"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 575,
-        "y": 220,
-        "wires": [
-            []
-        ],
-        "l": false
-    },
-    {
+        "port": 0
+      },
+      {
         "id": "63365c2d017f8e91",
-        "type": "function",
-        "z": "e0c1caa793877c9f",
-        "name": "Parse_KNX_2",
-        "func": "const addresses = env.get('ADDRESSES');\nconst types = env.get('TYPES');\nconst divider = Number(env.get(\"DIVIDER\"));\nconst ho_shift = Number(env.get('HELP_OBJECT_SHIFT'));\nvar object_type = \"\";\nvar new_msg = {};\nvar send = false;\nvar su_id = String(msg.payload.to);\nvar error = false;\nvar status = \"\";\n\n\n\nnew_msg.topic = addresses[su_id];\nobject_type = types[su_id];\nswitch (object_type) {\n    case \"T_SWITCH_BUTTON\":\n        if (msg.payload.cmd == 1 && msg.payload.value == 15) {\n            new_msg.payload = true;\n            new_msg.dpt = \"1.001\";\n            send = true;\n        } else if (msg.payload.cmd == 1 && msg.payload.value == 16) {\n            new_msg.payload = false;\n            new_msg.dpt = \"1.001\";\n            send = true;\n        }\n        break;\n    case \"T_UNIV_AN_INPUT\":\n        new_msg.payload = Number(msg.payload.value) / divider;\n        if (isNaN(new_msg.payload)) {\n            error = true;\n        } else {\n            new_msg.dpt = \"9.001\";\n            send = true;\n        }\n        break;\n    case \"T_UNIV_AN_INPUT_value\": \n        new_msg.payload = Number(msg.payload.value) / divider;\n        if (isNaN(new_msg.payload)) {\n            error = true;\n        } else {\n            new_msg.dpt = \"9.001\";\n            send = true;\n        }\n        break;\n    case \"T_UNIV_AN_INPUT_setpoint\": \n        new_msg.payload = Number(msg.payload.setpoint) / divider;\n        if (isNaN(new_msg.payload)) {\n            error = true;\n        } else {\n            new_msg.dpt = \"9.001\";\n            send = true;\n        }\n        break;\n    case \"T_RELE\":\n        if (msg.payload.cmd == 23 && msg.payload.value == 7) {\n            new_msg.payload = true;\n            new_msg.dpt = \"1.001\";\n            send = true;\n        } else if (msg.payload.cmd == 24 && msg.payload.value == 6) {\n            new_msg.payload = false;\n            new_msg.dpt = \"1.001\";\n            send = true;\n        }\n        break;\n    case \"T_UNIV_AN_OUTPUT\":\n        new_msg.payload = Number(msg.payload.value) / divider;\n        if (isNaN(new_msg.payload)) {\n            error = true;\n        } else {\n            new_msg.dpt = \"5.001\";\n            send = true;\n        }\n        break;\n    case \"T_HELP_SWITCH\":\n        if (msg.payload.cmd == 17 && msg.payload.value == 21) {\n            new_msg.payload = true;\n            new_msg.dpt = \"1.001\";\n            send = true;\n        } else if (msg.payload.cmd == 17 && msg.payload.value == 22) {\n            new_msg.payload = false;\n            new_msg.dpt = \"1.001\";\n            send = true;\n        }\n        break;\n    case \"T_HELP_OBJECT\":\n        new_msg.payload = Number(msg.payload.value) + ho_shift;\n        if (isNaN(new_msg.payload)) {\n            error = true;\n        } else {\n            new_msg.dpt = \"5.001\";\n            send = true;\n        }\n        break;\n    case \"T_HELP_OBJECT_TO_T_UNIV_AN_OUTPUT\":\n        new_msg.payload = Math.round((Number(msg.payload.value) - 1) * 33.3);\n        if (isNaN(new_msg.payload)) {\n            error = true;\n        } else {\n            new_msg.dpt = \"5.001\";\n            send = true;\n        }\n        break;\n    default:\n        error = true;\n        status = 'Unknown object type: ';\n        break;\n}        \n\nstatus = status + new_msg.topic + \": \" + new_msg.payload;\n\nif (!error) {\n    if (send) {\n        new_msg.destination = new_msg.topic;\n        return [new_msg, { \"payload\": { fill: \"green\", shape: \"dot\", text: status } }];\n    }\n} else {\n    return [null, { \"payload\": { fill: \"red\", shape: \"ring\", text: \"Error! \" + status } }]\n}",
-        "outputs": 2,
-        "timeout": "",
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 320,
-        "y": 160,
-        "wires": [
-            [
-                "ddb7426ddd920cda"
-            ],
-            []
+        "port": 1
+      }
+    ]
+  },
+  "flow": [
+    {
+      "id": "ce1e41fc6c3340ec",
+      "type": "template",
+      "z": "e0c1caa793877c9f",
+      "name": "",
+      "field": "payload",
+      "fieldType": "msg",
+      "format": "json",
+      "syntax": "plain",
+      "template": "{ \"fill\": \"grey\", \"shape\": \"ring\", \"text\": \"waiting\" }",
+      "output": "json",
+      "x": 340,
+      "y": 240,
+      "wires": [
+        []
+      ]
+    },
+    {
+      "id": "35e771ba8289fe66",
+      "type": "inject",
+      "z": "e0c1caa793877c9f",
+      "name": "",
+      "props": [
+        {
+          "p": "payload"
+        }
+      ],
+      "repeat": "",
+      "crontab": "",
+      "once": true,
+      "onceDelay": 0.1,
+      "topic": "",
+      "payload": "true",
+      "payloadType": "bool",
+      "x": 170,
+      "y": 240,
+      "wires": [
+        [
+          "ce1e41fc6c3340ec"
         ]
+      ]
     },
     {
-        "id": "4465afa441eab6f6",
-        "type": "switch",
-        "z": "e0c1caa793877c9f",
-        "name": "",
-        "property": "payload.dpt",
-        "propertyType": "msg",
-        "rules": [
-            {
-                "t": "eq",
-                "v": "9.001",
-                "vt": "str"
-            },
-            {
-                "t": "eq",
-                "v": "5.001",
-                "vt": "str"
-            },
-            {
-                "t": "else"
-            }
-        ],
-        "checkall": "false",
-        "repair": false,
-        "outputs": 3,
-        "x": 575,
-        "y": 100,
-        "wires": [
-            [
-                "107046a35c83b159"
-            ],
-            [
-                "107046a35c83b159"
-            ],
-            []
-        ],
-        "l": false
+      "id": "1e35e204838e4767",
+      "type": "switch",
+      "z": "e0c1caa793877c9f",
+      "name": "",
+      "property": "ADDRESSES",
+      "propertyType": "env",
+      "rules": [
+        {
+          "t": "hask",
+          "v": "payload.to",
+          "vt": "msg"
+        }
+      ],
+      "checkall": "true",
+      "repair": false,
+      "outputs": 1,
+      "x": 155,
+      "y": 160,
+      "wires": [
+        [
+          "63365c2d017f8e91"
+        ]
+      ],
+      "l": false
     },
     {
-        "id": "107046a35c83b159",
-        "type": "rbe",
-        "z": "e0c1caa793877c9f",
-        "name": "",
-        "func": "rbe",
-        "gap": "",
-        "start": "",
-        "inout": "out",
-        "septopics": true,
-        "property": "payload",
-        "topi": "topic",
-        "x": 675,
-        "y": 100,
-        "wires": [
-            []
+      "id": "ddb7426ddd920cda",
+      "type": "switch",
+      "z": "e0c1caa793877c9f",
+      "name": "",
+      "property": "SYSTEM",
+      "propertyType": "env",
+      "rules": [
+        {
+          "t": "eq",
+          "v": "knx",
+          "vt": "str"
+        },
+        {
+          "t": "eq",
+          "v": "wb",
+          "vt": "str"
+        },
+        {
+          "t": "eq",
+          "v": "other",
+          "vt": "str"
+        }
+      ],
+      "checkall": "false",
+      "repair": false,
+      "outputs": 3,
+      "x": 475,
+      "y": 160,
+      "wires": [
+        [
+          "4465afa441eab6f6"
         ],
-        "l": false
+        [
+          "1a64b68c304f5f9d"
+        ],
+        [
+          "5887dc0d939d4b9d"
+        ]
+      ],
+      "l": false
+    },
+    {
+      "id": "1a64b68c304f5f9d",
+      "type": "change",
+      "z": "e0c1caa793877c9f",
+      "name": "",
+      "rules": [
+        {
+          "t": "delete",
+          "p": "dpt",
+          "pt": "msg"
+        },
+        {
+          "t": "delete",
+          "p": "destination",
+          "pt": "msg"
+        }
+      ],
+      "action": "",
+      "property": "",
+      "from": "",
+      "to": "",
+      "reg": false,
+      "x": 575,
+      "y": 160,
+      "wires": [
+        []
+      ],
+      "l": false
+    },
+    {
+      "id": "5887dc0d939d4b9d",
+      "type": "change",
+      "z": "e0c1caa793877c9f",
+      "name": "",
+      "rules": [
+        {
+          "t": "delete",
+          "p": "dpt",
+          "pt": "msg"
+        },
+        {
+          "t": "delete",
+          "p": "destination",
+          "pt": "msg"
+        }
+      ],
+      "action": "",
+      "property": "",
+      "from": "",
+      "to": "",
+      "reg": false,
+      "x": 575,
+      "y": 220,
+      "wires": [
+        []
+      ],
+      "l": false
+    },
+    {
+      "id": "63365c2d017f8e91",
+      "type": "function",
+      "z": "e0c1caa793877c9f",
+      "name": "Parse_KNX_2",
+      "func": "const addresses = env.get('ADDRESSES');\nconst types = env.get('TYPES');\nconst divider = Number(env.get(\"DIVIDER\"));\nconst ho_shift = Number(env.get('HELP_OBJECT_SHIFT'));\nvar object_type = \"\";\nvar new_msg = {};\nvar send = false;\nvar su_id = String(msg.payload.to);\nvar error = false;\nvar status = \"\";\n\n\n\nnew_msg.topic = addresses[su_id];\nobject_type = types[su_id];\nswitch (object_type) {\n    case \"T_SWITCH_BUTTON\":\n        if (msg.payload.cmd == 1 && msg.payload.value == 15) {\n            new_msg.payload = true;\n            new_msg.dpt = \"1.001\";\n            send = true;\n        } else if (msg.payload.cmd == 1 && msg.payload.value == 16) {\n            new_msg.payload = false;\n            new_msg.dpt = \"1.001\";\n            send = true;\n        }\n        break;\n    case \"T_UNIV_AN_INPUT\":\n        new_msg.payload = Number(msg.payload.value) / divider;\n        if (isNaN(new_msg.payload)) {\n            error = true;\n        } else {\n            new_msg.dpt = \"9.001\";\n            send = true;\n        }\n        break;\n    case \"T_UNIV_AN_INPUT_value\": \n        new_msg.payload = Number(msg.payload.value) / divider;\n        if (isNaN(new_msg.payload)) {\n            error = true;\n        } else {\n            new_msg.dpt = \"9.001\";\n            send = true;\n        }\n        break;\n    case \"T_UNIV_AN_INPUT_setpoint\": \n        new_msg.payload = Number(msg.payload.setpoint) / divider;\n        if (isNaN(new_msg.payload)) {\n            error = true;\n        } else {\n            new_msg.dpt = \"9.001\";\n            send = true;\n        }\n        break;\n    case \"T_RELE\":\n        if (msg.payload.cmd == 23 && msg.payload.value == 7) {\n            new_msg.payload = true;\n            new_msg.dpt = \"1.001\";\n            send = true;\n        } else if (msg.payload.cmd == 24 && msg.payload.value == 6) {\n            new_msg.payload = false;\n            new_msg.dpt = \"1.001\";\n            send = true;\n        }\n        break;\n    case \"T_UNIV_AN_OUTPUT\":\n        new_msg.payload = Number(msg.payload.value) / divider;\n        if (isNaN(new_msg.payload)) {\n            error = true;\n        } else {\n            new_msg.dpt = \"5.001\";\n            send = true;\n        }\n        break;\n    case \"T_HELP_SWITCH\":\n        if (msg.payload.cmd == 17 && msg.payload.value == 21) {\n            new_msg.payload = true;\n            new_msg.dpt = \"1.001\";\n            send = true;\n        } else if (msg.payload.cmd == 17 && msg.payload.value == 22) {\n            new_msg.payload = false;\n            new_msg.dpt = \"1.001\";\n            send = true;\n        }\n        break;\n    case \"T_HELP_OBJECT\":\n        new_msg.payload = Number(msg.payload.value) + ho_shift;\n        if (isNaN(new_msg.payload)) {\n            error = true;\n        } else {\n            new_msg.dpt = \"5.001\";\n            send = true;\n        }\n        break;\n    case \"T_HELP_OBJECT_TO_T_UNIV_AN_OUTPUT\":\n        new_msg.payload = Math.round((Number(msg.payload.value) - 1) * 33.3);\n        if (isNaN(new_msg.payload)) {\n            error = true;\n        } else {\n            new_msg.dpt = \"5.001\";\n            send = true;\n        }\n        break;\n    default:\n        error = true;\n        status = 'Unknown object type: ';\n        break;\n}        \n\nstatus = status + new_msg.topic + \": \" + new_msg.payload;\n\nif (!error) {\n    if (send) {\n        new_msg.destination = new_msg.topic;\n        return [new_msg, { \"payload\": { fill: \"green\", shape: \"dot\", text: status } }];\n    }\n} else {\n    return [null, { \"payload\": { fill: \"red\", shape: \"ring\", text: \"Error! \" + status } }]\n}",
+      "outputs": 2,
+      "timeout": "",
+      "noerr": 0,
+      "initialize": "",
+      "finalize": "",
+      "libs": [],
+      "x": 320,
+      "y": 160,
+      "wires": [
+        [
+          "ddb7426ddd920cda"
+        ],
+        []
+      ]
+    },
+    {
+      "id": "4465afa441eab6f6",
+      "type": "switch",
+      "z": "e0c1caa793877c9f",
+      "name": "",
+      "property": "payload.dpt",
+      "propertyType": "msg",
+      "rules": [
+        {
+          "t": "eq",
+          "v": "9.001",
+          "vt": "str"
+        },
+        {
+          "t": "eq",
+          "v": "5.001",
+          "vt": "str"
+        },
+        {
+          "t": "else"
+        }
+      ],
+      "checkall": "false",
+      "repair": false,
+      "outputs": 3,
+      "x": 575,
+      "y": 100,
+      "wires": [
+        [
+          "107046a35c83b159"
+        ],
+        [
+          "107046a35c83b159"
+        ],
+        []
+      ],
+      "l": false
+    },
+    {
+      "id": "107046a35c83b159",
+      "type": "rbe",
+      "z": "e0c1caa793877c9f",
+      "name": "",
+      "func": "rbe",
+      "gap": "",
+      "start": "",
+      "inout": "out",
+      "septopics": true,
+      "property": "payload",
+      "topi": "topic",
+      "x": 675,
+      "y": 100,
+      "wires": [
+        []
+      ],
+      "l": false
     }
-		]
-    }
+  ]
+}
