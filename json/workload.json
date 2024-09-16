@@ -2,7 +2,7 @@
     "id": "f05f802bc66d0b79",
     "type": "subflow",
     "name": "Workload",
-    "info": "Measures the flow of messages.\r\n\r\n### Inputs\r\n\r\n1. To send a dictionary with objects load, send a message with the topic \"dict\":\r\n\r\n\r\n: topic (string) : **dict**\r\n: payload (any) : Any\r\n\r\n2. To send a current most loaded objects, send a message with the topic \"most_load_ids\":\r\n\r\n\r\n: topic (string) : **most_load_ids**\r\n: payload (any) : Any\r\n\r\n\r\n\r\n### Outputs\r\n1. Current load values.\r\n\r\n: topic (string) : **objects_dict**\r\n: payload (dict) : Dictionary with the number of messages per ID\r\n\r\n: topic (string) : **load_min**\r\n: payload (number) : Number of messages per minute.\r\n\r\n: topic (string) : **load_hour**\r\n: payload (number) : Average number of messages per minute per hour.\r\n\r\n2. The most loaded objects. \r\n\r\nSends the ID numbers and load for the 5 most loaded objects\r\n\r\n: topic (string) : **id_№ / load_№**\r\n: payload (number) : object ID / load for ID",
+    "info": "Measures the flow of messages.\r\n\r\n\r\n### Inputs\r\n\r\nTo recieve a dictionary with objects load, send a message with the topic **\"dict\"**:\r\n\r\n\r\n: topic (string) : **dict**\r\n: payload (any) : Any\r\n\r\nTo recieve a current most loaded objects, send a message with the topic **\"most_loaded_ids\"**:\r\n\r\n\r\n: topic (string) : **most_loaded_ids**\r\n: payload (any) : Any\r\n\r\n\r\n### Outputs\r\n\r\n[]()**1. Current load values**\r\n\r\n: topic (string) : **objects_dict**\r\n: payload (dict) : Dictionary with the number of messages per ID\r\n\r\n: topic (string) : **load_min**\r\n: payload (number) : Number of messages per minute.\r\n\r\n: topic (string) : **load_hour**\r\n: payload (number) : Average number of messages per minute per hour.\r\n\r\n[]()**2. The most loaded objects.**\r\n\r\nSends the ID numbers and load for the 5 most loaded objects.\r\n\r\n: topic (string) : **id_№ / load_№**\r\n: payload (number) : object ID / load for ID\r\n\r\n\r\n### Configuration\r\n\r\n`msg.payload.obj` \r\nmust contain the specified PLC number.  It is set as a number, or a list of numbers.\r\n\r\nFor example: **200** or **[200, 201, 202]**.",
     "category": "SmartUnity",
     "in": [
         {
@@ -64,15 +64,16 @@
                 "type": "input",
                 "opts": {
                     "types": [
-                        "num"
-                    ]
+						"num",
+						"json"
+					]
                 }
             }
         }
     ],
     "meta": {
         "type": "Workload",
-        "version": "1.2.1",
+        "version": "1.2.2",
         "author": "Anton Shefov <a.shefov@gmail.com>",
         "desc": "Measures the flow of messages",
         "keywords": "SmartUnity, SU",
@@ -221,13 +222,13 @@
 			"type": "switch",
 			"z": "f05f802bc66d0b79",
 			"name": "",
-			"property": "payload.obj",
-			"propertyType": "msg",
+			"property": "OBJ",
+			"propertyType": "env",
 			"rules": [
 				{
-					"t": "eq",
-					"v": "OBJ",
-					"vt": "env"
+					"t": "cont",
+					"v": "payload.obj",
+					"vt": "msg"
 				}
 			],
 			"checkall": "false",
