@@ -1,599 +1,687 @@
 {
-	"id": "f05f802bc66d0b79",
-	"type": "subflow",
-	"name": "Workload",
-	"info": "Measures the flow of messages.\r\n\r\n\r\n### Inputs\r\n\r\nTo recieve a dictionary with objects load, send a message with the topic **\"dict\"**:\r\n\r\n\r\n: topic (string) : **dict**\r\n: payload (any) : Any\r\n\r\nTo recieve a current most loaded objects, send a message with the topic **\"most_loaded_ids\"**:\r\n\r\n\r\n: topic (string) : **most_loaded_ids**\r\n: payload (any) : Any\r\n\r\n\r\n### Outputs\r\n\r\n[]()**1. Current load values**\r\n\r\n: topic (string) : **objects_dict**\r\n: payload (dict) : Dictionary with the number of messages per ID\r\n\r\n: topic (string) : **load_min**\r\n: payload (number) : Number of messages per minute.\r\n\r\n: topic (string) : **load_hour**\r\n: payload (number) : Average number of messages per minute per hour.\r\n\r\n[]()**2. The most loaded objects.**\r\n\r\nSends the ID numbers and load for the 5 most loaded objects.\r\n\r\n: topic (string) : **id_№ / load_№**\r\n: payload (number) : object ID / load for ID\r\n\r\n\r\n### Configuration\r\n\r\n`msg.payload.obj` \r\nmust contain the specified PLC number.  It is set as a number, or a list of numbers.\r\n\r\nFor example: **200** or **[200, 201, 202]**.",
-	"category": "SmartUnity",
-	"in": [
-		{
-			"x": 80,
-			"y": 80,
-			"wires": [
-				{
-					"id": "2e07786ab5f013f8"
-				},
-				{
-					"id": "c9d01ddda9e3a071"
-				}
-			]
-		}
-	],
-	"out": [
-		{
-			"x": 700,
-			"y": 80,
-			"wires": [
-				{
-					"id": "6253bcbb0e8b59cc",
-					"port": 0
-				},
-				{
-					"id": "bbccf2778a2b9d2c",
-					"port": 0
-				},
-				{
-					"id": "bbccf2778a2b9d2c",
-					"port": 1
-				},
-				{
-					"id": "bbccf2778a2b9d2c",
-					"port": 2
-				}
-			]
-		},
-		{
-			"x": 700,
-			"y": 440,
-			"wires": [
-				{
-					"id": "e1e5a131d4e196a0",
-					"port": 0
-				}
-			]
-		}
-	],
-	"env": [
-		{
-			"name": "OBJ",
-			"type": "num",
-			"value": "",
-			"ui": {
-				"label": {
-					"ru": "msg.payload.obj"
-				},
-				"type": "input",
-				"opts": {
-					"types": [
-						"num",
-						"json"
-					]
-				}
-			}
-		}
-	],
-	"meta": {
-		"type": "Workload",
-		"version": "1.2.2",
-		"author": "Anton Shefov <a.shefov@gmail.com>",
-		"desc": "Measures the flow of messages",
-		"keywords": "SmartUnity, SU",
-		"license": "MIT"
-	},
-	"color": "#3BB08F",
-	"inputLabels": [
-		"from_SU"
-	],
-	"icon": "font-awesome/fa-bar-chart",
-	"status": {
-		"x": 700,
-		"y": 280,
-		"wires": [
-			{
-				"id": "cc8e3f8c5c770c35",
-				"port": 0
-			},
-			{
-				"id": "b507aea0f75b2cb6",
-				"port": 0
-			},
-			{
-				"id": "6b4acd11b463e8d2",
-				"port": 0
-			}
-		]
-	},
-	"flow": [
-		{
-			"id": "cc8e3f8c5c770c35",
-			"type": "template",
-			"z": "f05f802bc66d0b79",
-			"name": "",
-			"field": "payload",
-			"fieldType": "msg",
-			"format": "json",
-			"syntax": "mustache",
-			"template": "{\n    \"fill\": \"green\",\n    \"shape\":\"dot\",\n    \"text\": \"{{payload}} mes/min\"\n}",
-			"output": "json",
-			"x": 560,
-			"y": 280,
-			"wires": [
-				[]
-			]
-		},
-		{
-			"id": "82a48b34a088f151",
-			"type": "inject",
-			"z": "f05f802bc66d0b79",
-			"name": "",
-			"props": [
-				{
-					"p": "payload"
-				}
-			],
-			"repeat": "",
-			"crontab": "",
-			"once": true,
-			"onceDelay": 0.1,
-			"topic": "",
-			"payload": "{\"fill\":\"grey\",\"shape\":\"ring\",\"text\":\"waiting\"}",
-			"payloadType": "json",
-			"x": 515,
-			"y": 340,
-			"wires": [
-				[
-					"b507aea0f75b2cb6"
-				]
-			],
-			"l": false
-		},
-		{
-			"id": "bbccf2778a2b9d2c",
-			"type": "function",
-			"z": "f05f802bc66d0b79",
-			"name": "Count_messages_per_minute",
-			"func": "var timer = flow.get(\"timer\");\nvar objects_dict = flow.get(\"objects_dict\");\nvar all_packets_counter = flow.get(\"all_packets_counter\");\nvar all_packets = Object.values(objects_dict).reduce((partialSum, a) => partialSum + a, 0);\nvar minute_packets = all_packets - all_packets_counter;\n\nflow.set(\"timer\", timer + 1);\n\nif (timer === 60) {\n    flow.set(\"objects_dict\", {});\n    flow.set(\"all_packets_counter\", 0);\n    flow.set(\"timer\", 0);\n    return [\n        { \"payload\": objects_dict, \"topic\" : \"objects_dict\"},\n        { \"payload\": Math.round(all_packets / 60), \"topic\" : \"load_hour\"},\n        { \"payload\": minute_packets, \"topic\" : \"load_min\"}\n        ]\n}\nflow.set(\"all_packets_counter\", all_packets);\nreturn [null, null, { \"payload\": minute_packets, \"topic\": \"load_min\"}];",
-			"outputs": 3,
-			"timeout": "0",
-			"noerr": 0,
-			"initialize": "",
-			"finalize": "",
-			"libs": [],
-			"x": 290,
-			"y": 280,
-			"wires": [
-				[
-					"d29c7d53d1ebccaf"
-				],
-				[],
-				[
-					"cc8e3f8c5c770c35"
-				]
-			],
-			"outputLabels": [
-				"objects_dict",
-				"mean_minute_packets",
-				"minute_packets"
-			]
-		},
-		{
-			"id": "d500e8feb0e970bd",
-			"type": "inject",
-			"z": "f05f802bc66d0b79",
-			"name": "",
-			"props": [
-				{
-					"p": "payload"
-				}
-			],
-			"repeat": "60",
-			"crontab": "",
-			"once": true,
-			"onceDelay": "60",
-			"topic": "",
-			"payload": "true",
-			"payloadType": "bool",
-			"x": 85,
-			"y": 280,
-			"wires": [
-				[
-					"bbccf2778a2b9d2c"
-				]
-			],
-			"l": false
-		},
-		{
-			"id": "3fd0a790c31bb78a",
-			"type": "function",
-			"z": "f05f802bc66d0b79",
-			"name": "write_to_dict",
-			"func": "var objects_dict = flow.get(\"objects_dict\");\n\n\nif (objects_dict[msg.payload.to] != null){\n    objects_dict[msg.payload.to] = objects_dict[msg.payload.to] + 1;\n} else {\n    objects_dict[msg.payload.to] = 1;\n}\nflow.set(\"objects_dict\", objects_dict);",
-			"outputs": 0,
-			"timeout": "0",
-			"noerr": 0,
-			"initialize": "",
-			"finalize": "",
-			"libs": [],
-			"x": 330,
-			"y": 200,
-			"wires": []
-		},
-		{
-			"id": "c9d01ddda9e3a071",
-			"type": "switch",
-			"z": "f05f802bc66d0b79",
-			"name": "",
-			"property": "OBJ",
-			"propertyType": "env",
-			"rules": [
-				{
-					"t": "cont",
-					"v": "payload.obj",
-					"vt": "msg"
-				}
-			],
-			"checkall": "false",
-			"repair": false,
-			"outputs": 1,
-			"x": 175,
-			"y": 200,
-			"wires": [
-				[
-					"3fd0a790c31bb78a"
-				]
-			],
-			"l": false
-		},
-		{
-			"id": "b507aea0f75b2cb6",
-			"type": "change",
-			"z": "f05f802bc66d0b79",
-			"name": "",
-			"rules": [
-				{
-					"t": "set",
-					"p": "payload",
-					"pt": "msg",
-					"to": "{\"fill\":\"grey\",\"shape\":\"ring\",\"text\":\"waiting\"}",
-					"tot": "json"
-				},
-				{
-					"t": "set",
-					"p": "objects_dict",
-					"pt": "flow",
-					"to": "{}",
-					"tot": "json"
-				},
-				{
-					"t": "set",
-					"p": "all_packets_counter",
-					"pt": "flow",
-					"to": "0",
-					"tot": "num"
-				},
-				{
-					"t": "set",
-					"p": "timer",
-					"pt": "flow",
-					"to": "0",
-					"tot": "num"
-				}
-			],
-			"action": "",
-			"property": "",
-			"from": "",
-			"to": "",
-			"reg": false,
-			"x": 605,
-			"y": 340,
-			"wires": [
-				[]
-			],
-			"l": false
-		},
-		{
-			"id": "2e07786ab5f013f8",
-			"type": "switch",
-			"z": "f05f802bc66d0b79",
-			"name": "",
-			"property": "topic",
-			"propertyType": "msg",
-			"rules": [
-				{
-					"t": "eq",
-					"v": "dict",
-					"vt": "str"
-				},
-				{
-					"t": "eq",
-					"v": "most_loaded_ids",
-					"vt": "str"
-				}
-			],
-			"checkall": "true",
-			"repair": false,
-			"outputs": 2,
-			"x": 175,
-			"y": 80,
-			"wires": [
-				[
-					"6253bcbb0e8b59cc"
-				],
-				[
-					"9caa40650a3e7d1b"
-				]
-			],
-			"l": false
-		},
-		{
-			"id": "6253bcbb0e8b59cc",
-			"type": "change",
-			"z": "f05f802bc66d0b79",
-			"name": "",
-			"rules": [
-				{
-					"t": "set",
-					"p": "payload",
-					"pt": "msg",
-					"to": "objects_dict",
-					"tot": "flow",
-					"dc": true
-				},
-				{
-					"t": "set",
-					"p": "topic",
-					"pt": "msg",
-					"to": "objects_dict",
-					"tot": "str"
-				}
-			],
-			"action": "",
-			"property": "",
-			"from": "",
-			"to": "",
-			"reg": false,
-			"x": 275,
-			"y": 80,
-			"wires": [
-				[]
-			],
-			"l": false
-		},
-		{
-			"id": "07bef620894ec415",
-			"type": "function",
-			"z": "f05f802bc66d0b79",
-			"name": "IDs",
-			"func": "var myObj = msg.payload;\nvar result = {};\nvar ids = {};\nvar load = {};\n\ntry {\n    Object.entries(myObj).forEach(([key, value]) => {\n        result[(value + key)] = key\n    })\n\n    var items = Object.keys(result).map(function (key) {\n        return [key, result[key]];\n    });\n\n    for (let n = 4; n >= 0; n--) {\n        ids['id_' + String(5 - n)] = items.slice(-5)[n][1];\n        load['load_' + String(5 - n)] = String(Math.floor(Number(items.slice(-5)[n][0]) / 10000));\n    }\n\n    return [\n        { \"payload\": ids },\n        { \"payload\": load },\n        { \"payload\": {\n            \"fill\": \"green\",\n            \"shape\": \"dot\",\n            \"text\": \"Data sent\"\n            }}\n            ];\n} catch {\n    return [\n        null,\n        null,\n        {\n            \"payload\": {\n                \"fill\": \"red\",\n                \"shape\": \"dot\",\n                \"text\": \"Error. Not enough data in dict.\"\n                }\n        }\n        ];\n}",
-			"outputs": 3,
-			"timeout": "",
-			"noerr": 0,
-			"initialize": "",
-			"finalize": "",
-			"libs": [],
-			"x": 270,
-			"y": 440,
-			"wires": [
-				[
-					"22b7dc7c3f50565e"
-				],
-				[
-					"22b7dc7c3f50565e"
-				],
-				[
-					"aabe64fd4e255c8a"
-				]
-			]
-		},
-		{
-			"id": "22b7dc7c3f50565e",
-			"type": "split",
-			"z": "f05f802bc66d0b79",
-			"name": "",
-			"splt": "\\n",
-			"spltType": "str",
-			"arraySplt": 1,
-			"arraySpltType": "len",
-			"stream": false,
-			"addname": "topic",
-			"x": 395,
-			"y": 440,
-			"wires": [
-				[
-					"eec78b4de410708f"
-				]
-			],
-			"l": false
-		},
-		{
-			"id": "eec78b4de410708f",
-			"type": "switch",
-			"z": "f05f802bc66d0b79",
-			"name": "",
-			"property": "payload",
-			"propertyType": "msg",
-			"rules": [
-				{
-					"t": "nempty"
-				}
-			],
-			"checkall": "true",
-			"repair": false,
-			"outputs": 1,
-			"x": 495,
-			"y": 440,
-			"wires": [
-				[
-					"e1e5a131d4e196a0"
-				]
-			],
-			"l": false
-		},
-		{
-			"id": "e1e5a131d4e196a0",
-			"type": "change",
-			"z": "f05f802bc66d0b79",
-			"name": "",
-			"rules": [
-				{
-					"t": "delete",
-					"p": "data_array",
-					"pt": "msg"
-				},
-				{
-					"t": "delete",
-					"p": "math",
-					"pt": "msg"
-				},
-				{
-					"t": "delete",
-					"p": "event",
-					"pt": "msg"
-				},
-				{
-					"t": "delete",
-					"p": "parts",
-					"pt": "msg"
-				},
-				{
-					"t": "delete",
-					"p": "payload_in",
-					"pt": "msg"
-				},
-				{
-					"t": "set",
-					"p": "payload",
-					"pt": "msg",
-					"to": "$number(msg.payload)",
-					"tot": "jsonata"
-				}
-			],
-			"action": "",
-			"property": "",
-			"from": "",
-			"to": "",
-			"reg": false,
-			"x": 595,
-			"y": 440,
-			"wires": [
-				[]
-			],
-			"l": false
-		},
-		{
-			"id": "d29c7d53d1ebccaf",
-			"type": "link out",
-			"z": "f05f802bc66d0b79",
-			"name": "link out 6",
-			"mode": "link",
-			"links": [
-				"d7e775ea9af280ba"
-			],
-			"x": 495,
-			"y": 140,
-			"wires": []
-		},
-		{
-			"id": "d7e775ea9af280ba",
-			"type": "link in",
-			"z": "f05f802bc66d0b79",
-			"name": "link in 3",
-			"links": [
-				"d29c7d53d1ebccaf"
-			],
-			"x": 75,
-			"y": 440,
-			"wires": [
-				[
-					"1f33ec0a5a97d46b"
-				]
-			]
-		},
-		{
-			"id": "9caa40650a3e7d1b",
-			"type": "change",
-			"z": "f05f802bc66d0b79",
-			"name": "",
-			"rules": [
-				{
-					"t": "set",
-					"p": "payload",
-					"pt": "msg",
-					"to": "objects_dict",
-					"tot": "flow",
-					"dc": true
-				},
-				{
-					"t": "set",
-					"p": "topic",
-					"pt": "msg",
-					"to": "objects_dict",
-					"tot": "str"
-				}
-			],
-			"action": "",
-			"property": "",
-			"from": "",
-			"to": "",
-			"reg": false,
-			"x": 275,
-			"y": 140,
-			"wires": [
-				[
-					"d29c7d53d1ebccaf"
-				]
-			],
-			"l": false
-		},
-		{
-			"id": "1f33ec0a5a97d46b",
-			"type": "switch",
-			"z": "f05f802bc66d0b79",
-			"name": "",
-			"property": "payload",
-			"propertyType": "msg",
-			"rules": [
-				{
-					"t": "nempty"
-				}
-			],
-			"checkall": "true",
-			"repair": false,
-			"outputs": 1,
-			"x": 155,
-			"y": 440,
-			"wires": [
-				[
-					"07bef620894ec415"
-				]
-			],
-			"l": false
-		},
-		{
-			"id": "aabe64fd4e255c8a",
-			"type": "link out",
-			"z": "f05f802bc66d0b79",
-			"name": "link out 7",
-			"mode": "link",
-			"links": [
-				"6b4acd11b463e8d2"
-			],
-			"x": 395,
-			"y": 500,
-			"wires": []
-		},
-		{
-			"id": "6b4acd11b463e8d2",
-			"type": "link in",
-			"z": "f05f802bc66d0b79",
-			"name": "link in 4",
-			"links": [
-				"aabe64fd4e255c8a"
-			],
-			"x": 605,
-			"y": 220,
-			"wires": [
-				[]
-			]
-		}
-	]
+    "id": "f05f802bc66d0b79",
+    "type": "subflow",
+    "name": "Workload",
+    "info": "Measures the flow of messages.\r\n\r\n\r\n### Inputs\r\n\r\nTo recieve a dictionary with objects load, send a message with the topic **\"dict\"**:\r\n\r\n\r\n: topic (string) : **dict**\r\n: payload (any) : Any\r\n\r\nTo recieve a current most loaded objects, send a message with the topic **\"most_loaded_ids\"**:\r\n\r\n\r\n: topic (string) : **most_loaded_ids**\r\n: payload (any) : Any\r\n\r\n\r\n### Outputs\r\n\r\n[]()**1. Current load values**\r\n\r\n: topic (string) : **load_min**\r\n: payload (number) : Number of messages per minute.\r\n\r\n[]()**2. Additions**\r\n\r\n**Dictionary with the number of messages per ID**\r\n\r\n: topic (string) : **objects_dict**\r\n: payload (dict) : Objects dict\r\n\r\n**Average number of messages per minute per hour.**\r\n\r\n: topic (string) : **load_hour**\r\n: payload (number) : Average number of messages per minute per hour.\r\n\r\n**The most loaded objects.**\r\n\r\nSends the ID numbers and load for the 5 most loaded objects.\r\n\r\n: topic (string) : **id_№ / load_№**\r\n: payload (number) : object ID / load for ID\r\n\r\n\r\n### Configuration\r\n\r\n**Exclude IDs**\r\n\r\nYou can exclude specific IDs from the count. These IDs will not be used to calculate the load.\r\n\r\nFor example, some system objects that regularly send messages, and may interfere with determining the workload of objects.\r\n\r\nSet the object IDs as a **list**.\r\n\r\nFor example: **[1024, 1025, 1026]**.",
+    "category": "SmartUnity",
+    "in": [
+        {
+            "x": 80,
+            "y": 80,
+            "wires": [
+                {
+                    "id": "2e07786ab5f013f8"
+                },
+                {
+                    "id": "c9d01ddda9e3a071"
+                }
+            ]
+        }
+    ],
+    "out": [
+        {
+            "x": 700,
+            "y": 80,
+            "wires": [
+                {
+                    "id": "bbccf2778a2b9d2c",
+                    "port": 2
+                }
+            ]
+        },
+        {
+            "x": 700,
+            "y": 460,
+            "wires": [
+                {
+                    "id": "e1e5a131d4e196a0",
+                    "port": 0
+                },
+                {
+                    "id": "487dd32e3c60027a",
+                    "port": 0
+                }
+            ]
+        }
+    ],
+    "env": [
+        {
+            "name": "EXCLUDE",
+            "type": "json",
+            "value": "[]",
+            "ui": {
+                "label": {
+                    "ru": "Exclude IDs"
+                },
+                "type": "input",
+                "opts": {
+                    "types": [
+                        "json"
+                    ]
+                }
+            }
+        }
+    ],
+    "meta": {
+        "type": "Workload",
+        "version": "1.3.1",
+        "author": "Anton Shefov <a.shefov@gmail.com>",
+        "desc": "Measures the flow of messages",
+        "keywords": "SmartUnity, SU",
+        "license": "MIT"
+    },
+    "color": "#3BB08F",
+    "inputLabels": [
+        "from_SU"
+    ],
+    "icon": "font-awesome/fa-bar-chart",
+    "status": {
+        "x": 700,
+        "y": 280,
+        "wires": [
+            {
+                "id": "cc8e3f8c5c770c35",
+                "port": 0
+            },
+            {
+                "id": "b507aea0f75b2cb6",
+                "port": 0
+            },
+            {
+                "id": "6b4acd11b463e8d2",
+                "port": 0
+            }
+        ]
+    },
+    "flow": [
+        {
+            "id": "cc8e3f8c5c770c35",
+            "type": "template",
+            "z": "f05f802bc66d0b79",
+            "name": "",
+            "field": "payload",
+            "fieldType": "msg",
+            "format": "json",
+            "syntax": "mustache",
+            "template": "{\n    \"fill\": \"green\",\n    \"shape\":\"dot\",\n    \"text\": \"{{payload}} mes/min\"\n}",
+            "output": "json",
+            "x": 560,
+            "y": 280,
+            "wires": [
+                []
+            ]
+        },
+        {
+            "id": "82a48b34a088f151",
+            "type": "inject",
+            "z": "f05f802bc66d0b79",
+            "name": "",
+            "props": [
+                {
+                    "p": "payload"
+                }
+            ],
+            "repeat": "",
+            "crontab": "",
+            "once": true,
+            "onceDelay": 0.1,
+            "topic": "",
+            "payload": "{\"fill\":\"grey\",\"shape\":\"ring\",\"text\":\"waiting\"}",
+            "payloadType": "json",
+            "x": 515,
+            "y": 340,
+            "wires": [
+                [
+                    "b507aea0f75b2cb6"
+                ]
+            ],
+            "l": false
+        },
+        {
+            "id": "bbccf2778a2b9d2c",
+            "type": "function",
+            "z": "f05f802bc66d0b79",
+            "name": "Count_messages_per_minute",
+            "func": "var timer = flow.get(\"timer\");\nvar objects_dict = flow.get(\"objects_dict\");\nvar all_packets_counter = flow.get(\"all_packets_counter\");\nvar all_packets = Object.values(objects_dict).reduce((partialSum, a) => partialSum + a, 0);\nvar minute_packets = all_packets - all_packets_counter;\n\nflow.set(\"timer\", timer + 1);\n\nif (timer === 60) {\n    flow.set(\"objects_dict\", {});\n    flow.set(\"all_packets_counter\", 0);\n    flow.set(\"timer\", 0);\n    return [\n        { \"payload\": objects_dict, \"topic\" : \"objects_dict\"},\n        { \"payload\": Math.round(all_packets / 60), \"topic\" : \"load_hour\"},\n        { \"payload\": minute_packets, \"topic\" : \"load_min\"}\n        ]\n}\nflow.set(\"all_packets_counter\", all_packets);\nreturn [null, null, { \"payload\": minute_packets, \"topic\": \"load_min\"}];",
+            "outputs": 3,
+            "timeout": "0",
+            "noerr": 0,
+            "initialize": "",
+            "finalize": "",
+            "libs": [],
+            "x": 290,
+            "y": 280,
+            "wires": [
+                [
+                    "d29c7d53d1ebccaf"
+                ],
+                [
+                    "cc98d55f54d4bdeb"
+                ],
+                [
+                    "cc8e3f8c5c770c35"
+                ]
+            ],
+            "outputLabels": [
+                "objects_dict",
+                "mean_minute_packets",
+                "minute_packets"
+            ]
+        },
+        {
+            "id": "d500e8feb0e970bd",
+            "type": "inject",
+            "z": "f05f802bc66d0b79",
+            "name": "",
+            "props": [
+                {
+                    "p": "payload"
+                }
+            ],
+            "repeat": "60",
+            "crontab": "",
+            "once": true,
+            "onceDelay": "60",
+            "topic": "",
+            "payload": "true",
+            "payloadType": "bool",
+            "x": 85,
+            "y": 280,
+            "wires": [
+                [
+                    "bbccf2778a2b9d2c"
+                ]
+            ],
+            "l": false
+        },
+        {
+            "id": "3fd0a790c31bb78a",
+            "type": "function",
+            "z": "f05f802bc66d0b79",
+            "name": "write_to_dict",
+            "func": "var objects_dict = flow.get(\"objects_dict\");\n\n\nif (objects_dict[msg.payload.to] != null){\n    objects_dict[msg.payload.to] = objects_dict[msg.payload.to] + 1;\n} else {\n    objects_dict[msg.payload.to] = 1;\n}\nflow.set(\"objects_dict\", objects_dict);",
+            "outputs": 0,
+            "timeout": "0",
+            "noerr": 0,
+            "initialize": "",
+            "finalize": "",
+            "libs": [],
+            "x": 330,
+            "y": 200,
+            "wires": []
+        },
+        {
+            "id": "c9d01ddda9e3a071",
+            "type": "switch",
+            "z": "f05f802bc66d0b79",
+            "name": "",
+            "property": "payload.obj",
+            "propertyType": "msg",
+            "rules": [
+                {
+                    "t": "nnull"
+                }
+            ],
+            "checkall": "false",
+            "repair": false,
+            "outputs": 1,
+            "x": 95,
+            "y": 200,
+            "wires": [
+                [
+                    "a649991a31944e4e"
+                ]
+            ],
+            "l": false
+        },
+        {
+            "id": "b507aea0f75b2cb6",
+            "type": "change",
+            "z": "f05f802bc66d0b79",
+            "name": "",
+            "rules": [
+                {
+                    "t": "set",
+                    "p": "payload",
+                    "pt": "msg",
+                    "to": "{\"fill\":\"grey\",\"shape\":\"ring\",\"text\":\"waiting\"}",
+                    "tot": "json"
+                },
+                {
+                    "t": "set",
+                    "p": "objects_dict",
+                    "pt": "flow",
+                    "to": "{}",
+                    "tot": "json"
+                },
+                {
+                    "t": "set",
+                    "p": "all_packets_counter",
+                    "pt": "flow",
+                    "to": "0",
+                    "tot": "num"
+                },
+                {
+                    "t": "set",
+                    "p": "timer",
+                    "pt": "flow",
+                    "to": "0",
+                    "tot": "num"
+                }
+            ],
+            "action": "",
+            "property": "",
+            "from": "",
+            "to": "",
+            "reg": false,
+            "x": 605,
+            "y": 340,
+            "wires": [
+                []
+            ],
+            "l": false
+        },
+        {
+            "id": "2e07786ab5f013f8",
+            "type": "switch",
+            "z": "f05f802bc66d0b79",
+            "name": "",
+            "property": "topic",
+            "propertyType": "msg",
+            "rules": [
+                {
+                    "t": "eq",
+                    "v": "dict",
+                    "vt": "str"
+                },
+                {
+                    "t": "eq",
+                    "v": "most_loaded_ids",
+                    "vt": "str"
+                }
+            ],
+            "checkall": "true",
+            "repair": false,
+            "outputs": 2,
+            "x": 175,
+            "y": 80,
+            "wires": [
+                [
+                    "6253bcbb0e8b59cc"
+                ],
+                [
+                    "9caa40650a3e7d1b"
+                ]
+            ],
+            "l": false
+        },
+        {
+            "id": "6253bcbb0e8b59cc",
+            "type": "change",
+            "z": "f05f802bc66d0b79",
+            "name": "",
+            "rules": [
+                {
+                    "t": "set",
+                    "p": "payload",
+                    "pt": "msg",
+                    "to": "objects_dict",
+                    "tot": "flow",
+                    "dc": true
+                },
+                {
+                    "t": "set",
+                    "p": "topic",
+                    "pt": "msg",
+                    "to": "objects_dict",
+                    "tot": "str"
+                }
+            ],
+            "action": "",
+            "property": "",
+            "from": "",
+            "to": "",
+            "reg": false,
+            "x": 275,
+            "y": 80,
+            "wires": [
+                [
+                    "3366041aa7e2a252"
+                ]
+            ],
+            "l": false
+        },
+        {
+            "id": "07bef620894ec415",
+            "type": "function",
+            "z": "f05f802bc66d0b79",
+            "name": "IDs",
+            "func": "var myObj = msg.payload;\nvar result = {};\nvar ids = {};\nvar load = {};\n\ntry {\n    Object.entries(myObj).forEach(([key, value]) => {\n        result[(value + key)] = key\n    })\n\n    var items = Object.keys(result).map(function (key) {\n        return [key, result[key]];\n    });\n\n    for (let n = 4; n >= 0; n--) {\n        ids['id_' + String(5 - n)] = items.slice(-5)[n][1];\n        load['load_' + String(5 - n)] = String(Math.floor(Number(items.slice(-5)[n][0]) / 10000));\n    }\n\n    return [\n        { \"payload\": ids },\n        { \"payload\": load },\n        { \"payload\": {\n            \"fill\": \"green\",\n            \"shape\": \"dot\",\n            \"text\": \"Data sent\"\n            }}\n            ];\n} catch {\n    return [\n        null,\n        null,\n        {\n            \"payload\": {\n                \"fill\": \"red\",\n                \"shape\": \"dot\",\n                \"text\": \"Error. Not enough data in dict.\"\n                }\n        }\n        ];\n}",
+            "outputs": 3,
+            "timeout": "",
+            "noerr": 0,
+            "initialize": "",
+            "finalize": "",
+            "libs": [],
+            "x": 270,
+            "y": 460,
+            "wires": [
+                [
+                    "22b7dc7c3f50565e"
+                ],
+                [
+                    "22b7dc7c3f50565e"
+                ],
+                [
+                    "aabe64fd4e255c8a"
+                ]
+            ]
+        },
+        {
+            "id": "22b7dc7c3f50565e",
+            "type": "split",
+            "z": "f05f802bc66d0b79",
+            "name": "",
+            "splt": "\\n",
+            "spltType": "str",
+            "arraySplt": 1,
+            "arraySpltType": "len",
+            "stream": false,
+            "addname": "topic",
+            "x": 395,
+            "y": 460,
+            "wires": [
+                [
+                    "eec78b4de410708f"
+                ]
+            ],
+            "l": false
+        },
+        {
+            "id": "eec78b4de410708f",
+            "type": "switch",
+            "z": "f05f802bc66d0b79",
+            "name": "",
+            "property": "payload",
+            "propertyType": "msg",
+            "rules": [
+                {
+                    "t": "nempty"
+                }
+            ],
+            "checkall": "true",
+            "repair": false,
+            "outputs": 1,
+            "x": 495,
+            "y": 460,
+            "wires": [
+                [
+                    "e1e5a131d4e196a0"
+                ]
+            ],
+            "l": false
+        },
+        {
+            "id": "e1e5a131d4e196a0",
+            "type": "change",
+            "z": "f05f802bc66d0b79",
+            "name": "",
+            "rules": [
+                {
+                    "t": "delete",
+                    "p": "data_array",
+                    "pt": "msg"
+                },
+                {
+                    "t": "delete",
+                    "p": "math",
+                    "pt": "msg"
+                },
+                {
+                    "t": "delete",
+                    "p": "event",
+                    "pt": "msg"
+                },
+                {
+                    "t": "delete",
+                    "p": "parts",
+                    "pt": "msg"
+                },
+                {
+                    "t": "delete",
+                    "p": "payload_in",
+                    "pt": "msg"
+                },
+                {
+                    "t": "set",
+                    "p": "payload",
+                    "pt": "msg",
+                    "to": "$number(msg.payload)",
+                    "tot": "jsonata"
+                }
+            ],
+            "action": "",
+            "property": "",
+            "from": "",
+            "to": "",
+            "reg": false,
+            "x": 605,
+            "y": 460,
+            "wires": [
+                []
+            ],
+            "l": false
+        },
+        {
+            "id": "d29c7d53d1ebccaf",
+            "type": "link out",
+            "z": "f05f802bc66d0b79",
+            "name": "link out 6",
+            "mode": "link",
+            "links": [
+                "d7e775ea9af280ba"
+            ],
+            "x": 495,
+            "y": 140,
+            "wires": []
+        },
+        {
+            "id": "d7e775ea9af280ba",
+            "type": "link in",
+            "z": "f05f802bc66d0b79",
+            "name": "link in 3",
+            "links": [
+                "d29c7d53d1ebccaf"
+            ],
+            "x": 75,
+            "y": 460,
+            "wires": [
+                [
+                    "1f33ec0a5a97d46b"
+                ]
+            ]
+        },
+        {
+            "id": "9caa40650a3e7d1b",
+            "type": "change",
+            "z": "f05f802bc66d0b79",
+            "name": "",
+            "rules": [
+                {
+                    "t": "set",
+                    "p": "payload",
+                    "pt": "msg",
+                    "to": "objects_dict",
+                    "tot": "flow",
+                    "dc": true
+                },
+                {
+                    "t": "set",
+                    "p": "topic",
+                    "pt": "msg",
+                    "to": "objects_dict",
+                    "tot": "str"
+                }
+            ],
+            "action": "",
+            "property": "",
+            "from": "",
+            "to": "",
+            "reg": false,
+            "x": 275,
+            "y": 140,
+            "wires": [
+                [
+                    "d29c7d53d1ebccaf"
+                ]
+            ],
+            "l": false
+        },
+        {
+            "id": "1f33ec0a5a97d46b",
+            "type": "switch",
+            "z": "f05f802bc66d0b79",
+            "name": "",
+            "property": "payload",
+            "propertyType": "msg",
+            "rules": [
+                {
+                    "t": "nempty"
+                }
+            ],
+            "checkall": "true",
+            "repair": false,
+            "outputs": 1,
+            "x": 155,
+            "y": 460,
+            "wires": [
+                [
+                    "07bef620894ec415"
+                ]
+            ],
+            "l": false
+        },
+        {
+            "id": "aabe64fd4e255c8a",
+            "type": "link out",
+            "z": "f05f802bc66d0b79",
+            "name": "link out 7",
+            "mode": "link",
+            "links": [
+                "6b4acd11b463e8d2"
+            ],
+            "x": 395,
+            "y": 520,
+            "wires": []
+        },
+        {
+            "id": "6b4acd11b463e8d2",
+            "type": "link in",
+            "z": "f05f802bc66d0b79",
+            "name": "link in 4",
+            "links": [
+                "aabe64fd4e255c8a"
+            ],
+            "x": 605,
+            "y": 220,
+            "wires": [
+                []
+            ]
+        },
+        {
+            "id": "a649991a31944e4e",
+            "type": "switch",
+            "z": "f05f802bc66d0b79",
+            "name": "",
+            "property": "EXCLUDE",
+            "propertyType": "env",
+            "rules": [
+                {
+                    "t": "cont",
+                    "v": "payload.to",
+                    "vt": "msg"
+                },
+                {
+                    "t": "else"
+                }
+            ],
+            "checkall": "false",
+            "repair": false,
+            "outputs": 2,
+            "x": 175,
+            "y": 200,
+            "wires": [
+                [],
+                [
+                    "3fd0a790c31bb78a"
+                ]
+            ],
+            "l": false
+        },
+        {
+            "id": "487dd32e3c60027a",
+            "type": "link in",
+            "z": "f05f802bc66d0b79",
+            "name": "link in 9",
+            "links": [
+                "cc98d55f54d4bdeb",
+                "c58d417927673334"
+            ],
+            "x": 605,
+            "y": 400,
+            "wires": [
+                []
+            ]
+        },
+        {
+            "id": "cc98d55f54d4bdeb",
+            "type": "link out",
+            "z": "f05f802bc66d0b79",
+            "name": "link out 12",
+            "mode": "link",
+            "links": [
+                "487dd32e3c60027a"
+            ],
+            "x": 495,
+            "y": 200,
+            "wires": []
+        },
+        {
+            "id": "c58d417927673334",
+            "type": "link out",
+            "z": "f05f802bc66d0b79",
+            "name": "link out 13",
+            "mode": "link",
+            "links": [
+                "487dd32e3c60027a"
+            ],
+            "x": 495,
+            "y": 80,
+            "wires": []
+        },
+        {
+            "id": "3366041aa7e2a252",
+            "type": "switch",
+            "z": "f05f802bc66d0b79",
+            "name": "",
+            "property": "payload",
+            "propertyType": "msg",
+            "rules": [
+                {
+                    "t": "nempty"
+                }
+            ],
+            "checkall": "true",
+            "repair": false,
+            "outputs": 1,
+            "x": 375,
+            "y": 80,
+            "wires": [
+                [
+                    "c58d417927673334"
+                ]
+            ],
+            "l": false
+        }
+    ]
 }
