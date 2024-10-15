@@ -59,13 +59,19 @@
     ],
     "meta": {
         "type": "Status request",
-        "version": "1.3.1",
+        "version": "1.3.2",
         "author": "Anton Shefov <a.shefov@gmail.com>",
         "desc": "Requests the status of objects",
         "license": "MIT",
         "keywords": "SmartUnity, SU"
     },
     "color": "#3BB08F",
+	"inputLabels": [
+		"from_nodes"
+	],
+	"outputLabels": [
+		"to_SU"
+	],
     "icon": "font-awesome/fa-refresh",
     "status": {
         "x": 1080,
@@ -95,650 +101,642 @@
     },
     "flow": [
         {
-            "id": "56b68999746c53ce",
-            "type": "delay",
-            "z": "f60de3fc5c8806d7",
-            "name": "",
-            "pauseType": "rate",
-            "timeout": "5",
-            "timeoutUnits": "seconds",
-            "rate": "10",
-            "nbRateUnits": "1",
-            "rateUnits": "second",
-            "randomFirst": "1",
-            "randomLast": "5",
-            "randomUnits": "seconds",
-            "drop": false,
-            "allowrate": false,
-            "outputs": 1,
-            "x": 575,
-            "y": 140,
-            "wires": [
-                [
-                    "1a1122ade8f68883"
-                ]
-            ],
-            "l": false
-        },
-        {
-            "id": "7ff4eeadf8a5716a",
-            "type": "split",
-            "z": "f60de3fc5c8806d7",
-            "name": "",
-            "splt": "\\n",
-            "spltType": "str",
-            "arraySplt": 1,
-            "arraySpltType": "len",
-            "stream": false,
-            "addname": "topic",
-            "x": 275,
-            "y": 180,
-            "wires": [
-                [
-                    "8eb24e30924742c8"
-                ]
-            ],
-            "l": false
-        },
-        {
-            "id": "8eb24e30924742c8",
-            "type": "change",
-            "z": "f60de3fc5c8806d7",
-            "name": "",
-            "rules": [
-                {
-                    "t": "delete",
-                    "p": "parts",
-                    "pt": "msg"
-                },
-                {
-                    "t": "set",
-                    "p": "type",
-                    "pt": "msg",
-                    "to": "GET_STATUS_MB",
-                    "tot": "str"
-                },
-                {
-                    "t": "set",
-                    "p": "object_id",
-                    "pt": "msg",
-                    "to": "payload",
-                    "tot": "msg",
-                    "dc": true
-                },
-                {
-                    "t": "set",
-                    "p": "payload",
-                    "pt": "msg",
-                    "to": "topic",
-                    "tot": "msg",
-                    "dc": true
-                },
-                {
-                    "t": "delete",
-                    "p": "topic",
-                    "pt": "msg"
-                },
-                {
-                    "t": "set",
-                    "p": "payload",
-                    "pt": "msg",
-                    "to": "$number(msg.payload)",
-                    "tot": "jsonata"
-                }
-            ],
-            "action": "",
-            "property": "",
-            "from": "",
-            "to": "",
-            "reg": false,
-            "x": 375,
-            "y": 180,
-            "wires": [
-                [
-                    "f35218fbbd66920e"
-                ]
-            ],
-            "l": false
-        },
-        {
-            "id": "402c4d2398c6224f",
-            "type": "switch",
-            "z": "f60de3fc5c8806d7",
-            "name": "",
-            "property": "TYPE",
-            "propertyType": "env",
-            "rules": [
-                {
-                    "t": "eq",
-                    "v": "common",
-                    "vt": "str"
-                },
-                {
-                    "t": "eq",
-                    "v": "modbus",
-                    "vt": "str"
-                }
-            ],
-            "checkall": "false",
-            "repair": false,
-            "outputs": 2,
-            "x": 185,
-            "y": 140,
-            "wires": [
-                [
-                    "35b55df410e8d171"
-                ],
-                [
-                    "7ff4eeadf8a5716a"
-                ]
-            ],
-            "l": false
-        },
-        {
-            "id": "35b55df410e8d171",
-            "type": "split",
-            "z": "f60de3fc5c8806d7",
-            "name": "",
-            "splt": "\\n",
-            "spltType": "str",
-            "arraySplt": 1,
-            "arraySpltType": "len",
-            "stream": false,
-            "addname": "topic",
-            "x": 275,
-            "y": 100,
-            "wires": [
-                [
-                    "bb5349d87ba6e7f7"
-                ]
-            ],
-            "l": false
-        },
-        {
-            "id": "bb5349d87ba6e7f7",
-            "type": "change",
-            "z": "f60de3fc5c8806d7",
-            "name": "",
-            "rules": [
-                {
-                    "t": "delete",
-                    "p": "parts",
-                    "pt": "msg"
-                },
-                {
-                    "t": "set",
-                    "p": "type",
-                    "pt": "msg",
-                    "to": "GET_STATUS",
-                    "tot": "str"
-                },
-                {
-                    "t": "set",
-                    "p": "object_id",
-                    "pt": "msg",
-                    "to": "payload",
-                    "tot": "msg",
-                    "dc": true
-                },
-                {
-                    "t": "set",
-                    "p": "payload",
-                    "pt": "msg",
-                    "to": "topic",
-                    "tot": "msg",
-                    "dc": true
-                },
-                {
-                    "t": "delete",
-                    "p": "topic",
-                    "pt": "msg"
-                },
-                {
-                    "t": "set",
-                    "p": "payload",
-                    "pt": "msg",
-                    "to": "$number(msg.payload)",
-                    "tot": "jsonata"
-                }
-            ],
-            "action": "",
-            "property": "",
-            "from": "",
-            "to": "",
-            "reg": false,
-            "x": 375,
-            "y": 100,
-            "wires": [
-                [
-                    "f35218fbbd66920e"
-                ]
-            ],
-            "l": false
-        },
-        {
-            "id": "840344748736b0da",
-            "type": "status",
-            "z": "f60de3fc5c8806d7",
-            "name": "",
-            "scope": [
-                "56b68999746c53ce"
-            ],
-            "x": 140,
-            "y": 440,
-            "wires": [
-                [
-                    "d257c307ce5e28bb"
-                ]
+        "id": "56b68999746c53ce",
+        "type": "delay",
+        "z": "f60de3fc5c8806d7",
+        "name": "",
+        "pauseType": "rate",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "10",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 575,
+        "y": 140,
+        "wires": [
+            [
+                "1a1122ade8f68883"
             ]
-        },
-        {
-            "id": "d257c307ce5e28bb",
-            "type": "change",
-            "z": "f60de3fc5c8806d7",
-            "name": "",
-            "rules": [
-                {
-                    "t": "set",
-                    "p": "payload",
-                    "pt": "msg",
-                    "to": "status.text",
-                    "tot": "msg",
-                    "dc": true
-                },
-                {
-                    "t": "set",
-                    "p": "payload",
-                    "pt": "msg",
-                    "to": "$number(payload)",
-                    "tot": "jsonata"
-                },
-                {
-                    "t": "delete",
-                    "p": "status",
-                    "pt": "msg"
-                }
-            ],
-            "action": "",
-            "property": "",
-            "from": "",
-            "to": "",
-            "reg": false,
-            "x": 275,
-            "y": 440,
-            "wires": [
-                [
-                    "13fcc9f2551e7658"
-                ]
-            ],
-            "l": false
-        },
-        {
-            "id": "13fcc9f2551e7658",
-            "type": "switch",
-            "z": "f60de3fc5c8806d7",
-            "name": "",
-            "property": "payload",
-            "propertyType": "msg",
-            "rules": [
-                {
-                    "t": "gt",
-                    "v": "150",
-                    "vt": "num"
-                },
-                {
-                    "t": "lt",
-                    "v": "50",
-                    "vt": "num"
-                }
-            ],
-            "checkall": "true",
-            "repair": false,
-            "outputs": 2,
-            "x": 375,
-            "y": 440,
-            "wires": [
-                [
-                    "cc09dbc158a3b455"
-                ],
-                [
-                    "0f553a13c10e3779"
-                ]
-            ],
-            "l": false
-        },
-        {
-            "id": "cc09dbc158a3b455",
-            "type": "trigger",
-            "z": "f60de3fc5c8806d7",
-            "name": "",
-            "op1": "",
-            "op2": "false",
-            "op1type": "nul",
-            "op2type": "bool",
-            "duration": "1",
-            "extend": false,
-            "overrideDelay": false,
-            "units": "min",
-            "reset": "",
-            "bytopic": "all",
-            "topic": "topic",
-            "outputs": 1,
-            "x": 585,
-            "y": 440,
-            "wires": [
-                [
-                    "b50ce66f2ec6495a"
-                ]
-            ],
-            "l": false
-        },
-        {
-            "id": "0f553a13c10e3779",
-            "type": "change",
-            "z": "f60de3fc5c8806d7",
-            "name": "",
-            "rules": [
-                {
-                    "t": "set",
-                    "p": "reset",
-                    "pt": "msg",
-                    "to": "true",
-                    "tot": "bool"
-                },
-                {
-                    "t": "set",
-                    "p": "payload",
-                    "pt": "msg",
-                    "to": "true",
-                    "tot": "bool"
-                },
-                {
-                    "t": "set",
-                    "p": "allow_recieve",
-                    "pt": "flow",
-                    "to": "true",
-                    "tot": "bool"
-                }
-            ],
-            "action": "",
-            "property": "",
-            "from": "",
-            "to": "",
-            "reg": false,
-            "x": 475,
-            "y": 480,
-            "wires": [
-                [
-                    "cc09dbc158a3b455"
-                ]
-            ],
-            "l": false
-        },
-        {
-            "id": "b50ce66f2ec6495a",
-            "type": "change",
-            "z": "f60de3fc5c8806d7",
-            "name": "",
-            "rules": [
-                {
-                    "t": "set",
-                    "p": "allow_recieve",
-                    "pt": "flow",
-                    "to": "payload",
-                    "tot": "msg",
-                    "dc": true
-                }
-            ],
-            "action": "",
-            "property": "",
-            "from": "",
-            "to": "",
-            "reg": false,
-            "x": 695,
-            "y": 440,
-            "wires": [
-                [
-                    "07fa8e2bc6744c05"
-                ]
-            ],
-            "l": false
-        },
-        {
-            "id": "aca986de9627f350",
-            "type": "inject",
-            "z": "f60de3fc5c8806d7",
-            "name": "",
-            "props": [
-                {
-                    "p": "payload"
-                }
-            ],
-            "repeat": "",
-            "crontab": "",
-            "once": true,
-            "onceDelay": 0.1,
-            "topic": "",
-            "payload": "true",
-            "payloadType": "bool",
-            "x": 550,
-            "y": 380,
-            "wires": [
-                [
-                    "b50ce66f2ec6495a",
-                    "0bf797f224bf66de"
-                ]
-            ]
-        },
-        {
-            "id": "f35218fbbd66920e",
-            "type": "switch",
-            "z": "f60de3fc5c8806d7",
-            "name": "",
-            "property": "allow_recieve",
-            "propertyType": "flow",
-            "rules": [
-                {
-                    "t": "true"
-                }
-            ],
-            "checkall": "true",
-            "repair": false,
-            "outputs": 1,
-            "x": 475,
-            "y": 140,
-            "wires": [
-                [
-                    "56b68999746c53ce"
-                ]
-            ],
-            "l": false
-        },
-        {
-            "id": "07fa8e2bc6744c05",
-            "type": "switch",
-            "z": "f60de3fc5c8806d7",
-            "name": "",
-            "property": "payload",
-            "propertyType": "msg",
-            "rules": [
-                {
-                    "t": "false"
-                }
-            ],
-            "checkall": "true",
-            "repair": false,
-            "outputs": 1,
-            "x": 795,
-            "y": 440,
-            "wires": [
-                [
-                    "87fb11e5f7e7a32c"
-                ]
-            ],
-            "l": false
-        },
-        {
-            "id": "87fb11e5f7e7a32c",
-            "type": "template",
-            "z": "f60de3fc5c8806d7",
-            "name": "",
-            "field": "payload",
-            "fieldType": "msg",
-            "format": "json",
-            "syntax": "plain",
-            "template": "{ \"fill\": \"red\", \"shape\": \"dot\", \"text\": \"Buffer overload! New commands will be ignored.\" }",
-            "output": "json",
-            "x": 940,
-            "y": 440,
-            "wires": [
-                []
-            ]
-        },
-        {
-            "id": "5f62f543a02f82d2",
-            "type": "switch",
-            "z": "f60de3fc5c8806d7",
-            "name": "",
-            "property": "allow_recieve",
-            "propertyType": "flow",
-            "rules": [
-                {
-                    "t": "true"
-                }
-            ],
-            "checkall": "true",
-            "repair": false,
-            "outputs": 1,
-            "x": 985,
-            "y": 200,
-            "wires": [
-                []
-            ],
-            "l": false
-        },
-        {
-            "id": "1a1122ade8f68883",
-            "type": "switch",
-            "z": "f60de3fc5c8806d7",
-            "name": "",
-            "property": "type",
-            "propertyType": "msg",
-            "rules": [
-                {
-                    "t": "nnull"
-                },
-                {
-                    "t": "else"
-                }
-            ],
-            "checkall": "false",
-            "repair": false,
-            "outputs": 2,
-            "x": 675,
-            "y": 140,
-            "wires": [
-                [
-                    "64dbd00f6e5ec240"
-                ],
-                [
-                    "2e388060c4f5e020"
-                ]
-            ],
-            "l": false
-        },
-        {
-            "id": "64dbd00f6e5ec240",
-            "type": "switch",
-            "z": "f60de3fc5c8806d7",
-            "name": "",
-            "property": "object_id",
-            "propertyType": "msg",
-            "rules": [
-                {
-                    "t": "nnull"
-                },
-                {
-                    "t": "else"
-                }
-            ],
-            "checkall": "false",
-            "repair": false,
-            "outputs": 2,
-            "x": 775,
-            "y": 140,
-            "wires": [
-                [
-                    "f3b1585d893c6943"
-                ],
-                [
-                    "80a3ad8b7173126e"
-                ]
-            ],
-            "l": false
-        },
-        {
-            "id": "2e388060c4f5e020",
-            "type": "template",
-            "z": "f60de3fc5c8806d7",
-            "name": "Object type is empty",
-            "field": "payload",
-            "fieldType": "msg",
-            "format": "json",
-            "syntax": "mustache",
-            "template": "{ \n    \"fill\": \"red\",\n    \"shape\": \"dot\",\n    \"text\": \"Object type is empty. ID: {{object_id}}\"\n}",
-            "output": "json",
-            "x": 900,
-            "y": 320,
-            "wires": [
-                []
-            ]
-        },
-        {
-            "id": "80a3ad8b7173126e",
-            "type": "template",
-            "z": "f60de3fc5c8806d7",
-            "name": "Object ID is empty",
-            "field": "payload",
-            "fieldType": "msg",
-            "format": "json",
-            "syntax": "mustache",
-            "template": "{ \n    \"fill\": \"red\",\n    \"shape\": \"dot\",\n    \"text\": \"Object ID is empty.\"\n}",
-            "output": "json",
-            "x": 910,
-            "y": 260,
-            "wires": [
-                []
-            ]
-        },
-        {
-            "id": "0bf797f224bf66de",
-            "type": "template",
-            "z": "f60de3fc5c8806d7",
-            "name": "Waiting",
-            "field": "payload",
-            "fieldType": "msg",
-            "format": "json",
-            "syntax": "plain",
-            "template": "{ \"fill\": \"grey\", \"shape\": \"ring\", \"text\": \"waiting\" }",
-            "output": "json",
-            "x": 940,
-            "y": 380,
-            "wires": [
-                []
-            ]
-        },
-        {
-            "id": "f3b1585d893c6943",
-            "type": "junction",
-            "z": "f60de3fc5c8806d7",
-            "x": 880,
-            "y": 140,
-            "wires": [
-                [
-                    "5f62f543a02f82d2"
-                ]
-            ]
-        }
+        ],
+        "l": false
+		},
+		{
+			"id": "7ff4eeadf8a5716a",
+			"type": "split",
+			"z": "f60de3fc5c8806d7",
+			"name": "",
+			"splt": "\\n",
+			"spltType": "str",
+			"arraySplt": 1,
+			"arraySpltType": "len",
+			"stream": false,
+			"addname": "topic",
+			"x": 275,
+			"y": 180,
+			"wires": [
+				[
+					"8eb24e30924742c8"
+				]
+			],
+			"l": false
+		},
+		{
+			"id": "8eb24e30924742c8",
+			"type": "change",
+			"z": "f60de3fc5c8806d7",
+			"name": "",
+			"rules": [
+				{
+					"t": "delete",
+					"p": "parts",
+					"pt": "msg"
+				},
+				{
+					"t": "set",
+					"p": "type",
+					"pt": "msg",
+					"to": "GET_STATUS_MB",
+					"tot": "str"
+				},
+				{
+					"t": "set",
+					"p": "object_id",
+					"pt": "msg",
+					"to": "payload",
+					"tot": "msg",
+					"dc": true
+				},
+				{
+					"t": "set",
+					"p": "payload",
+					"pt": "msg",
+					"to": "topic",
+					"tot": "msg",
+					"dc": true
+				},
+				{
+					"t": "delete",
+					"p": "topic",
+					"pt": "msg"
+				},
+				{
+					"t": "set",
+					"p": "payload",
+					"pt": "msg",
+					"to": "$number(msg.payload)",
+					"tot": "jsonata"
+				}
+			],
+			"action": "",
+			"property": "",
+			"from": "",
+			"to": "",
+			"reg": false,
+			"x": 375,
+			"y": 180,
+			"wires": [
+				[
+					"f35218fbbd66920e"
+				]
+			],
+			"l": false
+		},
+		{
+			"id": "402c4d2398c6224f",
+			"type": "switch",
+			"z": "f60de3fc5c8806d7",
+			"name": "",
+			"property": "TYPE",
+			"propertyType": "env",
+			"rules": [
+				{
+					"t": "eq",
+					"v": "common",
+					"vt": "str"
+				},
+				{
+					"t": "eq",
+					"v": "modbus",
+					"vt": "str"
+				}
+			],
+			"checkall": "false",
+			"repair": false,
+			"outputs": 2,
+			"x": 185,
+			"y": 140,
+			"wires": [
+				[
+					"35b55df410e8d171"
+				],
+				[
+					"7ff4eeadf8a5716a"
+				]
+			],
+			"l": false
+		},
+		{
+			"id": "35b55df410e8d171",
+			"type": "split",
+			"z": "f60de3fc5c8806d7",
+			"name": "",
+			"splt": "\\n",
+			"spltType": "str",
+			"arraySplt": 1,
+			"arraySpltType": "len",
+			"stream": false,
+			"addname": "topic",
+			"x": 275,
+			"y": 100,
+			"wires": [
+				[
+					"bb5349d87ba6e7f7"
+				]
+			],
+			"l": false
+		},
+		{
+			"id": "bb5349d87ba6e7f7",
+			"type": "change",
+			"z": "f60de3fc5c8806d7",
+			"name": "",
+			"rules": [
+				{
+					"t": "delete",
+					"p": "parts",
+					"pt": "msg"
+				},
+				{
+					"t": "set",
+					"p": "type",
+					"pt": "msg",
+					"to": "GET_STATUS",
+					"tot": "str"
+				},
+				{
+					"t": "set",
+					"p": "object_id",
+					"pt": "msg",
+					"to": "topic",
+					"tot": "msg",
+					"dc": true
+				},
+				{
+					"t": "set",
+					"p": "object_id",
+					"pt": "msg",
+					"to": "$number(msg.object_id)",
+					"tot": "jsonata"
+				},
+				{
+					"t": "delete",
+					"p": "topic",
+					"pt": "msg"
+				}
+			],
+			"action": "",
+			"property": "",
+			"from": "",
+			"to": "",
+			"reg": false,
+			"x": 375,
+			"y": 100,
+			"wires": [
+				[
+					"f35218fbbd66920e"
+				]
+			],
+			"l": false
+		},
+		{
+			"id": "840344748736b0da",
+			"type": "status",
+			"z": "f60de3fc5c8806d7",
+			"name": "",
+			"scope": [
+				"56b68999746c53ce"
+			],
+			"x": 140,
+			"y": 440,
+			"wires": [
+				[
+					"d257c307ce5e28bb"
+				]
+			]
+		},
+		{
+			"id": "d257c307ce5e28bb",
+			"type": "change",
+			"z": "f60de3fc5c8806d7",
+			"name": "",
+			"rules": [
+				{
+					"t": "set",
+					"p": "payload",
+					"pt": "msg",
+					"to": "status.text",
+					"tot": "msg",
+					"dc": true
+				},
+				{
+					"t": "set",
+					"p": "payload",
+					"pt": "msg",
+					"to": "$number(payload)",
+					"tot": "jsonata"
+				},
+				{
+					"t": "delete",
+					"p": "status",
+					"pt": "msg"
+				}
+			],
+			"action": "",
+			"property": "",
+			"from": "",
+			"to": "",
+			"reg": false,
+			"x": 275,
+			"y": 440,
+			"wires": [
+				[
+					"13fcc9f2551e7658"
+				]
+			],
+			"l": false
+		},
+		{
+			"id": "13fcc9f2551e7658",
+			"type": "switch",
+			"z": "f60de3fc5c8806d7",
+			"name": "",
+			"property": "payload",
+			"propertyType": "msg",
+			"rules": [
+				{
+					"t": "gt",
+					"v": "150",
+					"vt": "num"
+				},
+				{
+					"t": "lt",
+					"v": "50",
+					"vt": "num"
+				}
+			],
+			"checkall": "true",
+			"repair": false,
+			"outputs": 2,
+			"x": 375,
+			"y": 440,
+			"wires": [
+				[
+					"cc09dbc158a3b455"
+				],
+				[
+					"0f553a13c10e3779"
+				]
+			],
+			"l": false
+		},
+		{
+			"id": "cc09dbc158a3b455",
+			"type": "trigger",
+			"z": "f60de3fc5c8806d7",
+			"name": "",
+			"op1": "",
+			"op2": "false",
+			"op1type": "nul",
+			"op2type": "bool",
+			"duration": "1",
+			"extend": false,
+			"overrideDelay": false,
+			"units": "min",
+			"reset": "",
+			"bytopic": "all",
+			"topic": "topic",
+			"outputs": 1,
+			"x": 585,
+			"y": 440,
+			"wires": [
+				[
+					"b50ce66f2ec6495a"
+				]
+			],
+			"l": false
+		},
+		{
+			"id": "0f553a13c10e3779",
+			"type": "change",
+			"z": "f60de3fc5c8806d7",
+			"name": "",
+			"rules": [
+				{
+					"t": "set",
+					"p": "reset",
+					"pt": "msg",
+					"to": "true",
+					"tot": "bool"
+				},
+				{
+					"t": "set",
+					"p": "payload",
+					"pt": "msg",
+					"to": "true",
+					"tot": "bool"
+				},
+				{
+					"t": "set",
+					"p": "allow_recieve",
+					"pt": "flow",
+					"to": "true",
+					"tot": "bool"
+				}
+			],
+			"action": "",
+			"property": "",
+			"from": "",
+			"to": "",
+			"reg": false,
+			"x": 475,
+			"y": 480,
+			"wires": [
+				[
+					"cc09dbc158a3b455"
+				]
+			],
+			"l": false
+		},
+		{
+			"id": "b50ce66f2ec6495a",
+			"type": "change",
+			"z": "f60de3fc5c8806d7",
+			"name": "",
+			"rules": [
+				{
+					"t": "set",
+					"p": "allow_recieve",
+					"pt": "flow",
+					"to": "payload",
+					"tot": "msg",
+					"dc": true
+				}
+			],
+			"action": "",
+			"property": "",
+			"from": "",
+			"to": "",
+			"reg": false,
+			"x": 695,
+			"y": 440,
+			"wires": [
+				[
+					"07fa8e2bc6744c05"
+				]
+			],
+			"l": false
+		},
+		{
+			"id": "aca986de9627f350",
+			"type": "inject",
+			"z": "f60de3fc5c8806d7",
+			"name": "",
+			"props": [
+				{
+					"p": "payload"
+				}
+			],
+			"repeat": "",
+			"crontab": "",
+			"once": true,
+			"onceDelay": 0.1,
+			"topic": "",
+			"payload": "true",
+			"payloadType": "bool",
+			"x": 550,
+			"y": 380,
+			"wires": [
+				[
+					"b50ce66f2ec6495a",
+					"0bf797f224bf66de"
+				]
+			]
+		},
+		{
+			"id": "f35218fbbd66920e",
+			"type": "switch",
+			"z": "f60de3fc5c8806d7",
+			"name": "",
+			"property": "allow_recieve",
+			"propertyType": "flow",
+			"rules": [
+				{
+					"t": "true"
+				}
+			],
+			"checkall": "true",
+			"repair": false,
+			"outputs": 1,
+			"x": 475,
+			"y": 140,
+			"wires": [
+				[
+					"56b68999746c53ce"
+				]
+			],
+			"l": false
+		},
+		{
+			"id": "07fa8e2bc6744c05",
+			"type": "switch",
+			"z": "f60de3fc5c8806d7",
+			"name": "",
+			"property": "payload",
+			"propertyType": "msg",
+			"rules": [
+				{
+					"t": "false"
+				}
+			],
+			"checkall": "true",
+			"repair": false,
+			"outputs": 1,
+			"x": 795,
+			"y": 440,
+			"wires": [
+				[
+					"87fb11e5f7e7a32c"
+				]
+			],
+			"l": false
+		},
+		{
+			"id": "87fb11e5f7e7a32c",
+			"type": "template",
+			"z": "f60de3fc5c8806d7",
+			"name": "",
+			"field": "payload",
+			"fieldType": "msg",
+			"format": "json",
+			"syntax": "plain",
+			"template": "{ \"fill\": \"red\", \"shape\": \"dot\", \"text\": \"Buffer overload! New commands will be ignored.\" }",
+			"output": "json",
+			"x": 940,
+			"y": 440,
+			"wires": [
+				[]
+			]
+		},
+		{
+			"id": "5f62f543a02f82d2",
+			"type": "switch",
+			"z": "f60de3fc5c8806d7",
+			"name": "",
+			"property": "allow_recieve",
+			"propertyType": "flow",
+			"rules": [
+				{
+					"t": "true"
+				}
+			],
+			"checkall": "true",
+			"repair": false,
+			"outputs": 1,
+			"x": 985,
+			"y": 200,
+			"wires": [
+				[]
+			],
+			"l": false
+		},
+		{
+			"id": "1a1122ade8f68883",
+			"type": "switch",
+			"z": "f60de3fc5c8806d7",
+			"name": "",
+			"property": "type",
+			"propertyType": "msg",
+			"rules": [
+				{
+					"t": "nnull"
+				},
+				{
+					"t": "else"
+				}
+			],
+			"checkall": "false",
+			"repair": false,
+			"outputs": 2,
+			"x": 675,
+			"y": 140,
+			"wires": [
+				[
+					"64dbd00f6e5ec240"
+				],
+				[
+					"2e388060c4f5e020"
+				]
+			],
+			"l": false
+		},
+		{
+			"id": "64dbd00f6e5ec240",
+			"type": "switch",
+			"z": "f60de3fc5c8806d7",
+			"name": "",
+			"property": "object_id",
+			"propertyType": "msg",
+			"rules": [
+				{
+					"t": "nnull"
+				},
+				{
+					"t": "else"
+				}
+			],
+			"checkall": "false",
+			"repair": false,
+			"outputs": 2,
+			"x": 775,
+			"y": 140,
+			"wires": [
+				[
+					"f3b1585d893c6943"
+				],
+				[
+					"80a3ad8b7173126e"
+				]
+			],
+			"l": false
+		},
+		{
+			"id": "2e388060c4f5e020",
+			"type": "template",
+			"z": "f60de3fc5c8806d7",
+			"name": "Object type is empty",
+			"field": "payload",
+			"fieldType": "msg",
+			"format": "json",
+			"syntax": "mustache",
+			"template": "{ \n    \"fill\": \"red\",\n    \"shape\": \"dot\",\n    \"text\": \"Object type is empty. ID: {{object_id}}\"\n}",
+			"output": "json",
+			"x": 900,
+			"y": 320,
+			"wires": [
+				[]
+			]
+		},
+		{
+			"id": "80a3ad8b7173126e",
+			"type": "template",
+			"z": "f60de3fc5c8806d7",
+			"name": "Object ID is empty",
+			"field": "payload",
+			"fieldType": "msg",
+			"format": "json",
+			"syntax": "mustache",
+			"template": "{ \n    \"fill\": \"red\",\n    \"shape\": \"dot\",\n    \"text\": \"Object ID is empty.\"\n}",
+			"output": "json",
+			"x": 910,
+			"y": 260,
+			"wires": [
+				[]
+			]
+		},
+		{
+			"id": "0bf797f224bf66de",
+			"type": "template",
+			"z": "f60de3fc5c8806d7",
+			"name": "Waiting",
+			"field": "payload",
+			"fieldType": "msg",
+			"format": "json",
+			"syntax": "plain",
+			"template": "{ \"fill\": \"grey\", \"shape\": \"ring\", \"text\": \"waiting\" }",
+			"output": "json",
+			"x": 940,
+			"y": 380,
+			"wires": [
+				[]
+			]
+		},
+		{
+			"id": "f3b1585d893c6943",
+			"type": "junction",
+			"z": "f60de3fc5c8806d7",
+			"x": 880,
+			"y": 140,
+			"wires": [
+				[
+					"5f62f543a02f82d2"
+				]
+			]
+		}
     ]
 }
