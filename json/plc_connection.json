@@ -16,21 +16,17 @@
         }
     ],
     "out": [
-        {
-            "x": 1280,
-            "y": 160,
-            "wires": [
-                {
-                    "id": "73426ad6a04cfd40",
-                    "port": 0
-                },
-                {
-                    "id": "72bf9b7855968742",
-                    "port": 0
-                }
-            ]
-        }
-    ],
+            {
+                "x": 1320,
+                "y": 160,
+                "wires": [
+                    {
+                        "id": "66812b62563a84da",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
     "env": [
         {
             "name": "HOST",
@@ -51,7 +47,7 @@
     ],
     "meta": {
         "type": "PLC connection",
-        "version": "1.2.3",
+        "version": "1.3.1",
         "author": "Anton Shefov <a.shefov@gmail.com>",
         "desc": "Connection to PLC",
         "license": "MIT",
@@ -77,256 +73,314 @@
     },
     "flow": [
         {
-            "id": "31aa3f5081482f5e",
-            "type": "inject",
-            "z": "5d465e34932148cf",
-            "name": "",
-            "props": [
-                {
-                    "p": "payload"
-                }
-            ],
-            "repeat": "30",
-            "crontab": "",
-            "once": true,
-            "onceDelay": "0.1",
-            "topic": "",
-            "payload": "true",
-            "payloadType": "bool",
-            "x": 65,
-            "y": 220,
-            "wires": [
-                [
-                    "993767259063d6a9"
-                ]
-            ],
-            "l": false
-        },
-        {
-            "id": "993767259063d6a9",
-            "type": "function",
-            "z": "5d465e34932148cf",
-            "name": "",
-            "func": "var tmp = {};\ntmp.start = 52428;\ntmp.obj=200;\ntmp.to=0;\ntmp.cmd=33;\ntmp.len=0;\ntmp.val=0;\nmsg.payload = tmp;\nreturn msg;",
-            "outputs": 1,
-            "timeout": "",
-            "noerr": 0,
-            "initialize": "",
-            "finalize": "",
-            "libs": [],
-            "x": 200,
-            "y": 220,
-            "wires": [
-                [
-                    "4149af24579f0dc5"
-                ]
-            ]
-        },
-        {
-            "id": "1fa78c3d9b7b6de1",
-            "type": "tcp request",
-            "z": "5d465e34932148cf",
-            "name": "PLC",
-            "server": "",
-            "port": "",
-            "out": "sit",
-            "ret": "buffer",
-            "splitc": " ",
-            "newline": "",
-            "trim": false,
-            "tls": "",
-            "x": 670,
-            "y": 160,
-            "wires": [
-                [
-                    "21b36036d4f32290"
-                ]
-            ]
-        },
-        {
-            "id": "5e4eaca67bbb096b",
-            "type": "status",
-            "z": "5d465e34932148cf",
-            "name": "",
-            "scope": [
-                "1fa78c3d9b7b6de1"
-            ],
-            "x": 580,
-            "y": 300,
-            "wires": [
-                []
-            ]
-        },
-        {
-            "id": "38ae13a46a0113ce",
-            "type": "change",
-            "z": "5d465e34932148cf",
-            "name": "",
-            "rules": [
-                {
-                    "t": "set",
-                    "p": "host",
-                    "pt": "msg",
-                    "to": "HOST",
-                    "tot": "env",
-                    "dc": true
-                },
-                {
-                    "t": "set",
-                    "p": "port",
-                    "pt": "msg",
-                    "to": "400",
-                    "tot": "str"
-                }
-            ],
-            "action": "",
-            "property": "",
-            "from": "",
-            "to": "",
-            "reg": false,
-            "x": 535,
-            "y": 160,
-            "wires": [
-                [
-                    "1fa78c3d9b7b6de1"
-                ]
-            ],
-            "l": false
-        },
-        {
-            "id": "21b36036d4f32290",
-            "type": "split",
-            "z": "5d465e34932148cf",
-            "name": "",
-            "splt": "[204,204]",
-            "spltType": "bin",
-            "arraySplt": 1,
-            "arraySpltType": "len",
-            "stream": false,
-            "addname": "",
-            "x": 795,
-            "y": 160,
-            "wires": [
-                [
-                    "8f431a015dba44f0"
-                ]
-            ],
-            "l": false
-        },
-        {
-            "id": "72bf9b7855968742",
-            "type": "binary",
-            "z": "5d465e34932148cf",
-            "name": "",
-            "property": "payload",
-            "pattern": "l16 => obj, l16 => cmd, l16=>to, x16,l16=>len,l16=>value,x16,l16=>setpoint",
-            "x": 1090,
-            "y": 200,
-            "wires": [
-                []
-            ]
-        },
-        {
-            "id": "73426ad6a04cfd40",
-            "type": "binary",
-            "z": "5d465e34932148cf",
-            "name": "",
-            "property": "payload",
-            "pattern": "l16 => obj, l16 => cmd, l16=>to, x16,l16=>len,l16=>value",
-            "x": 1090,
-            "y": 120,
-            "wires": [
-                []
-            ]
-        },
-        {
-            "id": "4149af24579f0dc5",
-            "type": "binary",
-            "z": "5d465e34932148cf",
-            "name": "",
-            "property": "payload",
-            "pattern": "l16=>start,l16 => obj, l16 => cmd, x16, x16,l16=>len,l16=>val",
-            "x": 410,
-            "y": 160,
-            "wires": [
-                [
-                    "38ae13a46a0113ce"
-                ]
-            ]
-        },
-        {
-            "id": "f76087063cc73ed0",
-            "type": "function",
-            "z": "5d465e34932148cf",
-            "name": "to_SmartUnity",
-            "func": "var tmp = {};\nvar command = 0;\nvar value = 0;\n\nswitch (msg.type) {\n    case \"T_IMPULS_BUTTON\":\n        command = 6;\n        if (msg.payload) {\n            value = 15;\n        } else {\n            value = 16;\n        }\n        break;\n    case \"T_SWITCH_BUTTON\":\n        command = 6;\n        if (msg.payload) {\n            value = 15;\n        } else {\n            value = 16;\n        }\n        break;\n    case \"T_RELE\":\n        command = 17;\n        if (msg.payload) {\n            value = 7;\n        } else {\n            value = 6;\n        }\n        break;\n    case \"T_TEMPERATURE_DETECTOR_value\":\n        command = 40;\n        value = msg.payload;\n        break;\n    case \"T_UNIV_AN_INPUT_value\":\n        command = 40;\n        value = msg.payload;\n        break;\n    case \"T_UNIV_AN_INPUT_setpoint\":\n        command = 9;\n        value = msg.payload;\n        break;\n    case \"T_ANALOG_IN_ADVANCED_value\":\n        command = 17;\n        value = msg.payload;\n        break;\n    case \"T_UNIV_AN_OUTPUT\":\n        command = 17;\n        value = msg.payload;\n        break;\n    case \"T_UNIV_AN_OUTPUT_TO_HELP_OBJECT\":\n        command = 17;\n        value = Math.round(msg.payload / 33) + 1;\n        break;\n    case \"T_HELP_SWITCH\":\n        command = 17;\n        if (msg.payload) {\n            value = 21;\n        } else {\n            value = 22;\n        }\n        break;\n    case \"T_HELP_OBJECT\":\n        command = 17;\n        value = msg.payload;\n        break;\n    case \"GET_STATUS\":\n        command = 1;\n        break;\n    case \"GET_STATUS_MB\":\n        command = 1;\n        value = msg.payload;\n        break;\n    default:\n        return null;\n        break;\n}\n\ntmp.start = 52428;\ntmp.obj = msg.object_id;\ntmp.cmd = command;\ntmp.len = 2;\ntmp.val = value;\nmsg.payload = tmp;\nreturn msg;\n",
-            "outputs": 1,
-            "timeout": "",
-            "noerr": 0,
-            "initialize": "",
-            "finalize": "",
-            "libs": [],
-            "x": 220,
-            "y": 160,
-            "wires": [
-                [
-                    "4149af24579f0dc5"
-                ]
-            ]
-        },
-        {
-            "id": "8f431a015dba44f0",
-            "type": "switch",
-            "z": "5d465e34932148cf",
-            "name": "",
-            "property": "payload",
-            "propertyType": "msg",
-            "rules": [
-                {
-                    "t": "istype",
-                    "v": "buffer",
-                    "vt": "buffer"
-                }
-            ],
-            "checkall": "true",
-            "repair": false,
-            "outputs": 1,
-            "x": 875,
-            "y": 160,
-            "wires": [
-                [
-                    "9f64f0b5d727189b"
-                ]
-            ],
-            "l": false
-        },
-        {
-            "id": "9f64f0b5d727189b",
-            "type": "function",
-            "z": "5d465e34932148cf",
-            "name": "MSG length",
-            "func": "var len = String(msg.payload).length;\nif (len == 0) {\n    return [null, null];\n} else if (len <= 12){\n    return [{\"payload\" : msg.payload}, null];\n} else {\n    return [null, { \"payload\": msg.payload }];\n}",
-            "outputs": 2,
-            "timeout": "",
-            "noerr": 0,
-            "initialize": "",
-            "finalize": "",
-            "libs": [],
-            "x": 955,
-            "y": 160,
-            "wires": [
-                [
-                    "73426ad6a04cfd40"
-                ],
-                [
-                    "72bf9b7855968742"
-                ]
-            ],
-            "outputLabels": [
-                "2",
-                "more"
-            ],
-            "l": false
-        }
+			"id": "31aa3f5081482f5e",
+			"type": "inject",
+			"z": "5d465e34932148cf",
+			"name": "",
+			"props": [
+				{
+					"p": "payload"
+				}
+			],
+			"repeat": "30",
+			"crontab": "",
+			"once": true,
+			"onceDelay": "0.1",
+			"topic": "",
+			"payload": "true",
+			"payloadType": "bool",
+			"x": 65,
+			"y": 220,
+			"wires": [
+				[
+					"993767259063d6a9"
+				]
+			],
+			"l": false
+		},
+		{
+			"id": "993767259063d6a9",
+			"type": "function",
+			"z": "5d465e34932148cf",
+			"name": "",
+			"func": "var tmp = {};\ntmp.start = 52428;\ntmp.obj=200;\ntmp.to=0;\ntmp.cmd=33;\ntmp.len=0;\ntmp.val=0;\nmsg.payload = tmp;\nreturn msg;",
+			"outputs": 1,
+			"timeout": "",
+			"noerr": 0,
+			"initialize": "",
+			"finalize": "",
+			"libs": [],
+			"x": 200,
+			"y": 220,
+			"wires": [
+				[
+					"4149af24579f0dc5"
+				]
+			]
+		},
+		{
+			"id": "1fa78c3d9b7b6de1",
+			"type": "tcp request",
+			"z": "5d465e34932148cf",
+			"name": "PLC",
+			"server": "",
+			"port": "",
+			"out": "sit",
+			"ret": "buffer",
+			"splitc": " ",
+			"newline": "",
+			"trim": false,
+			"tls": "",
+			"x": 670,
+			"y": 160,
+			"wires": [
+				[
+					"21b36036d4f32290"
+				]
+			]
+		},
+		{
+			"id": "5e4eaca67bbb096b",
+			"type": "status",
+			"z": "5d465e34932148cf",
+			"name": "",
+			"scope": [
+				"1fa78c3d9b7b6de1"
+			],
+			"x": 580,
+			"y": 300,
+			"wires": [
+				[]
+			]
+		},
+		{
+			"id": "38ae13a46a0113ce",
+			"type": "change",
+			"z": "5d465e34932148cf",
+			"name": "",
+			"rules": [
+				{
+					"t": "set",
+					"p": "host",
+					"pt": "msg",
+					"to": "HOST",
+					"tot": "env",
+					"dc": true
+				},
+				{
+					"t": "set",
+					"p": "port",
+					"pt": "msg",
+					"to": "400",
+					"tot": "str"
+				}
+			],
+			"action": "",
+			"property": "",
+			"from": "",
+			"to": "",
+			"reg": false,
+			"x": 535,
+			"y": 160,
+			"wires": [
+				[
+					"1fa78c3d9b7b6de1"
+				]
+			],
+			"l": false
+		},
+		{
+			"id": "21b36036d4f32290",
+			"type": "split",
+			"z": "5d465e34932148cf",
+			"name": "",
+			"splt": "[204,204]",
+			"spltType": "bin",
+			"arraySplt": 1,
+			"arraySpltType": "len",
+			"stream": false,
+			"addname": "",
+			"x": 795,
+			"y": 160,
+			"wires": [
+				[
+					"8f431a015dba44f0"
+				]
+			],
+			"l": false
+		},
+		{
+			"id": "4149af24579f0dc5",
+			"type": "binary",
+			"z": "5d465e34932148cf",
+			"name": "",
+			"property": "payload",
+			"pattern": "l16=>start,l16 => obj, l16 => cmd, x16, x16,l16=>len,l16=>val",
+			"x": 410,
+			"y": 160,
+			"wires": [
+				[
+					"38ae13a46a0113ce"
+				]
+			]
+		},
+		{
+			"id": "f76087063cc73ed0",
+			"type": "function",
+			"z": "5d465e34932148cf",
+			"name": "to_SmartUnity",
+			"func": "var tmp = {};\nvar command = 0;\nvar value = 0;\n\nswitch (msg.type) {\n    case \"T_IMPULS_BUTTON\":\n        command = 6;\n        if (msg.payload) {\n            value = 15;\n        } else {\n            value = 16;\n        }\n        break;\n    case \"T_SWITCH_BUTTON\":\n        command = 6;\n        if (msg.payload) {\n            value = 15;\n        } else {\n            value = 16;\n        }\n        break;\n    case \"T_RELE\":\n        command = 17;\n        if (msg.payload) {\n            value = 7;\n        } else {\n            value = 6;\n        }\n        break;\n    case \"T_TEMPERATURE_DETECTOR_value\":\n        command = 40;\n        value = msg.payload;\n        break;\n    case \"T_TEMPERATURE_DETECTOR_setpoint\":\n        command = 9;\n        value = msg.payload;\n        break;\n    case \"T_UNIV_AN_INPUT_value\":\n        command = 40;\n        value = msg.payload;\n        break;\n    case \"T_UNIV_AN_INPUT_setpoint\":\n        command = 9;\n        value = msg.payload;\n        break;\n    case \"T_ANALOG_IN_ADVANCED_value\":\n        command = 17;\n        value = msg.payload;\n        break;\n    case \"T_ANALOG_IN_ADVANCED_setpoint\":\n        command = 9;\n        value = msg.payload;\n        break;\n    case \"T_UNIV_AN_OUTPUT\":\n        command = 17;\n        value = msg.payload;\n        break;\n    case \"T_UNIV_AN_OUTPUT_TO_HELP_OBJECT\":\n        command = 17;\n        value = Math.round(msg.payload / 33) + 1;\n        break;\n    case \"T_HELP_SWITCH\":\n        command = 17;\n        if (msg.payload) {\n            value = 21;\n        } else {\n            value = 22;\n        }\n        break;\n    case \"T_HELP_OBJECT\":\n        command = 17;\n        value = msg.payload;\n        break;\n    case \"T_COMMON_TIMER\":\n        command = 17;\n        if (msg.payload) {\n            value = 21;\n        } else {\n            value = 22;\n        }\n        break;\n    case \"T_INTERVAL_TIMER\":\n        command = 17;\n        if (msg.payload) {\n            value = 21;\n        } else {\n            value = 22;\n        }\n        break;\n    case \"GET_STATUS\":\n        command = 1;\n        break;\n    case \"GET_STATUS_MB\":\n        command = 1;\n        value = msg.payload;\n        break;\n    default:\n        return null;\n        break;\n}\n\ntmp.start = 52428;\ntmp.obj = msg.object_id;\ntmp.cmd = command;\ntmp.len = 2;\ntmp.val = value;\nmsg.payload = tmp;\nreturn msg;\n",
+			"outputs": 1,
+			"timeout": "",
+			"noerr": 0,
+			"initialize": "",
+			"finalize": "",
+			"libs": [],
+			"x": 220,
+			"y": 160,
+			"wires": [
+				[
+					"4149af24579f0dc5"
+				]
+			]
+		},
+		{
+			"id": "8f431a015dba44f0",
+			"type": "switch",
+			"z": "5d465e34932148cf",
+			"name": "",
+			"property": "payload",
+			"propertyType": "msg",
+			"rules": [
+				{
+					"t": "istype",
+					"v": "buffer",
+					"vt": "buffer"
+				}
+			],
+			"checkall": "true",
+			"repair": false,
+			"outputs": 1,
+			"x": 875,
+			"y": 160,
+			"wires": [
+				[
+					"4fea97e15f45a76b"
+				]
+			],
+			"l": false
+		},
+		{
+			"id": "66812b62563a84da",
+			"type": "change",
+			"z": "5d465e34932148cf",
+			"name": "",
+			"rules": [
+				{
+					"t": "set",
+					"p": "topic",
+					"pt": "msg",
+					"to": "$string(payload.to)\t",
+					"tot": "jsonata",
+					"dc": true
+				},
+				{
+					"t": "set",
+					"p": "cmd",
+					"pt": "msg",
+					"to": "payload.cmd",
+					"tot": "msg",
+					"dc": true
+				},
+				{
+					"t": "set",
+					"p": "len",
+					"pt": "msg",
+					"to": "payload.len",
+					"tot": "msg",
+					"dc": true
+				},
+				{
+					"t": "set",
+					"p": "payload",
+					"pt": "msg",
+					"to": "original",
+					"tot": "msg",
+					"dc": true
+				},
+				{
+					"t": "delete",
+					"p": "original",
+					"pt": "msg"
+				},
+				{
+					"t": "delete",
+					"p": "parts",
+					"pt": "msg"
+				},
+				{
+					"t": "delete",
+					"p": "host",
+					"pt": "msg"
+				},
+				{
+					"t": "delete",
+					"p": "port",
+					"pt": "msg"
+				}
+			],
+			"action": "",
+			"property": "",
+			"from": "",
+			"to": "",
+			"reg": false,
+			"x": 1195,
+			"y": 160,
+			"wires": [
+				[]
+			],
+			"l": false
+		},
+		{
+			"id": "fbc06a095fed8f5e",
+			"type": "switch",
+			"z": "5d465e34932148cf",
+			"name": "",
+			"property": "payload.len",
+			"propertyType": "msg",
+			"rules": [
+				{
+					"t": "neq",
+					"v": "0",
+					"vt": "num"
+				}
+			],
+			"checkall": "false",
+			"repair": false,
+			"outputs": 1,
+			"x": 1115,
+			"y": 160,
+			"wires": [
+				[
+					"66812b62563a84da"
+				]
+			],
+			"l": false
+		},
+		{
+			"id": "4fea97e15f45a76b",
+			"type": "binary",
+			"z": "5d465e34932148cf",
+			"name": "",
+			"property": "payload",
+			"pattern": "x16,l16 => cmd, l16=>to, x16,l16=>len",
+			"x": 990,
+			"y": 160,
+			"wires": [
+				[
+					"fbc06a095fed8f5e"
+				]
+			]
+		}
     ]
 }

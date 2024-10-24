@@ -1,0 +1,236 @@
+[
+    {
+        "id": "7805650821fb4b72",
+        "type": "PLC connection",
+        "z": "f6f2187d.f17ca8",
+        "d": true,
+        "name": "",
+        "HOST": "192.168.1.10",
+        "x": 540,
+        "y": 260,
+        "wires": [
+            [
+                "99b1a48efd16ef62",
+                "ffa2e9680671bdd6",
+                "e8e811da9ca1f9d3"
+            ]
+        ]
+    },
+    {
+        "id": "d3c39abf821a81bc",
+        "type": "Converter to SU",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "ADDRESSES": {
+            "type": "json",
+            "value": " { \"topic_1\": 1026, \"topic_2\": 1027 }"
+        },
+        "TYPES": {
+            "type": "json",
+            "value": "{ \"topic_1\": \"T_SWITCH_BUTTON\", \"topic_2\": \"T_SWITCH_BUTTON\" }"
+        },
+        "SETPOINT_DELAY": 15,
+        "HELP_OBJECT_SHIFT": 0,
+        "VALUE_FACTOR": 10,
+        "x": 300,
+        "y": 240,
+        "wires": [
+            [
+                "7805650821fb4b72"
+            ]
+        ]
+    },
+    {
+        "id": "c189aa979cd1d60b",
+        "type": "Status request",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "TYPE": "common",
+        "x": 320,
+        "y": 300,
+        "wires": [
+            [
+                "7805650821fb4b72"
+            ]
+        ]
+    },
+    {
+        "id": "99b1a48efd16ef62",
+        "type": "Converter from SU",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "ADDRESSES": {
+            "type": "json",
+            "value": "{ \"1026\": \"topic_1\", \"1027\": \"topic_2\" }"
+        },
+        "TYPES": {
+            "type": "json",
+            "value": "{ \"1026\": \"T_SWITCH_BUTTON\", \"1027\": \"T_SWITCH_BUTTON\" }"
+        },
+        "SYSTEM": "other",
+        "DIVIDER": 0,
+        "HELP_OBJECT_SHIFT": 0,
+        "x": 790,
+        "y": 320,
+        "wires": [
+            [
+                "7142a52933836433"
+            ]
+        ]
+    },
+    {
+        "id": "ffa2e9680671bdd6",
+        "type": "Workload",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "EXCLUDE": {
+            "type": "json",
+            "value": "[]"
+        },
+        "x": 760,
+        "y": 380,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "4741043837822451",
+        "type": "inject",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "topic_1",
+        "payload": "true",
+        "payloadType": "bool",
+        "x": 90,
+        "y": 180,
+        "wires": [
+            [
+                "d3c39abf821a81bc"
+            ]
+        ]
+    },
+    {
+        "id": "5e6a3fa0c2c4cab5",
+        "type": "inject",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "topic_2",
+        "payload": "false",
+        "payloadType": "bool",
+        "x": 90,
+        "y": 240,
+        "wires": [
+            [
+                "d3c39abf821a81bc"
+            ]
+        ]
+    },
+    {
+        "id": "0d23b7c3a710c275",
+        "type": "inject",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{ \"1026\" : true }",
+        "payloadType": "json",
+        "x": 100,
+        "y": 300,
+        "wires": [
+            [
+                "c189aa979cd1d60b"
+            ]
+        ]
+    },
+    {
+        "id": "e8e811da9ca1f9d3",
+        "type": "Converter from SU",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "ADDRESSES": {
+            "type": "json",
+            "value": "{ \"1024\": \"live_word\", \"1025\": \"restart\" }"
+        },
+        "TYPES": {
+            "type": "json",
+            "value": "{\"1024\":\"T_HELP_SWITCH\",\"1025\":\"T_HELP_SWITCH\"}"
+        },
+        "SYSTEM": "other",
+        "DIVIDER": 0,
+        "HELP_OBJECT_SHIFT": 0,
+        "x": 790,
+        "y": 260,
+        "wires": [
+            [
+                "776ba201608e390d"
+            ]
+        ]
+    },
+    {
+        "id": "7142a52933836433",
+        "type": "debug",
+        "z": "f6f2187d.f17ca8",
+        "name": "debug",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1010,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "776ba201608e390d",
+        "type": "PLC status",
+        "z": "f6f2187d.f17ca8",
+        "name": "",
+        "DELAY": 150,
+        "x": 1030,
+        "y": 260,
+        "wires": [
+            [],
+            [],
+            [],
+            []
+        ]
+    }
+]
