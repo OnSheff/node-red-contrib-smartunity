@@ -481,7 +481,7 @@
         "z": "e0c1caa793877c9f",
         "name": "8 byte",
         "property": "payload",
-        "pattern": "x16, l16 => cmd, x48, l16=> value,x16,l16=>setpoint",
+        "pattern": "x16, l16 => cmd, x48, l16=> status, l16=> value, l16=>setpoint",
         "x": 370,
         "y": 140,
         "wires": [
