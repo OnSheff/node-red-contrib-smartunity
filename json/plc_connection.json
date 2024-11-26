@@ -392,26 +392,6 @@
           "fbc06a095fed8f5e"
         ]
       ]
-    },
-    {
-      "id": "12009765d1ad6432",
-      "type": "subflow:5d465e34932148cf",
-      "z": "f6f2187d.f17ca8",
-      "name": "",
-      "x": 520,
-      "y": 640,
-      "wires": [
-        [
-          "c9a4df6c9ed8f32d",
-          "f22fde4b35971e4b"
-        ]
-      ],
-      "inputLabels": [
-        "to_PLC"
-      ],
-      "outputLabels": [
-        "from_PLC"
-      ]
     }
   ]
 }
