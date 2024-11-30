@@ -2,12 +2,12 @@
     "id": "625e0c3cc5957e33",
     "type": "subflow",
     "name": "To_SmartUnity",
-    "info": "Converts packets from Node-Red to SmartUnity\r\n\r\n\r\n### Inputs\r\n\r\n: payload (any) : Standart payload.\r\n: *topic* (string | number) :  ID.\r\n\r\n### Outputs\r\n\r\n: payload (string) : TCP-packet to SmartUnity\r\n\r\n### Configuration\r\n\r\n#### **Address list**\r\n\r\nThe json file maps the msg.topic and the object ID in Project Builder.\r\n\r\n- The **key** must contain a KNX group address or address in another system.\r\n- The **value** must contain the Project Builder object ID.\r\n\r\n**Examples:**\r\n\r\n- **KNX**:\r\n`{\r\n    \"0/1/1\": 1024,\r\n    \"0/1/2\": 1025\r\n}`\r\n\r\n- **Other Systems**:\r\n`{\r\n    \"topic_1\": 1026,\r\n    \"topic_2\": 1027\r\n}`\r\n\r\n\r\n---\r\n\r\n\r\n#### **Type list**\r\n\r\nThe json file maps the msg.topic and the object type in Project Builder.\r\n\r\n**Example:**\r\n\r\n`{\r\n    \"topic_1\": \"T_SWITCH_BUTTON\",\r\n    \"topic_2\": \"T_SWITCH_BUTTON\"\r\n}`\r\n\r\n**Available object types:**\r\n\r\n - **T_IMPULS_BUTTON**\r\n - **T_SWITCH_BUTTON**\r\n - **T_RELE**\r\n - **T_UNIV_AN_INPUT_value** \r\n - **T_UNIV_AN_INPUT_setpoint** \r\n - **T_TEMPERATURE_DETECTOR_value**\r\n - **T_TEMPERATURE_DETECTOR_setpoint**\r\n - **T_ANALOG_IN_ADVANCED_value**\r\n - **T_ANALOG_IN_ADVANCED_setpoint**\r\n - **T_UNIV_AN_OUTPUT**\r\n - **T_HELP_SWITCH**\r\n - **T_HELP_OBJECT**\r\n - **T_UNIV_AN_OUTPUT_TO_HELP_OBJECT**\r\n - **T_COMMON_TIMER**\r\n - **T_INTERVAL_TIMER**\r\n\r\n---\r\n\r\n\r\n#### **Setpoint delay**\r\n\r\nDelay before sending setpoint (in seconds).\r\n\r\nValid only for the following types:\r\n- **T_UNIV_AN_INPUT_setpoint**\r\n- **T_SIMPLE_ANALOG_IN_setpoint**\r\n- **T_TEMPERATURE_DETECTOR_setpoint**\r\n\r\n`Available range:` **0 - 120 sec**\r\n\r\n`Default delay:` **15 sec**\r\n\r\n`note:` **0 = no delay**\r\n\r\n---\r\n\r\n\r\n#### **Shift (HELP_OBJECT)**\r\n\r\nThe shift is added to the received value.\r\n\r\n**output value = recieved value + shift**\r\n\r\nApplies only to objects of the **HELP_OBJECT** type.\r\n\r\n`Available range:` **-10 - 10**\r\n\r\n`Default shift:` **0**\r\n\r\n---\r\n\r\n\r\n#### **Factor**\r\n\r\nAll analog values are multiplied by the factor.\r\n\r\n**output value = recieved value * factor**\r\n\r\nApplies to all analog object types.\r\n\r\n`Available range:` **0 - 1000**\r\n\r\n`Default factor:` **10**",
+    "info": "Converts packets from Node-Red to SmartUnity\r\n\r\n\r\n### Inputs\r\n\r\n: payload (any) : Standart payload.\r\n: *topic* (string | number) :  ID.\r\n\r\n### Outputs\r\n\r\n: payload (string) : TCP-packet to SmartUnity\r\n\r\n### Configuration\r\n\r\n#### **Address list**\r\n\r\nThe json file maps the msg.topic and the object ID in Project Builder.\r\n\r\n- The **key** must contain a KNX group address or address in another system.\r\n- The **value** must contain the Project Builder object ID.\r\n\r\n**Examples:**\r\n\r\n- **KNX**:\r\n`{\r\n    \"0/1/1\": 1024,\r\n    \"0/1/2\": 1025\r\n}`\r\n\r\n- **Other Systems**:\r\n`{\r\n    \"topic_1\": 1026,\r\n    \"topic_2\": 1027\r\n}`\r\n\r\n\r\n---\r\n\r\n\r\n#### **Type list**\r\n\r\nThe json file maps the msg.topic and the object type in Project Builder.\r\n\r\n**Example:**\r\n\r\n`{\r\n    \"topic_1\": \"T_SWITCH_BUTTON\",\r\n    \"topic_2\": \"T_SWITCH_BUTTON\"\r\n}`\r\n\r\n**Available object types:**\r\n\r\n - **T_IMPULS_BUTTON**\r\n - **T_SWITCH_BUTTON**\r\n - **T_RELE**\r\n - **T_UNIV_AN_INPUT_value** \r\n - **T_UNIV_AN_INPUT_setpoint** \r\n - **T_TEMPERATURE_D...",
     "category": "SmartUnity",
     "in": [
         {
             "x": 80,
-            "y": 140,
+            "y": 160,
             "wires": [
                 {
                     "id": "c8f306b7a6df1d66"
@@ -17,8 +17,8 @@
     ],
     "out": [
         {
-            "x": 1090,
-            "y": 160,
+            "x": 1210,
+            "y": 180,
             "wires": [
                 {
                     "id": "6cee4f89311c3621",
@@ -40,8 +40,7 @@
                 "type": "input",
                 "opts": {
                     "types": [
-                        "json",
-                        "env"
+                        "json"
                     ]
                 }
             }
@@ -58,8 +57,7 @@
                 "type": "input",
                 "opts": {
                     "types": [
-                        "json",
-                        "env"
+                        "json"
                     ]
                 }
             }
@@ -115,22 +113,22 @@
     ],
     "meta": {
         "type": "Converter to SU",
-        "version": "1.3.2",
-        "author": "Anton Shefov <a.shefov@gmail.com>",
+        "version": "1.4.2",
+        "author": "@on_sheff Anton Shefov <a.shefov@gmail.com>",
         "desc": "Converter from any object types to SmartUnity",
-        "license": "MIT",
-        "keywords": "SmartUnity, SU"
+        "keywords": "SmartUnity, SU",
+        "license": "MIT"
     },
     "color": "#3BB08F",
-    "icon": "font-awesome/fa-sign-in",
     "inputLabels": [
         "from_nodes"
     ],
     "outputLabels": [
         "to_SU"
     ],
+    "icon": "font-awesome/fa-sign-in",
     "status": {
-        "x": 1060,
+        "x": 1180,
         "y": 220,
         "wires": [
             {
@@ -186,8 +184,8 @@
             "checkall": "false",
             "repair": false,
             "outputs": 4,
-            "x": 695,
-            "y": 140,
+            "x": 815,
+            "y": 160,
             "wires": [
                 [
                     "8b1d68eb65699eb2"
@@ -221,8 +219,8 @@
             "bytopic": "topic",
             "topic": "object_id",
             "outputs": 1,
-            "x": 885,
-            "y": 40,
+            "x": 995,
+            "y": 60,
             "wires": [
                 [
                     "6cee4f89311c3621"
@@ -256,8 +254,8 @@
             "from": "",
             "to": "",
             "reg": false,
-            "x": 805,
-            "y": 40,
+            "x": 915,
+            "y": 60,
             "wires": [
                 [
                     "55fb993c57f0f83e"
@@ -277,13 +275,14 @@
             "initialize": "",
             "finalize": "",
             "libs": [],
-            "x": 370,
-            "y": 140,
+            "x": 335,
+            "y": 160,
             "wires": [
                 [
-                    "fd0126e5946231c3"
+                    "ea28b9e403418095"
                 ]
-            ]
+            ],
+            "l": false
         },
         {
             "id": "c8f306b7a6df1d66",
@@ -297,16 +296,22 @@
                     "t": "hask",
                     "v": "$string(topic)",
                     "vt": "jsonata"
+                },
+                {
+                    "t": "else"
                 }
             ],
             "checkall": "false",
             "repair": false,
-            "outputs": 1,
+            "outputs": 2,
             "x": 175,
-            "y": 140,
+            "y": 160,
             "wires": [
                 [
                     "71e42bdb80f3fb1d"
+                ],
+                [
+                    "f2b30eb924f026a4"
                 ]
             ],
             "l": false
@@ -330,34 +335,14 @@
             "from": "",
             "to": "",
             "reg": false,
-            "x": 805,
-            "y": 80,
+            "x": 915,
+            "y": 100,
             "wires": [
                 [
                     "6cee4f89311c3621"
                 ]
             ],
             "l": false
-        },
-        {
-            "id": "6c95d9a55e7d7a9e",
-            "type": "function",
-            "z": "625e0c3cc5957e33",
-            "d": true,
-            "name": "to_SmartUnity",
-            "func": "var tmp = {};\nvar command = 0;\nvar value = 0;\nvar error = false;\nvar status = \"\";\nvar ho_shift = env.get('HELP_OBJECT_SHIFT');\n\nif (msg.type != null){\n    if (msg.payload != null){\n        switch (msg.type) {\n            case \"T_IMPULS_BUTTON\":\n                command = 6;\n                if (msg.payload) {\n                    value = 15;\n                } else {\n                    value = 16;\n                }\n                break;\n            case \"T_SWITCH_BUTTON\":\n                command = 6;\n                if (msg.payload) {\n                    value = 15;\n                } else {\n                    value = 16;\n                }\n                break;\n            case \"T_RELE\":\n                command = 17;\n                if (msg.payload) {\n                    value = 7;\n                } else {\n                    value = 6;\n                }\n                break;\n            case \"T_TEMPERATURE_DETECTOR_value\":\n                command = 40;\n                value = msg.payload;\n                break;\n            case \"T_UNIV_AN_INPUT_value\":\n                command = 40;\n                value = msg.payload;\n                break;\n            case \"T_UNIV_AN_INPUT_setpoint\":\n                command = 9;\n                value = msg.payload;\n                break;\n            case \"T_ANALOG_IN_ADVANCED_value\":\n                command = 17;\n                value = msg.payload;\n                break;\n            case \"T_UNIV_AN_OUTPUT\":\n                command = 17;\n                value = msg.payload;\n                break;\n            case \"T_UNIV_AN_OUTPUT_TO_HELP_OBJECT\":\n                command = 17;\n                value = Math.round(msg.payload / 33) + 1;\n                break;\n            case \"T_HELP_SWITCH\":\n                command = 17;\n                if (msg.payload) {\n                    value = 21;\n                } else {\n                    value = 22;\n                }\n                break;\n            case \"T_HELP_OBJECT\":\n                command = 17;\n                value = msg.payload + ho_shift;\n                break;\n            default:\n                error = true;\n                status = 'Unknown object type (' + msg.type + ') + ID: ' + msg.object_id;\n                node.error(status);\n                break;\n        }\n    } else{\n        error = true;\n        status = 'Payload is empty. ID: ' + msg.object_id;\n        node.error(status);\n    }    \n} else {\n    error = true;\n    status = 'Object type is empty. ID: ' + msg.object_id;\n    node.error(status);\n}\n\nif (msg.object_id != null){\n    if (1024 <= msg.object_id && msg.object_id <= 9999){\n        tmp.obj = msg.object_id;\n    } else{\n        error = true;\n        status = 'Object_ID is out of range. ID: ' + msg.object_id;\n        node.error(status);\n    }   \n} else {\n    error = true;\n    status = 'Object_ID is empty';\n    node.error(status);\n}\n\nif (!error){\n    status = msg.object_id + \": \" + msg.payload.toString();\n    tmp.start = 52428;\n    tmp.cmd = command;\n    tmp.len = 2;\n    tmp.val = value;\n    msg.payload = tmp;\n    return [msg, { \"payload\": { fill: \"green\", shape: \"dot\", text: status}}];\n} else {\n    return [null, { \"payload\": { fill: \"red\", shape: \"ring\", text: status }}]\n}\n",
-            "outputs": 2,
-            "timeout": "",
-            "noerr": 0,
-            "initialize": "",
-            "finalize": "",
-            "libs": [],
-            "x": 580,
-            "y": 560,
-            "wires": [
-                [],
-                []
-            ]
         },
         {
             "id": "71e42bdb80f3fb1d",
@@ -377,44 +362,14 @@
             "checkall": "false",
             "repair": false,
             "outputs": 2,
-            "x": 245,
-            "y": 140,
+            "x": 255,
+            "y": 160,
             "wires": [
                 [
                     "74125a3badeef3bc"
                 ],
                 [
-                    "85c9f51d2da30ffd"
-                ]
-            ],
-            "l": false
-        },
-        {
-            "id": "fd0126e5946231c3",
-            "type": "switch",
-            "z": "625e0c3cc5957e33",
-            "name": "",
-            "property": "type",
-            "propertyType": "msg",
-            "rules": [
-                {
-                    "t": "nnull"
-                },
-                {
-                    "t": "else"
-                }
-            ],
-            "checkall": "false",
-            "repair": false,
-            "outputs": 2,
-            "x": 495,
-            "y": 140,
-            "wires": [
-                [
-                    "bb9231a6ca8c0069"
-                ],
-                [
-                    "665c296779b483c1"
+                    "1add456787968f28"
                 ]
             ],
             "l": false
@@ -438,8 +393,8 @@
             "from": "",
             "to": "",
             "reg": false,
-            "x": 805,
-            "y": 120,
+            "x": 915,
+            "y": 140,
             "wires": [
                 [
                     "6cee4f89311c3621"
@@ -458,7 +413,7 @@
             "syntax": "mustache",
             "template": "{\n    \"fill\": \"red\",\n    \"shape\": \"dot\",\n    \"text\": \"Payload is empty. ID: {{object_id}}\"\n}",
             "output": "json",
-            "x": 870,
+            "x": 990,
             "y": 400,
             "wires": [
                 []
@@ -468,14 +423,14 @@
             "id": "665c296779b483c1",
             "type": "template",
             "z": "625e0c3cc5957e33",
-            "name": "Object type is empty",
+            "name": "Object type is ***",
             "field": "payload",
             "fieldType": "msg",
             "format": "json",
             "syntax": "mustache",
-            "template": "{ \n    \"fill\": \"red\",\n    \"shape\": \"dot\",\n    \"text\": \"Object type is empty. ID: {{object_id}}\"\n}",
+            "template": "{ \n    \"fill\": \"red\",\n    \"shape\": \"dot\",\n    \"text\": \"Object type is {{payload}}. ID: {{object_id}}\"\n}",
             "output": "json",
-            "x": 860,
+            "x": 990,
             "y": 340,
             "wires": [
                 []
@@ -492,54 +447,24 @@
             "syntax": "mustache",
             "template": "{\n    \"fill\": \"green\",\n    \"shape\": \"dot\",\n    \"text\": \"{{object_id}}: {{payload}}\"\n}",
             "output": "json",
-            "x": 910,
+            "x": 1030,
             "y": 220,
             "wires": [
                 []
             ]
         },
         {
-            "id": "bb9231a6ca8c0069",
-            "type": "switch",
-            "z": "625e0c3cc5957e33",
-            "name": "",
-            "property": "object_id",
-            "propertyType": "msg",
-            "rules": [
-                {
-                    "t": "nnull"
-                },
-                {
-                    "t": "else"
-                }
-            ],
-            "checkall": "false",
-            "repair": false,
-            "outputs": 2,
-            "x": 595,
-            "y": 140,
-            "wires": [
-                [
-                    "738ff25c657b58ce"
-                ],
-                [
-                    "5177e369ac66ecde"
-                ]
-            ],
-            "l": false
-        },
-        {
             "id": "5177e369ac66ecde",
             "type": "template",
             "z": "625e0c3cc5957e33",
-            "name": "Object ID is empty",
+            "name": "Object ID is ***",
             "field": "payload",
             "fieldType": "msg",
             "format": "json",
             "syntax": "mustache",
-            "template": "{ \n    \"fill\": \"red\",\n    \"shape\": \"dot\",\n    \"text\": \"Object ID is empty.\"\n}",
+            "template": "{ \n    \"fill\": \"red\",\n    \"shape\": \"dot\",\n    \"text\": \"Object ID is {{payload}}.\"\n}",
             "output": "json",
-            "x": 870,
+            "x": 1000,
             "y": 280,
             "wires": [
                 []
@@ -556,7 +481,7 @@
             "syntax": "plain",
             "template": "{ \"fill\": \"grey\", \"shape\": \"ring\", \"text\": \"waiting\" }",
             "output": "json",
-            "x": 900,
+            "x": 1020,
             "y": 460,
             "wires": [
                 []
@@ -579,7 +504,7 @@
             "topic": "",
             "payload": "true",
             "payloadType": "bool",
-            "x": 720,
+            "x": 840,
             "y": 460,
             "wires": [
                 [
@@ -588,14 +513,431 @@
             ]
         },
         {
-            "id": "6cee4f89311c3621",
-            "type": "junction",
+            "id": "2637ffab3e499b05",
+            "type": "switch",
             "z": "625e0c3cc5957e33",
-            "x": 970,
+            "name": "",
+            "property": "object_id",
+            "propertyType": "msg",
+            "rules": [
+                {
+                    "t": "istype",
+                    "v": "number",
+                    "vt": "number"
+                },
+                {
+                    "t": "else"
+                }
+            ],
+            "checkall": "false",
+            "repair": false,
+            "outputs": 2,
+            "x": 655,
             "y": 160,
             "wires": [
                 [
+                    "6bfdb90311f7bc0f"
+                ],
+                [
+                    "d148f63b1aa8dcbf"
+                ]
+            ],
+            "l": false
+        },
+        {
+            "id": "6bfdb90311f7bc0f",
+            "type": "switch",
+            "z": "625e0c3cc5957e33",
+            "name": "",
+            "property": "object_id",
+            "propertyType": "msg",
+            "rules": [
+                {
+                    "t": "btwn",
+                    "v": "1024",
+                    "vt": "num",
+                    "v2": "9999",
+                    "v2t": "num"
+                },
+                {
+                    "t": "else"
+                }
+            ],
+            "checkall": "false",
+            "repair": false,
+            "outputs": 2,
+            "x": 735,
+            "y": 160,
+            "wires": [
+                [
+                    "738ff25c657b58ce"
+                ],
+                [
+                    "50188cdba76f8d85"
+                ]
+            ],
+            "l": false
+        },
+        {
+            "id": "37c0a36dc8d6f405",
+            "type": "switch",
+            "z": "625e0c3cc5957e33",
+            "name": "",
+            "property": "[\t    'T_IMPULS_BUTTON',\t    'T_SWITCH_BUTTON',\t    'T_RELE',\t    'T_UNIV_AN_INPUT_value',\t    'T_UNIV_AN_INPUT_setpoint',\t    'T_TEMPERATURE_DETECTOR_value',\t    'T_TEMPERATURE_DETECTOR_setpoint',\t    'T_ANALOG_IN_ADVANCED_value',\t    'T_ANALOG_IN_ADVANCED_setpoint',\t    'T_UNIV_AN_OUTPUT',\t    'T_HELP_SWITCH',\t    'T_HELP_OBJECT',\t    'T_UNIV_AN_OUTPUT_TO_HELP_OBJECT',\t    'T_COMMON_TIMER',\t    'T_INTERVAL_TIMER'\t]",
+            "propertyType": "jsonata",
+            "rules": [
+                {
+                    "t": "cont",
+                    "v": "type",
+                    "vt": "msg"
+                },
+                {
+                    "t": "else"
+                }
+            ],
+            "checkall": "false",
+            "repair": false,
+            "outputs": 2,
+            "x": 495,
+            "y": 160,
+            "wires": [
+                [
+                    "3e463e9bba452862"
+                ],
+                [
+                    "de6029d36af308ce"
+                ]
+            ],
+            "l": false
+        },
+        {
+            "id": "ea28b9e403418095",
+            "type": "switch",
+            "z": "625e0c3cc5957e33",
+            "name": "",
+            "property": "type",
+            "propertyType": "msg",
+            "rules": [
+                {
+                    "t": "nnull"
+                },
+                {
+                    "t": "else"
+                }
+            ],
+            "checkall": "false",
+            "repair": false,
+            "outputs": 2,
+            "x": 415,
+            "y": 160,
+            "wires": [
+                [
+                    "37c0a36dc8d6f405"
+                ],
+                [
+                    "28668b376df2a5cd"
+                ]
+            ],
+            "l": false
+        },
+        {
+            "id": "3e463e9bba452862",
+            "type": "switch",
+            "z": "625e0c3cc5957e33",
+            "name": "",
+            "property": "object_id",
+            "propertyType": "msg",
+            "rules": [
+                {
+                    "t": "nnull"
+                },
+                {
+                    "t": "else"
+                }
+            ],
+            "checkall": "false",
+            "repair": false,
+            "outputs": 2,
+            "x": 575,
+            "y": 160,
+            "wires": [
+                [
+                    "2637ffab3e499b05"
+                ],
+                [
+                    "1e99326f71fb9547"
+                ]
+            ],
+            "l": false
+        },
+        {
+            "id": "853dc5d65f220e86",
+            "type": "switch",
+            "z": "625e0c3cc5957e33",
+            "name": "",
+            "property": "payload",
+            "propertyType": "msg",
+            "rules": [
+                {
+                    "t": "nnull"
+                },
+                {
+                    "t": "else"
+                }
+            ],
+            "checkall": "false",
+            "repair": false,
+            "outputs": 2,
+            "x": 255,
+            "y": 300,
+            "wires": [
+                [
+                    "d6d97043a214db0c"
+                ],
+                [
+                    "1add456787968f28"
+                ]
+            ],
+            "l": false
+        },
+        {
+            "id": "d148f63b1aa8dcbf",
+            "type": "change",
+            "z": "625e0c3cc5957e33",
+            "name": "",
+            "rules": [
+                {
+                    "t": "set",
+                    "p": "payload",
+                    "pt": "msg",
+                    "to": "$join(['not a number (', $string(msg.object_id),')'],'')\t\t",
+                    "tot": "jsonata"
+                }
+            ],
+            "action": "",
+            "property": "",
+            "from": "",
+            "to": "",
+            "reg": false,
+            "x": 655,
+            "y": 220,
+            "wires": [
+                [
+                    "844d345f75e5181f"
+                ]
+            ],
+            "l": false
+        },
+        {
+            "id": "50188cdba76f8d85",
+            "type": "change",
+            "z": "625e0c3cc5957e33",
+            "name": "",
+            "rules": [
+                {
+                    "t": "set",
+                    "p": "payload",
+                    "pt": "msg",
+                    "to": "$join(['out of range (', $string(msg.object_id),')'],'')",
+                    "tot": "jsonata"
+                }
+            ],
+            "action": "",
+            "property": "",
+            "from": "",
+            "to": "",
+            "reg": false,
+            "x": 735,
+            "y": 220,
+            "wires": [
+                [
+                    "844d345f75e5181f"
+                ]
+            ],
+            "l": false
+        },
+        {
+            "id": "1e99326f71fb9547",
+            "type": "change",
+            "z": "625e0c3cc5957e33",
+            "name": "",
+            "rules": [
+                {
+                    "t": "set",
+                    "p": "payload",
+                    "pt": "msg",
+                    "to": "empty",
+                    "tot": "str"
+                }
+            ],
+            "action": "",
+            "property": "",
+            "from": "",
+            "to": "",
+            "reg": false,
+            "x": 575,
+            "y": 220,
+            "wires": [
+                [
+                    "844d345f75e5181f"
+                ]
+            ],
+            "l": false
+        },
+        {
+            "id": "28668b376df2a5cd",
+            "type": "change",
+            "z": "625e0c3cc5957e33",
+            "name": "",
+            "rules": [
+                {
+                    "t": "set",
+                    "p": "payload",
+                    "pt": "msg",
+                    "to": "empty",
+                    "tot": "str"
+                }
+            ],
+            "action": "",
+            "property": "",
+            "from": "",
+            "to": "",
+            "reg": false,
+            "x": 415,
+            "y": 220,
+            "wires": [
+                [
+                    "e40e2af3b2739f77"
+                ]
+            ],
+            "l": false
+        },
+        {
+            "id": "de6029d36af308ce",
+            "type": "change",
+            "z": "625e0c3cc5957e33",
+            "name": "",
+            "rules": [
+                {
+                    "t": "set",
+                    "p": "payload",
+                    "pt": "msg",
+                    "to": "not defined",
+                    "tot": "str"
+                }
+            ],
+            "action": "",
+            "property": "",
+            "from": "",
+            "to": "",
+            "reg": false,
+            "x": 495,
+            "y": 220,
+            "wires": [
+                [
+                    "e40e2af3b2739f77"
+                ]
+            ],
+            "l": false
+        },
+        {
+            "id": "d6d97043a214db0c",
+            "type": "link out",
+            "z": "625e0c3cc5957e33",
+            "name": "link out 25",
+            "mode": "link",
+            "links": [
+                "6e61ee2172f0c087"
+            ],
+            "x": 335,
+            "y": 300,
+            "wires": []
+        },
+        {
+            "id": "6e61ee2172f0c087",
+            "type": "link in",
+            "z": "625e0c3cc5957e33",
+            "name": "link in 17",
+            "links": [
+                "d6d97043a214db0c"
+            ],
+            "x": 335,
+            "y": 100,
+            "wires": [
+                [
+                    "ea28b9e403418095"
+                ]
+            ]
+        },
+        {
+            "id": "f2b30eb924f026a4",
+            "type": "switch",
+            "z": "625e0c3cc5957e33",
+            "name": "",
+            "property": "type",
+            "propertyType": "msg",
+            "rules": [
+                {
+                    "t": "nnull"
+                }
+            ],
+            "checkall": "false",
+            "repair": false,
+            "outputs": 1,
+            "x": 175,
+            "y": 300,
+            "wires": [
+                [
+                    "853dc5d65f220e86"
+                ]
+            ],
+            "l": false
+        },
+        {
+            "id": "6cee4f89311c3621",
+            "type": "junction",
+            "z": "625e0c3cc5957e33",
+            "x": 1080,
+            "y": 180,
+            "wires": [
+                [
                     "80a5ad3061a8423a"
+                ]
+            ]
+        },
+        {
+            "id": "844d345f75e5181f",
+            "type": "junction",
+            "z": "625e0c3cc5957e33",
+            "x": 720,
+            "y": 280,
+            "wires": [
+                [
+                    "5177e369ac66ecde"
+                ]
+            ]
+        },
+        {
+            "id": "e40e2af3b2739f77",
+            "type": "junction",
+            "z": "625e0c3cc5957e33",
+            "x": 600,
+            "y": 340,
+            "wires": [
+                [
+                    "665c296779b483c1"
+                ]
+            ]
+        },
+        {
+            "id": "1add456787968f28",
+            "type": "junction",
+            "z": "625e0c3cc5957e33",
+            "x": 440,
+            "y": 400,
+            "wires": [
+                [
+                    "85c9f51d2da30ffd"
                 ]
             ]
         }
