@@ -2,12 +2,12 @@
     "id": "e0c1caa793877c9f",
     "type": "subflow",
     "name": "From_SmartUnity",
-    "info": "Convert packets from SmartUnity to Node-Red\r\n\r\n\r\n### Inputs \r\n\r\n: payload (string) :  All packets from TCP-connection to SU PLC.\r\n\r\n\r\n### Outputs\r\n\r\n\r\n: payload (string | number | boolean) : Value received from SmartUnity.\r\n: *topic* (number) :  Object ID in SmartUnity.\r\n\r\n\r\n### Configuration\r\n\r\n#### **Address list**\r\n\r\nThe json file maps the Project Builder object ID and the msg.topic.\r\n\r\n- The **key** must contain the Project Builder object ID.\r\n- The **value** must contain a KNX group address or address in another system.\r\n\r\n**Examples:**\r\n\r\n - **KNX**:\r\n`{\r\n    \"1024\": \"0/1/1\",\r\n    \"1025\": \"0/1/2\"\r\n}`\r\n - **Other systems**:\r\n`{\r\n    \"1026\": \"topic_1\",\r\n    \"1027\": \"topic_2\"\r\n}`\r\n\r\n\r\n---\r\n\r\n\r\n#### **Types list**\r\n\r\nThe json file maps the Project Builder object ID and the object type.\r\n\r\n**Example:**\r\n\r\n`{\r\n    \"1026\": \"T_SWITCH_BUTTON\",\r\n    \"1027\": \"T_SWITCH_BUTTON\"\r\n}`\r\n\r\n**Available object types:**\r\n\r\n - **T_SWITCH_BUTTON** _(digital input)_\r\n - **T_RELE** _(digital output)_\r\n - **T_UNIV_AN_INPUT** _(analog input)_\r\n - **T_UNIV_AN_INPUT_value** _(transmits the current value)_\r\n - **T_UNIV_AN_INPUT_setpoint**_(transmits the current setpoint)_\r\n - **T_UNIV_AN_OUTPUT** _(analog output)_\r\n - **T_HELP_SWITCH** _(active indicator)_\r\n - **T_HELP_OBJECT** _(mode)_\r\n - **T_HELP_OBJECT_TO_T_UNIV_AN_OUTPUT**\r\n - **T_UP_DOWN_2_RELE** _(blinds)_\r\n - **T_COMMON_TIMER** \r\n - **T_INTERVAL_TIMER**\r\n\r\n---\r\n\r\n\r\n#### **System type**\r\n\r\nAdapts the payload and parameters for the selected system type.\r\n\r\n`Default type:` **KNX**\r\n\r\n---\r\n\r\n\r\n#### **Divider**\r\n\r\nAll analog values are divided by the divider.\r\n\r\n**output value = recieved value / divider**\r\n\r\nApplies to all analog object types.\r\n\r\n`Available range:` **0 - 10000**\r\n\r\n`Default divider:` **10**\r\n \r\n\r\n---\r\n\r\n\r\n#### **Shift (HELP_OBJECT)**\r\n\r\nThe shift is subtracted from the received value.\r\n\r\n**output value = recieved value - shift**\r\n\r\nApplies only to objects of the **HELP_OBJECT** type.\r\n\r\n`Available range:` **-100 - 100**\r\n\r\n`Default shift:` **0**\r\n",
+    "info": "Convert packets from SmartUnity to Node-Red\r\n\r\n\r\n### Inputs \r\n\r\n: payload (string) :  All packets from TCP-connection to SU PLC.\r\n\r\n\r\n### Outputs\r\n\r\n\r\n: payload (string | number | boolean) : Value received from SmartUnity.\r\n: *topic* (number) :  Object ID in SmartUnity.\r\n\r\n\r\n### Configuration\r\n\r\n#### **Address list**\r\n\r\nThe json file maps the Project Builder object ID and the msg.topic.\r\n\r\n- The **key** must contain the Project Builder object ID.\r\n- The **value** must contain a KNX group address or address in another system.\r\n\r\n**Examples:**\r\n\r\n - **KNX**:\r\n`{\r\n    \"1024\": \"0/1/1\",\r\n    \"1025\": \"0/1/2\"\r\n}`\r\n - **Other systems**:\r\n`{\r\n    \"1026\": \"topic_1\",\r\n    \"1027\": \"topic_2\"\r\n}`\r\n\r\n\r\n---\r\n\r\n\r\n#### **Types list**\r\n\r\nThe json file maps the Project Builder object ID and the object type.\r\n\r\n**Example:**\r\n\r\n`{\r\n    \"1026\": \"T_SWITCH_BUTTON\",\r\n    \"1027\": \"T_SWITCH_BUTTON\"\r\n}`\r\n\r\n**Available object types:**\r\n\r\n - **T_SWITCH_BUTTON** _(digital input)_\r\n - **T_RELE** _(digital output)_\r\n - **T_UNIV_AN_INPUT** _(analog input)_\r\n - **T_UNIV_AN_INPUT_value** _(transmits the current value)_\r\n - **T_UNIV_AN_INPUT_setpoint**_(transmits the current setpoint)_\r\n - **T_UNIV_AN_OUTPUT** _(analog output)_\r\n - **T_HELP_SWITCH** _(active indicator)_\r\n - **T_HELP_OBJECT** _(mode)_\r\n - **T_HELP_OBJECT_TO_T_UNIV_AN_OUTPUT**\r\n - **T_UP_DOWN_2_RELE** _(blinds)_\r\n - **T_COMMON_TIMER** \r\n - **T_INTERVAL_TIMER**\r\n - **T_ENERGY_METER** _(Energy meters | float)_\r\n\r\n---\r\n\r\n\r\n#### **System type**\r\n\r\nAdapts the payload and parameters for the selected system type.\r\n\r\n`Default type:` **KNX**\r\n\r\n---\r\n\r\n\r\n#### **Divider**\r\n\r\nAll analog values are divided by the divider.\r\n\r\n**output value = recieved value / divider**\r\n\r\nApplies to all analog object types.\r\n\r\n`Available range:` **0 - 10000**\r\n\r\n`Default divider:` **10**\r\n \r\n\r\n---\r\n\r\n\r\n#### **Shift (HELP_OBJECT)**\r\n\r\nThe shift is subtracted from the received value.\r\n\r\n**output value = recieved value - shift**\r\n\r\nApplies only to objects of the **HELP_OBJECT** type.\r\n\r\n`Available range:` **-100 - 100**\r\n\r\n`Default shift:` **0**\r\n",
     "category": "SmartUnity",
     "in": [
         {
             "x": 60,
-            "y": 160,
+            "y": 220,
             "wires": [
                 {
                     "id": "1e35e204838e4767"
@@ -18,7 +18,7 @@
     "out": [
         {
             "x": 1120,
-            "y": 160,
+            "y": 220,
             "wires": [
                 {
                     "id": "1a64b68c304f5f9d",
@@ -143,7 +143,7 @@
     ],
     "meta": {
         "type": "Converter from SU",
-        "version": "1.4.2",
+        "version": "1.4.3",
         "author": "Anton Shefov <a.shefov@gmail.com>",
         "desc": "Converter from SmartUnity any object types",
         "keywords": "SmartUnity, SU",
@@ -159,7 +159,7 @@
     "icon": "font-awesome/fa-sign-out",
     "status": {
         "x": 800,
-        "y": 320,
+        "y": 380,
         "wires": [
             {
                 "id": "ce1e41fc6c3340ec",
@@ -184,7 +184,7 @@
             "template": "{ \"fill\": \"grey\", \"shape\": \"ring\", \"text\": \"waiting\" }",
             "output": "json",
             "x": 660,
-            "y": 320,
+            "y": 380,
             "wires": [
                 []
             ]
@@ -207,7 +207,7 @@
             "payload": "true",
             "payloadType": "bool",
             "x": 490,
-            "y": 320,
+            "y": 380,
             "wires": [
                 [
                     "ce1e41fc6c3340ec"
@@ -232,7 +232,7 @@
             "repair": false,
             "outputs": 1,
             "x": 155,
-            "y": 160,
+            "y": 220,
             "wires": [
                 [
                     "ed97d9fa9e66e15f"
@@ -268,7 +268,7 @@
             "repair": false,
             "outputs": 3,
             "x": 775,
-            "y": 160,
+            "y": 220,
             "wires": [
                 [
                     "4465afa441eab6f6"
@@ -305,7 +305,7 @@
             "to": "",
             "reg": false,
             "x": 875,
-            "y": 160,
+            "y": 220,
             "wires": [
                 []
             ],
@@ -334,7 +334,7 @@
             "to": "",
             "reg": false,
             "x": 875,
-            "y": 220,
+            "y": 280,
             "wires": [
                 []
             ],
@@ -366,7 +366,7 @@
             "repair": false,
             "outputs": 3,
             "x": 875,
-            "y": 100,
+            "y": 160,
             "wires": [
                 [
                     "107046a35c83b159"
@@ -391,7 +391,7 @@
             "property": "payload",
             "topi": "topic",
             "x": 975,
-            "y": 100,
+            "y": 160,
             "wires": [
                 []
             ],
@@ -402,15 +402,15 @@
             "type": "function",
             "z": "e0c1caa793877c9f",
             "name": "Parser",
-            "func": "const addresses = env.get('ADDRESSES');\nconst types = env.get('TYPES');\nvar new_msg = {};\nvar send = false;\nvar error = false;\nvar status = \"\";\n\n\nnew_msg.topic = addresses[msg.topic];\nswitch (types[msg.topic]) {\n    case \"T_SWITCH_BUTTON\":\n        if (msg.payload.cmd == 1 && msg.payload.value == 15) {\n            new_msg.payload = true;\n            new_msg.dpt = \"1.001\";\n            send = true;\n        } else if (msg.payload.cmd == 1 && msg.payload.value == 16) {\n            new_msg.payload = false;\n            new_msg.dpt = \"1.001\";\n            send = true;\n        }\n        break;\n    case \"T_UNIV_AN_INPUT\":\n        new_msg.payload = Number(msg.payload.value) / Number(env.get(\"DIVIDER\"));\n        new_msg.setpoint = Number(msg.payload.setpoint) / Number(env.get(\"DIVIDER\"));\n        new_msg.status = Number(msg.payload.status);\n        if (isNaN(new_msg.payload)) {\n            error = true;\n        } else {\n            new_msg.dpt = \"9.001\";\n            send = true;\n        }\n        break;\n    case \"T_UNIV_AN_INPUT_value\":\n        new_msg.payload = Number(msg.payload.value) / Number(env.get(\"DIVIDER\"));\n        new_msg.status = Number(msg.payload.status);\n        if (isNaN(new_msg.payload)) {\n            error = true;\n        } else {\n            new_msg.dpt = \"9.001\";\n            send = true;\n        }\n        break;\n    case \"T_UNIV_AN_INPUT_setpoint\":\n        new_msg.payload = Number(msg.payload.setpoint) / Number(env.get(\"DIVIDER\"));\n        new_msg.status = Number(msg.payload.status);\n        if (isNaN(new_msg.payload)) {\n            error = true;\n        } else {\n            new_msg.dpt = \"9.001\";\n            send = true;\n        }\n        break;\n    case \"T_RELE\":\n        if (msg.payload.cmd == 23 && msg.payload.value == 7) {\n            new_msg.payload = true;\n            new_msg.dpt = \"1.001\";\n            send = true;\n        } else if (msg.payload.cmd == 24 && msg.payload.value == 6) {\n            new_msg.payload = false;\n            new_msg.dpt = \"1.001\";\n            send = true;\n        }\n        break;\n    case \"T_UNIV_AN_OUTPUT\":\n        new_msg.payload = Number(msg.payload.value) / Number(env.get(\"DIVIDER\"));\n        if (isNaN(new_msg.payload)) {\n            error = true;\n        } else {\n            new_msg.dpt = \"5.001\";\n            send = true;\n        }\n        break;\n    case \"T_HELP_SWITCH\":\n        if (msg.payload.cmd == 17 && msg.payload.value == 21) {\n            new_msg.payload = true;\n            new_msg.dpt = \"1.001\";\n            send = true;\n        } else if (msg.payload.cmd == 17 && msg.payload.value == 22) {\n            new_msg.payload = false;\n            new_msg.dpt = \"1.001\";\n            send = true;\n        }\n        break;\n    case \"T_HELP_OBJECT\":\n        new_msg.payload = Number(msg.payload.value) + Number(env.get('HELP_OBJECT_SHIFT'));\n        if (isNaN(new_msg.payload)) {\n            error = true;\n        } else {\n            new_msg.dpt = \"5.001\";\n            send = true;\n        }\n        break;\n    case \"T_UP_DOWN_2_RELE\":\n        new_msg.payload = Number(msg.payload.value);\n        switch (new_msg.payload) {\n            case 8:\n                new_msg.status = \"open\";\n                break;\n            case 9:\n                new_msg.status = \"close\";\n                break;\n            case 11:\n                new_msg.status = \"opened\";\n                break;\n            case 14:\n                new_msg.status = \"closed\";\n                break;\n        }\n        if (isNaN(new_msg.payload)) {\n            error = true;\n        } else {\n            new_msg.dpt = \"5.001\";\n            send = true;\n        }\n        break;\n    case \"T_HELP_OBJECT_TO_T_UNIV_AN_OUTPUT\":\n        new_msg.payload = Math.round((Number(msg.payload.value) - 1) * 33.3);\n        if (isNaN(new_msg.payload)) {\n            error = true;\n        } else {\n            new_msg.dpt = \"5.001\";\n            send = true;\n        }\n        break;\n    case \"T_COMMON_TIMER\":\n        if (msg.payload.value == 21) {\n            new_msg.payload = true;\n        } else if (msg.payload.value == 22) {\n            new_msg.payload = false;\n        }\n        new_msg.addition = msg.payload;\n        new_msg.dpt = \"1.001\";\n        send = true;\n        break;\n    case \"T_INTERVAL_TIMER\":\n        if (msg.payload.value == 21) {\n            new_msg.payload = true;\n        } else if (msg.payload.value == 22) {\n            new_msg.payload = false;\n        }\n        new_msg.addition = msg.payload;\n        new_msg.dpt = \"1.001\";\n        send = true;\n        break;\n    default:\n        error = true;\n        status = 'Unknown object type: ';\n        break;\n}\n\nstatus = status + new_msg.topic + \": \" + new_msg.payload;\n\nif (!error) {\n    if (send) {\n        new_msg.destination = new_msg.topic;\n        return [new_msg, { \"payload\": { fill: \"green\", shape: \"dot\", text: status } }];\n    }\n} else {\n    return [null, { \"payload\": { fill: \"red\", shape: \"ring\", text: \"Error! \" + status } }]\n}",
-        "outputs": 2,
+            "func": "const addresses = env.get('ADDRESSES');\nconst types = env.get('TYPES');\nvar new_msg = {};\nvar send = false;\nvar error = false;\nvar status = \"\";\n\n\nnew_msg.topic = addresses[msg.topic];\nswitch (types[msg.topic]) {\n    case \"T_SWITCH_BUTTON\":\n        if (msg.payload.cmd == 1 && msg.payload.value == 15) {\n            new_msg.payload = true;\n            new_msg.dpt = \"1.001\";\n            send = true;\n        } else if (msg.payload.cmd == 1 && msg.payload.value == 16) {\n            new_msg.payload = false;\n            new_msg.dpt = \"1.001\";\n            send = true;\n        }\n        break;\n    case \"T_UNIV_AN_INPUT\":\n        new_msg.payload = Number(msg.payload.value) / Number(env.get(\"DIVIDER\"));\n        new_msg.setpoint = Number(msg.payload.setpoint) / Number(env.get(\"DIVIDER\"));\n        new_msg.status = Number(msg.payload.status);\n        if (isNaN(new_msg.payload)) {\n            error = true;\n        } else {\n            new_msg.dpt = \"9.001\";\n            send = true;\n        }\n        break;\n    case \"T_UNIV_AN_INPUT_value\":\n        new_msg.payload = Number(msg.payload.value) / Number(env.get(\"DIVIDER\"));\n        new_msg.status = Number(msg.payload.status);\n        if (isNaN(new_msg.payload)) {\n            error = true;\n        } else {\n            new_msg.dpt = \"9.001\";\n            send = true;\n        }\n        break;\n    case \"T_UNIV_AN_INPUT_setpoint\":\n        new_msg.payload = Number(msg.payload.setpoint) / Number(env.get(\"DIVIDER\"));\n        new_msg.status = Number(msg.payload.status);\n        if (isNaN(new_msg.payload)) {\n            error = true;\n        } else {\n            new_msg.dpt = \"9.001\";\n            send = true;\n        }\n        break;\n    case \"T_RELE\":\n        if (msg.payload.cmd == 23 && msg.payload.value == 7) {\n            new_msg.payload = true;\n            new_msg.dpt = \"1.001\";\n            send = true;\n        } else if (msg.payload.cmd == 24 && msg.payload.value == 6) {\n            new_msg.payload = false;\n            new_msg.dpt = \"1.001\";\n            send = true;\n        }\n        break;\n    case \"T_UNIV_AN_OUTPUT\":\n        new_msg.payload = Number(msg.payload.value) / Number(env.get(\"DIVIDER\"));\n        if (isNaN(new_msg.payload)) {\n            error = true;\n        } else {\n            new_msg.dpt = \"5.001\";\n            send = true;\n        }\n        break;\n    case \"T_HELP_SWITCH\":\n        if (msg.payload.cmd == 17 && msg.payload.value == 21) {\n            new_msg.payload = true;\n            new_msg.dpt = \"1.001\";\n            send = true;\n        } else if (msg.payload.cmd == 17 && msg.payload.value == 22) {\n            new_msg.payload = false;\n            new_msg.dpt = \"1.001\";\n            send = true;\n        }\n        break;\n    case \"T_HELP_OBJECT\":\n        new_msg.payload = Number(msg.payload.value) + Number(env.get('HELP_OBJECT_SHIFT'));\n        if (isNaN(new_msg.payload)) {\n            error = true;\n        } else {\n            new_msg.dpt = \"5.001\";\n            send = true;\n        }\n        break;\n    case \"T_UP_DOWN_2_RELE\":\n        new_msg.payload = Number(msg.payload.value);\n        switch (new_msg.payload) {\n            case 8:\n                new_msg.status = \"open\";\n                break;\n            case 9:\n                new_msg.status = \"close\";\n                break;\n            case 11:\n                new_msg.status = \"opened\";\n                break;\n            case 14:\n                new_msg.status = \"closed\";\n                break;\n        }\n        if (isNaN(new_msg.payload)) {\n            error = true;\n        } else {\n            new_msg.dpt = \"5.001\";\n            send = true;\n        }\n        break;\n    case \"T_HELP_OBJECT_TO_T_UNIV_AN_OUTPUT\":\n        new_msg.payload = Math.round((Number(msg.payload.value) - 1) * 33.3);\n        if (isNaN(new_msg.payload)) {\n            error = true;\n        } else {\n            new_msg.dpt = \"5.001\";\n            send = true;\n        }\n        break;\n    case \"T_COMMON_TIMER\":\n        if (msg.payload.value == 21) {\n            new_msg.payload = true;\n        } else if (msg.payload.value == 22) {\n            new_msg.payload = false;\n        }\n        new_msg.addition = msg.payload;\n        new_msg.dpt = \"1.001\";\n        send = true;\n        break;\n    case \"T_INTERVAL_TIMER\":\n        if (msg.payload.value == 21) {\n            new_msg.payload = true;\n        } else if (msg.payload.value == 22) {\n            new_msg.payload = false;\n        }\n        new_msg.addition = msg.payload;\n        new_msg.dpt = \"1.001\";\n        send = true;\n        break;\n    case \"T_ENERGY_METER\":\n        new_msg.payload = Number(msg.payload.value);\n        if (isNaN(new_msg.payload)) {\n            error = true;\n        } else {\n            new_msg.dpt = \"9.001\";\n            send = true;\n        }\n        break;\n    default:\n        error = true;\n        status = 'Unknown object type: ';\n        break;\n}\n\nstatus = status + new_msg.topic + \": \" + new_msg.payload;\n\nif (!error) {\n    if (send) {\n        new_msg.destination = new_msg.topic;\n        return [new_msg, { \"payload\": { fill: \"green\", shape: \"dot\", text: status } }];\n    }\n} else {\n    return [null, { \"payload\": { fill: \"red\", shape: \"ring\", text: \"Error! \" + status } }]\n}",
+            "outputs": 2,
             "timeout": "",
             "noerr": 0,
             "initialize": "",
             "finalize": "",
             "libs": [],
             "x": 650,
-            "y": 160,
+            "y": 220,
             "wires": [
                 [
                     "ddb7426ddd920cda"
@@ -426,6 +426,11 @@
             "property": "len",
             "propertyType": "msg",
             "rules": [
+                {
+                    "t": "eq",
+                    "v": "4",
+                    "vt": "num"
+                },
                 {
                     "t": "eq",
                     "v": "2",
@@ -444,10 +449,13 @@
             ],
             "checkall": "false",
             "repair": false,
-            "outputs": 3,
+            "outputs": 4,
             "x": 235,
-            "y": 160,
+            "y": 220,
             "wires": [
+                [
+                    "c7dc36771c1f15d5"
+                ],
                 [
                     "d69027b5847e4ac7"
                 ],
@@ -468,7 +476,7 @@
             "property": "payload",
             "pattern": "x16, l16 => cmd, x48, l16=> value",
             "x": 370,
-            "y": 80,
+            "y": 140,
             "wires": [
                 [
                     "f518fbd774d4bfcb"
@@ -483,7 +491,7 @@
             "property": "payload",
             "pattern": "x16, l16 => cmd, x48, l16=> status, l16=> value, l16=>setpoint",
             "x": 370,
-            "y": 140,
+            "y": 200,
             "wires": [
                 [
                     "f518fbd774d4bfcb"
@@ -513,7 +521,7 @@
             "repair": false,
             "outputs": 2,
             "x": 235,
-            "y": 240,
+            "y": 300,
             "wires": [
                 [
                     "092a6461c9a9086e"
@@ -532,7 +540,7 @@
             "property": "payload",
             "pattern": "x16, l16 => cmd, x48, l16=> value, l16=>count, l16=>mask_wYear, l16=>mask_wMonth, l16=>mask_wDay, x16, l16=>mask_wHour, l16=>mask_wMin, l16=>mask_wDayOfWeek, l16=>cur_wYear, l16=>cur_wMonth, l16=>cur_wDayOfWeek, l16=>cur_wDay, l16=>cur_wHour, l16=>cur_wMin, l16=>cur_wSec, l16=>cur_wMil",
             "x": 420,
-            "y": 200,
+            "y": 260,
             "wires": [
                 [
                     "f518fbd774d4bfcb"
@@ -547,12 +555,76 @@
             "property": "payload",
             "pattern": "x16, l16 => cmd, x48, l16=> value, l16=>count, l16=>int_wDay, l16=>int_wHour, l16=>int_wMin, l16=>int_wSec, l16=>int_wMil, l16=>elap_wDay, l16=>elap_wHour, l16=>elap_wMin, l16=>elap_wSec, l16=>elap_wMil, l16=>rem_wDay, l16=>rem_wHour, l16=>rem_wMin, l16=>rem_wSec, l16=>rem_wMil",
             "x": 420,
-            "y": 260,
+            "y": 320,
             "wires": [
                 [
                     "f518fbd774d4bfcb"
                 ]
             ]
+        },
+        {
+            "id": "c7dc36771c1f15d5",
+            "type": "binary",
+            "z": "e0c1caa793877c9f",
+            "name": "4 byte",
+            "property": "payload",
+            "pattern": "x16, l16 => cmd, x48, l32=> value",
+            "x": 370,
+            "y": 80,
+            "wires": [
+                [
+                    "c67ee5bc024c928f"
+                ]
+            ]
+        },
+        {
+            "id": "c67ee5bc024c928f",
+            "type": "change",
+            "z": "e0c1caa793877c9f",
+            "name": "",
+            "rules": [
+                {
+                    "t": "set",
+                    "p": "payload.value",
+                    "pt": "msg",
+                    "to": "$formatBase(payload.value, 16)\t",
+                    "tot": "jsonata"
+                }
+            ],
+            "action": "",
+            "property": "",
+            "from": "",
+            "to": "",
+            "reg": false,
+            "x": 495,
+            "y": 80,
+            "wires": [
+                [
+                    "770e7f66ab7acc84"
+                ]
+            ],
+            "l": false
+        },
+        {
+            "id": "770e7f66ab7acc84",
+            "type": "function",
+            "z": "e0c1caa793877c9f",
+            "name": "IEEE 754",
+            "func": "let hexString = msg.payload.value;\nlet binaryString = '';\nfor (let i = 0; i < hexString.length; i++) {\n    const hexChar = hexString[i];\n    const binChar = parseInt(hexChar, 16).toString(2).padStart(4, '0');\n    binaryString += binChar;\n}\n\n// Разбираем биты IEEE 754:\n// 1 бит знака | 8 бит экспоненты | 23 бита мантиссы\nconst signBit = binaryString[0] === '1' ? -1 : 1;\nconst exponentBits = binaryString.substr(1, 8);\nconst mantissaBits = binaryString.substr(9);\n\n// Преобразуем экспоненту (смещение 127)\nconst exponent = parseInt(exponentBits, 2) - 127;\n\n// Преобразуем мантиссу (добавляем неявную ведущую 1)\nlet mantissa = 1; // Неявная ведущая 1\nfor (let i = 0; i < mantissaBits.length; i++) {\n    mantissa += mantissaBits[i] === '1' ? Math.pow(2, -(i + 1)) : 0;\n}\n\n// Вычисляем итоговое число\nmsg.payload.value =  signBit * mantissa * Math.pow(2, exponent);\nreturn msg;",
+            "outputs": 1,
+            "timeout": 0,
+            "noerr": 0,
+            "initialize": "",
+            "finalize": "",
+            "libs": [],
+            "x": 575,
+            "y": 80,
+            "wires": [
+                [
+                    "f518fbd774d4bfcb"
+                ]
+            ],
+            "l": false
         }
     ]
 }
